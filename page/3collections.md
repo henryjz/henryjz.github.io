@@ -54,6 +54,22 @@ type: page
 
 ## 网站
 + [VReadTech:在网页上关注和浏览微信公众号](http://www.vreadtech.com)
++ [百度教育云](https://eduai.baidu.com)
+
+
+
+## 软件
+
+### Ubuntu：
+
++ apt: transmission, git, gnome-shell-pomodoro
++ deb: wps, chrome, typora, nutstore, vscode, xmind, anaconda, jdk,idea(6L8XTRW3KA)
+
+### Macos:
+
+- dmg：chrome、微信、网易云、vscode、mendeley、office2019、transmission、IINA、typora、cheatsheet、anaconda、坚果云、ccleaner、百度云
+- ruby：homebrew
+- brew：git
 
 ## Comments
 

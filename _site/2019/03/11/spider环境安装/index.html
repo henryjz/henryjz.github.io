@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>爬虫环境安装</title>
+    <meta name="description" content="spider Notepython环境安装  python3.7请求库的安装      请求库requests的安装：conda install requests -n spider        自动化测试工具Senlenium的安装：conda install selenium -n spider      ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://localhost:4000/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">
+    <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9f8941ee9d9cbc5007bd89d1d30eb03f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">henryzhou</a>
+        <small>Make robot converse with human naturally</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tag/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collection/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>爬虫环境安装</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-03-11
+            </div>
+
+            <div class="label-card">
+                <i class="fa fa-user"></i>Henryzhou
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#spider" title="Tag: spider" rel="tag">spider</a-->
+        <a href="/tag/#spider" title="Tag: spider" rel="tag">spider</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h4 id="spider-note">spider Note</h4>
+
+<h5 id="python环境安装">python环境安装</h5>
+
+<ul>
+  <li>python3.7</li>
+</ul>
+
+<h5 id="请求库的安装">请求库的安装</h5>
+
+<ul>
+  <li>
+    <p>请求库requests的安装：<code class="highlighter-rouge">conda install requests -n spider</code></p>
+  </li>
+  <li>
+    <p>自动化测试工具Senlenium的安装：<code class="highlighter-rouge">conda install selenium -n spider</code></p>
+  </li>
+  <li>
+    <p>senlenium驱动chrome浏览器工具chromedriver添加到PATH中：</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">在</span><span class="o">~/.</span><span class="n">bashrc</span><span class="err">最后添加：</span><span class="n">PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">henry</span><span class="o">/</span><span class="n">opt</span><span class="p">:</span><span class="err">$</span><span class="n">PATH</span>
+<span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>使用phantomJS实现后台的浏览器控制</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">下载</span><span class="n">phantomJS</span><span class="err">，并且将其路径添加到系统变量中</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装异步web请求库aiohttp</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">aiohttp</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="解析库的安装">解析库的安装</h5>
+
+<ul>
+  <li>
+    <p>lxml的安装，支持HTML、XML的解析，支持XPath解析方式</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">lxml</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>beautifulsoup4的安装，其依赖lxml</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">beautifulsoup4</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>pyquery的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">pyquery</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装验证码识别工具tesseract</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">tesseract</span><span class="o">-</span><span class="n">ocr</span> <span class="n">libtesseract</span><span class="o">-</span><span class="n">dev</span> <span class="n">libleptonica</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">spider</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">tesserocr</span> <span class="n">pillow</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="数据库的安装">数据库的安装</h5>
+
+<ul>
+  <li>
+    <p>mysql的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span>
+<span class="c1">#mysql启动、关闭、重启命令
+#sudo service mysql start
+#sudo service mysql stop
+#sudo service mysql restart
+</span></code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql5</span><span class="mf">.7</span><span class="err">以上不会有密码设置过程，需要手动配置</span>
+<span class="err">$</span> <span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">debian</span><span class="o">-</span><span class="n">sys</span><span class="o">-</span><span class="n">maint</span> <span class="o">-</span><span class="n">p</span>
+<span class="c1">#密码在/etc/mysql/debian.cnf文件中可查看(V3XKquzHqnW18GWc)，在mysql命令行中执行下列语句
+</span>  
+<span class="n">show</span> <span class="n">databases</span><span class="err">；</span>
+<span class="n">use</span> <span class="n">mysql</span><span class="p">;</span>
+<span class="n">update</span> <span class="n">user</span> <span class="nb">set</span> <span class="n">authentication_string</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">(</span><span class="s">"zhou"</span><span class="p">)</span> <span class="n">where</span> <span class="n">user</span><span class="o">=</span><span class="s">'root'</span><span class="p">;</span>
+<span class="n">update</span> <span class="n">user</span> <span class="nb">set</span> <span class="n">plugin</span><span class="o">=</span><span class="s">"mysql_native_password"</span><span class="p">;</span>
+<span class="n">flush</span> <span class="n">privileges</span><span class="p">;</span>
+<span class="n">quit</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#完全卸载mysql的方法
+</span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">purge</span> <span class="n">mysql</span><span class="o">-*</span>
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">autoremove</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装redis</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">redis</span><span class="o">-</span><span class="n">server</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="存储库的安装">存储库的安装</h5>
+
+<ul>
+  <li>
+    <p>安装pymysql存储库以使用python和mysql交互</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">pymysql</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装redis_py</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">redis</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="web库的安装">Web库的安装</h5>
+
+<ul>
+  <li>
+    <p>安装Flask web库来搭建一些API接口，供爬虫使用，后面会利用Flask+Redis维护动态代理池和Cookies池</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">tornado</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装tornado，后面会使用tornado+redis来搭建一个ADSL拨号代理池</p>
+  </li>
+</ul>
+
+<h5 id="爬虫框架的安装">爬虫框架的安装</h5>
+
+<ul>
+  <li>
+    <p>pyspider的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">pyspider</span>
+<span class="c1">#测试pyspider
+</span><span class="n">pyspider</span> <span class="nb">all</span>
+  
+<span class="c1">#有报错！！！
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装scrapy</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">scrapy</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装scrapy-splash</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#安装docker
+</span><span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">get</span><span class="o">.</span><span class="n">docker</span><span class="o">.</span><span class="n">com</span><span class="o">/</span> <span class="o">|</span> <span class="n">sh</span>
+<span class="c1">#安装scrapy-splash
+</span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8050</span><span class="p">:</span><span class="mi">8050</span> <span class="n">scrapinghub</span><span class="o">/</span><span class="n">splash</span>
+<span class="c1">#安装scrapy-splash的python库
+</span><span class="n">pip</span> <span class="n">install</span> <span class="n">scrapy</span><span class="o">-</span><span class="n">splash</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装scrapy-redis</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">scrapy</span><span class="o">-</span><span class="n">redis</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装scrapyd，用于部署和运行scrapy项目的工具</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">scrapyd</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">scrapyd</span>
+<span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">scrapyd</span><span class="o">/</span><span class="n">scrapyd</span><span class="o">.</span><span class="n">conf</span>
+  
+<span class="c1">#写入下面内容
+</span><span class="p">[</span><span class="n">scrapyd</span><span class="p">]</span>
+<span class="n">eggs_dir</span> <span class="o">=</span> <span class="n">eggs</span>
+<span class="n">logs_dir</span> <span class="o">=</span> <span class="n">logs</span>
+<span class="n">items_dir</span> <span class="o">=</span>
+<span class="n">jobs_to_keep</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">dbs_dir</span> <span class="o">=</span> <span class="n">dbs</span>
+<span class="n">max_proc</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">max_proc_per_cpu</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">finished_to_keep</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">poll_interval</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">bind_address</span> <span class="o">=</span> <span class="mf">0.0.0.0</span>
+<span class="n">http_port</span> <span class="o">=</span> <span class="mi">6800</span>
+<span class="n">debug</span> <span class="o">=</span> <span class="n">off</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">runner</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">application</span>
+<span class="n">launcher</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">launcher</span><span class="o">.</span><span class="n">Launcher</span>
+<span class="n">webroot</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">website</span><span class="o">.</span><span class="n">Root</span>
+  
+<span class="p">[</span><span class="n">services</span><span class="p">]</span>
+<span class="n">schedule</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">Schedule</span>
+<span class="n">cancel</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">Cancel</span>
+<span class="n">addversion</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">AddVersion</span>
+<span class="n">listprojects</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">ListProjects</span>
+<span class="n">listversions</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">ListVersions</span>
+<span class="n">listspiders</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">ListSpiders</span>
+<span class="n">delproject</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">DeleteProject</span>
+<span class="n">delversion</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">DeleteVersion</span>
+<span class="n">listjobs</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">ListJobs</span>
+<span class="n">daemonstatus</span><span class="o">.</span><span class="n">json</span> <span class="o">=</span> <span class="n">scrapyd</span><span class="o">.</span><span class="n">webservice</span><span class="o">.</span><span class="n">DaemonStatus</span>
+  
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#后台运行scrapyd
+</span><span class="n">scrapyd</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">&amp;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装nginx</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">nginx</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#配置/etc/nginx/nginx.conf,增加以下内容
+</span><span class="n">http</span><span class="p">{</span>
+	<span class="n">server</span><span class="p">{</span>
+	    <span class="n">listen</span> <span class="mi">6801</span><span class="p">;</span>
+	    <span class="n">location</span> <span class="o">/</span> <span class="p">{</span> 
+		<span class="n">proxy_pass</span>	<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0.0.1</span><span class="p">:</span><span class="mi">6800</span><span class="o">/</span><span class="p">;</span>
+		<span class="n">auth_basic</span>	<span class="s">"Restricted"</span><span class="p">;</span>
+		<span class="n">auth_basic_user_file</span>	<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/.</span><span class="n">htpasswd</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">apache2</span><span class="o">-</span><span class="n">utils</span>
+<span class="n">htpasswd</span> <span class="o">-</span><span class="n">c</span> <span class="o">.</span><span class="n">htpasswd</span> <span class="n">admin</span>
+<span class="n">sudo</span> <span class="n">nginx</span> <span class="o">-</span><span class="n">s</span> <span class="nb">reload</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>ScrapydAPI的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">pthon</span><span class="o">-</span><span class="n">scrapyd</span><span class="o">-</span><span class="n">api</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装scrapyrt</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">scrapyrt</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装Gerapy</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">gerapy</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2019/03/11/markdown_Guide/">Markdown_Guide</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+
+    var disqus_config = function() {
+        this.page.url = 'http://localhost:4000/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://localhost:4000/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement('script');
+
+        s.src = '//henry.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             本站记录我NLP之旅的沿途风景！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/henryzhou1113" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>         
+        </p>
+        <p>
+本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次 -->
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

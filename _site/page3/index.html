@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Linux文件、目录与磁盘格式</title>
-    <meta name="description" content="鸟哥的Linux私房菜一、Linux文件、目录与磁盘格式1.1学习资源  推荐的网站          Study-Area:http://www.study-area.org      鸟哥的私房菜馆：http://linux.vbird.org      卧龙大师的网络技术文件：http://linux.tn...">
+    <title>henryzhou</title>
+    <meta name="description" content="">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
     <link rel="stylesheet" href="/css/main.css ">
-    <link rel="canonical" href="http://localhost:4000/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+    <link rel="canonical" href="http://localhost:4000/page3/">
     <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
 
 
@@ -120,26 +120,31 @@
 </header>
 
 
-        <div class="page clearfix" post>
+        <div class="page clearfix" index>
     <div class="left">
-        <h1>Linux文件、目录与磁盘格式</h1>
-        <div class="label">
-
-            <div class="label-card">
-                <i class="fa fa-calendar"></i>2018-07-15
-            </div>
-
-            <div class="label-card">
-                <i class="fa fa-user"></i>Henryzhou
-                
-            </div>
-
-            <div class="label-card">
-                
-            </div>
-
-            <div class="label-card">
+        <h1>Welcome to Henry's Blog!</h1>
+        <small>这里记录着我的NLP学习之路</small>
+        <hr>
+        <ul>
             
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundle安装jekyll</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-15
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
 
 
 <!-- <span class="point">•</span> -->
@@ -155,28 +160,142 @@
 </span>
 
 
-            </div>
+                    </div>
 
-            <div class="label-card">
-            
+                    <div class="label-card">
+                    
 <!-- <span class="point">•</span> -->
 <span class="pageTag">
   <i class="fa fa-tags"></i>
   
     
-        <!--a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a-->
+        <a href="/tag/#jekyll" title="Tag: jekyll" rel="tag">jekyll</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <ul>
+  <li><strong>新建一个空目录，作为blog的根目录。</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir blog
+cd ./blog
+</code></pre></div></div>
+
+<ul>
+  <li><strong>创建Gemfile，内容简单复制以下代码就行,命名为Gemfile</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source  'https://rubygems.org'
+gem 'github-pages',group: :jekyll_plugins
+</code></pre></div></div>
+
+<ul>
+  <li><strong>安装ruby和ruby-dev</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install ruby ruby-dev
+</code></pre></div></div>
+
+<ul>
+  <li><strong>通过ruby的安装器gem安装bundler</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install bundler
+</code></pre></div></div>
+
+<ul>
+  <li><strong>通过bundler批量安装jekyll组件</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
+</code></pre></div></div>
+
+<p>到nokogiri时终止了安装，搜索网上的问题解决办法后，发现是一些第三方依赖库没有安装，linux下在终端中输入以下命令，在手动安装nokogiri,成功！</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libz-dev libiconv-hook1 libiconv-hook-dev
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install nokogiri -v '1.8.4'
+</code></pre></div></div>
+
+<ul>
+  <li><strong>回过头来根据Gemfile安装jekyll</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
+</code></pre></div></div>
+
+<ul>
+  <li>试试能不能启动jekyll,成功！在浏览器中网址栏输入localhost:4000,验证jekyll的运行情况</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec jekyll serve
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-15
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
         <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
     
   
 
 </span>
 
-            </div>
-
-        </div>
-        <hr>
-        <article itemscope itemtype="http://schema.org/BlogPosting">
-        <h1 id="鸟哥的linux私房菜">鸟哥的Linux私房菜</h1>
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="鸟哥的linux私房菜">鸟哥的Linux私房菜</h1>
 
 <h2 id="一linux文件目录与磁盘格式">一、Linux文件、目录与磁盘格式</h2>
 
@@ -438,165 +557,251 @@
   </li>
 </ul>
 
-        </article>
-        <hr>
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">markdown语法</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-11
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
 
-        
-        
-            
-            
-                
+                    <div class="label-card">
                     
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
-                
-            
-        
-        
 
-        <div class="post-recent">
-    <div class="pre">
-        
-        <p><strong>上一篇</strong> <a href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">markdown语法</a></p>
-        
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#markdown" title="Tag: markdown" rel="tag">markdown</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>This is an H1</p>
+
+<hr />
+
+<p>为什么===+回车不会变成横线</p>
+
+<p>====</p>
+
+<p>这是H1</p>
+
+<p>这是 H2</p>
+
+<p>这是 H6</p>
+
+<p>尾部加上#只是为了美观，没有实质作用</p>
+
+<p>This is  a blockquote with two paragraphs.Lorem ipsum dolor sit amet,</p>
+
+<p>consectetuer adipiscing elit.Aliquam hendrefit mi posuere lectus.</p>
+
+<p>Vestibulum enim wisi,viverra nec,fringilla in,laoreet vitae,risus.</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="/page2" class="previous"><i class="fa fa-angle-left"></i></a>
+          
+          <span class="page_number ">3/3</span>
+          
+            <span class="next disable"><i class="fa fa-angle-right"></i></span>
+            <span class="next disable"><i class="fa fa-angle-double-right"></i></span>
+          
+        </div>
     </div>
-    <div class="nex">
-
-        
-        <p><strong>下一篇</strong> <a href="/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundle安装jekyll</a></p>
-        
-    </div>
-</div>
-
-
-        <h2 id="comments">Comments</h2>
-        
-
-
-<div id="disqus_thread"></div>
-<script>
-    /**
-     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-     */
-
-    var disqus_config = function() {
-        this.page.url = 'http://localhost:4000/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'; // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'http://localhost:4000/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-
-    (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document,
-            s = d.createElement('script');
-
-        s.src = '//henry.disqus.com/embed.js';
-
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-
-
-    </div>
-    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
     <div class="right">
         <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">爬虫环境安装</a></li>
+                    
+                        <li><a href="/2019/03/11/markdown_Guide/">Markdown_Guide</a></li>
+                    
+                        <li><a href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a></li>
+                    
+                        <li><a href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记</a></li>
+                    
+                        <li><a href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术</a></li>
+                    
+                        <li><a href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">最近阅读文章小抄</a></li>
+                    
+                        <li><a href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/">Transformer在NLP词向量预训练中的应用</a></li>
+                    
+                        <li><a href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a></li>
+                    
+                        <li><a href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a></li>
+                    
+                        <li><a href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a></li>
+                    
+                </ul>
+            </div>
 
             <!-- Content -->
-            <div class="side content">
+            <div class="side ">
                 <div>
-                    Content
+                    <i class="fa fa-th-list"></i>
+                    Categories
                 </div>
-                <ul id="content-side" class="content-ul">
+                <ul class="content-ul" cate>
                     
-                    <li><a href="#comments">Comments</a></li>
+                    <li>
+                        <a href="/category/#notes" class="categories-list-item" cate="notes">
+                            <span class="name">
+                                notes
+                            </span>
+                            <span class="badge">15</span>
+                        </a>
+                    </li>
+                    
                 </ul>
             </div>
             <!-- 其他div框放到这里 -->
-            <!-- <div class="side">bbbb</div> -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#markdown" style="font-size: 12pt; color: #666;">markdown</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 15pt; color: #333;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#jekyll" style="font-size: 9pt; color: #999;">jekyll</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#paper" style="font-size: 12pt; color: #666;">paper</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#deep_learning" style="font-size: 9pt; color: #999;">deep_learning</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#python" style="font-size: 9pt; color: #999;">python</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#nlp" style="font-size: 18pt; color: #000;">nlp</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#spider" style="font-size: 12pt; color: #666;">spider</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
         </div>
     </div>
 </div>
-<script>
-/**
- * target _blank
- */
-(function() {
-    var aTags = document.querySelectorAll('article a:not([id])')
-    for (var i = 0; i < aTags.length; i++) {
-        aTags[i].setAttribute('target', '_blank')
-    }
-}());
-</script>
-<script src="/js/pageContent.js " charset="utf-8"></script>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
 
 
     <footer class="site-footer">

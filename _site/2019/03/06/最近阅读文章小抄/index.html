@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>论文《MT-DNN》笔记</title>
-    <meta name="description" content="论文《Multi-Task Deep Neural Networks for Natural Language Understanding》笔记  论文地址：微软MT-DNN论文《Multi-Task Deep Neural Networks for Natural Language Understanding》...">
+    <title>最近阅读文章小抄</title>
+    <meta name="description" content="2019.1.21–《NLP 领域的 ImageNet 时代到来：词嵌入「已死」，语言模型当立》计算机视觉领域常使用在 ImageNet 上预训练的模型，它们可以进一步用于目标检测、语义分割等不同的 CV 任务。而在自然语言处理领域中，我们通常只会使用预训练词嵌入向量编码词汇间的关系，因此也就没有一个能用于整体模...">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
     <link rel="stylesheet" href="/css/main.css ">
-    <link rel="canonical" href="http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">
+    <link rel="canonical" href="http://localhost:4000/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">
     <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
 
 
@@ -122,11 +122,11 @@
 
         <div class="page clearfix" post>
     <div class="left">
-        <h1>论文《MT-DNN》笔记</h1>
+        <h1>最近阅读文章小抄</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i>2019-03-10
+                <i class="fa fa-calendar"></i>2019-03-06
             </div>
 
             <div class="label-card">
@@ -164,9 +164,6 @@
   <i class="fa fa-tags"></i>
   
     
-        <!--a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a-->
-        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>&nbsp;
-    
         <!--a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a-->
         <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
     
@@ -179,78 +176,70 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-        <h2 id="论文multi-task-deep-neural-networks-for-natural-language-understanding笔记">论文《Multi-Task Deep Neural Networks for Natural Language Understanding》笔记</h2>
+        <h4 id="2019121nlp-领域的-imagenet-时代到来词嵌入已死语言模型当立">2019.1.21–《NLP 领域的 ImageNet 时代到来：词嵌入「已死」，语言模型当立》</h4>
 
-<blockquote>
-  <p>论文地址：<a href="https://arxiv.org/pdf/1901.11504.pdf">微软MT-DNN论文《Multi-Task Deep Neural Networks for Natural Language Understanding》</a></p>
-</blockquote>
+<p>计算机视觉领域常使用在 ImageNet 上预训练的模型，它们可以进一步用于目标检测、语义分割等不同的 CV 任务。而在自然语言处理领域中，我们通常只会使用预训练词嵌入向量编码词汇间的关系，因此也就没有一个能用于整体模型的预训练方法。Sebastian Ruder 表示语言模型有作为整体预训练模型的潜质，它能由浅到深抽取语言的各种特征，并用于机器翻译、问答系统和自动摘要等广泛的 NLP 任务。Ruder 同样展示了用语言模型做预训练模型的效果，并表示 NLP 领域中的「ImageNet」终要到来。</p>
 
-<h4 id="mt-dnn简单介绍">MT-DNN简单介绍</h4>
+<p>长期以来，词向量一直是自然语言处理的核心表征技术。然而，其统治地位正在被一系列令人振奋的新挑战所动摇，如：ELMo、ULMFiT 及 OpenAI transformer。这些方法因证明预训练的语言模型可以在一大批 NLP 任务中达到当前最优水平而吸引了很多目光。这些方法预示着一个分水岭：它们在 NLP 中拥有的影响，可能和预训练的 ImageNet 模型在计算机视觉中的作用一样广泛。</p>
 
-<p>​	谷歌的<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a>在各个NLP任务（GLUE、SQuAD、命名实体识别、SWAG)上的表现都很好，但是BERT在词向量的预训练的第二阶段只使用了单个任务进行模型fine-tune，我们自然而然地会问：Fine-tune阶段使用多任务同时对网络参数进行微调效果会不会更好？。</p>
+<p>当前常见的NLP任务:</p>
 
-<p>​	微软研究院在2019年发布的论文《Multi-Task Deep Neural Networks for Natural Language Understanding》就做了这方面的实验。论文提出了一个假设：在单一领域的数据集上使用单一的任务训练模型限制了模型的泛化。MT-DNN提供的思路是：利用多任务之间的约束来避免单一任务上的过拟合问题，从而提高模型的泛化能力。文章中使用的多任务是相似的，作者任务机器能够像人一样在相似的任务中获取到相关的经验，比如会滑雪的人就能比较容易的学会滑冰，对机器来说也就是能够使用更少的训练数据是模型获得相同的效果。</p>
+<ul>
+  <li>阅读理解是回答关于一个段落自然语言问题的任务。该任务最流行的数据集是 Stanford Question Answering Dataset (SQuAD)，其中包含了超过 10 万个问答对，并通过突出显示段落中的几个单词来让模型回答一个问题</li>
+  <li>自然语言推理是识别一段文本和一个假设之间关系（蕴涵、矛盾和中性等）的任务。该任务最流行的数据集是 Stanford Natural Language Inference (SNLI) Corpus，包含 57 万个人类写的英语句子对。</li>
+  <li>机器翻译，即将文本从一种语言转换到另一种语言，是 NLP 中研究最充分的任务之一。并且多年来，人们为常用的语言对累积了大量的训练数据，例如 WMT2014 的 4 千万个英语法语句子对。</li>
+  <li>选区解析（Constituency parsing）以（线性化）解析树的形式提取句子的句法结构，如下图所示。在过去，人们在该任务中使用数百万个弱标记解析来训练序列到序列的模型。</li>
+  <li>语言建模（LM）在给定前一个单词的情况下尝试预测下一个单词。已有的基准数据集由大约 10 亿个单词构成，但由于该任务是无监督的，因此可以使用任意数量的单词来训练。常见的数据集是由维基百科文章构成的WikiText-2 数据集。</li>
+  <li>文本分类</li>
+  <li>问答系统</li>
+  <li>序列标注</li>
+</ul>
 
-<h4 id="实验结果">实验结果</h4>
+<h4 id="2019121transformer-一统江湖自然语言处理三大特征抽取器比较">2019.1.21–《Transformer 一统江湖：自然语言处理三大特征抽取器比较》</h4>
 
-<p>​	<strong>(1)</strong>MT-DNN在8/9的GLUE<a href="Gerneral Lanuage Understanding Evaluation，是评估模型自然语言理解能力的最权威的指标">1</a>任务中取得了SOAT成绩，其中未达到SOAT成绩的原因是数据集存在问题。这８个数据集（任务）可以归纳分为以下四种类别：</p>
+<ul>
+  <li><strong>为何 RNN 能够成为解决 NLP 问题的主流特征抽取器</strong></li>
+  <li><strong>RNN 系面临的严重问题</strong>
+    <ul>
+      <li>RNN 本身的序列依赖结构对于大规模并行计算来说相当之不友好。</li>
+    </ul>
+  </li>
+  <li><strong>如何改造 RNN 使其具备并行计算能力？</strong>
+    <ul>
+      <li>SRU（Simple Recurrent Units for Highly Parallelizable Recurrence）把隐层之间的神经元依赖由全连接改成了哈达马乘积，这样 T 时刻隐层单元本来对 T-1 时刻所有隐层单元的依赖，改成了只是对 T-1 时刻对应单元的依赖，于是可以在隐层单元之间进行并行计算</li>
+      <li>Sliced RNN：部分打断隐层之间的连接以实现不同时间步输入之间进行并行计算，比如每隔 2 个时间步打断一次，通过加深层深来建立远距离特征之间的联系。</li>
+    </ul>
+  </li>
+  <li><strong>CNN 的进化：如何增加CNN提取长期依赖的能力</strong>
+    <ul>
+      <li>Dilated CNN：卷积核可以进行跳步覆盖更大的区域</li>
+      <li>将卷积的深度提高，高层的卷积层能更宏观的覆盖序列</li>
+    </ul>
+  </li>
+</ul>
 
-<table>
-  <thead>
-    <tr>
-      <th>任务</th>
-      <th>数据集</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Single sentence classification</td>
-      <td>CoLA：情感分类<br />SST-2：判断句子是否符合语法要求</td>
-    </tr>
-    <tr>
-      <td>Text similarity score</td>
-      <td>STS-B：两句话的相似性</td>
-    </tr>
-    <tr>
-      <td>Pairwise Text classification</td>
-      <td>RET、MNLI：判断两句话的关系(emtaiment, controdictional, neutral)<br />QQP, MRPC：判断那两句话是否具有相同的语义</td>
-    </tr>
-    <tr>
-      <td>Relevence ranking</td>
-      <td>QNLI：判断问答句子对的相关性</td>
-    </tr>
-  </tbody>
-</table>
+<p>两个NLP领域的语言：1.Bert 这种两阶段的模式（预训练 + Finetuning）必将成为 NLP 领域研究和工业应用的流行方法；2.从 NLP 领域的特征抽取器角度来说，Transformer 会逐步取代 RNN 成为最主流的的特征抽取器。</p>
 
-<p>​	<strong>(2)</strong>通过这种多任务训练得到的模型能够很好的适用于其他未见过的相似任务，即使只有很少的带标注的数据。因为MT-DNN底层使用的是BERT(Base)的网络，所以这种相似任务之间的适用性的提高可以确定由多任务的fine-tune带来的。实验表明即使只使用原始数据集的0.1%、1%样本，同样能够获得不错的准确率。下面是MT-DNN模型和BERT两个模型在SNLI数据集上的表现：</p>
+<p>如果对目前 <strong>NLP 里的三大特征抽取器的未来走向趋势</strong>做个宏观判断的话，我的判断是这样的：</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>模型</th>
-      <th>0.1%</th>
-      <th>1％</th>
-      <th>10%</th>
-      <th>100%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>BERT</td>
-      <td>51%</td>
-      <td>82%</td>
-      <td>90%</td>
-      <td>94%</td>
-    </tr>
-    <tr>
-      <td>MT-DNN</td>
-      <td>82%</td>
-      <td>88%</td>
-      <td>91%</td>
-      <td>96%</td>
-    </tr>
-  </tbody>
-</table>
+<ul>
+  <li><strong>RNN</strong> 人老珠黄，已经基本完成它的历史使命，将来会逐步退出历史舞台；</li>
+  <li><strong>CNN</strong> 如果改造得当，将来还是有希望有自己在 NLP 领域的一席之地，如果改造成功程度超出期望，那么还有一丝可能作为割据一方的军阀，继续生存壮大，当然我认为这个希望不大，可能跟宋小宝打篮球把姚明打哭的概率相当；</li>
+  <li>而新欢 <strong>Transformer</strong> 明显会很快成为 NLP 里担当大任的最主流的特征抽取器。</li>
+</ul>
+
+<p><em>注：Recursive NN和Memory Network这两种技术不被看好</em></p>
+
+<p>通常而言，绝大部分 NLP 问题可以归入上图所示的<strong>四类任务</strong>中：</p>
+
+<ul>
+  <li>一类是<strong>序列标注</strong>，这是最典型的 NLP 任务，比如中文分词，词性标注，命名实体识别，语义角色标注等都可以归入这一类问题，它的特点是句子中每个单词要求模型根据上下文都要给出一个分类类别。</li>
+  <li>第二类是<strong>分类任务</strong>，比如我们常见的文本分类，情感计算等都可以归入这一类。它的特点是不管文章有多长，总体给出一个分类类别即可。</li>
+  <li>第三类任务是<strong>句子关系判断</strong>，比如 Entailment，QA，语义改写，自然语言推理等任务都是这个模式，它的特点是给定两个句子，模型判断出两个句子是否具备某种语义关系；</li>
+  <li>第四类是<strong>生成式任务</strong>，比如机器翻译，文本摘要，写诗造句，看图说话等都属于这一类。它的特点是输入文本内容后，需要自主生成另外一段文字。</li>
+</ul>
+
+<p>身为资深 Bug 制造者和算法工程师，你现在需要做的事情就是：选择一个好的特征抽取器，选择一个好的特征抽取器，选择一个好的特征抽取器，喂给它大量的训练数据，设定好优化目标（loss function），告诉它你想让它干嘛…….. 然后你觉得你啥也不用干等结果就行了是吧？那你是我见过的整个宇宙中最乐观的人……. 你大量时间其实是用在调参上…….。从这个过程可以看出，如果我们有个强大的特征抽取器，那么中初级算法工程师沦为调参侠也就是个必然了，在 AutoML（自动那啥）流行的年代，也许以后你想当调参侠而不得，李斯说的 “吾欲与若复牵黄犬，俱出上蔡东门逐狡兔，岂可得乎！” 请了解一下。所以请珍惜你半夜两点还在调整超参的日子吧，因为对于你来说有一个好消息一个坏消息，好消息是：对于你来说可能这样<strong>辛苦</strong>的日子不多了！坏消息是：对于你来说可能这样辛苦的日子<strong>不多了</strong>！！！那么怎么才能成为算法高手？你去设计一个更强大的特征抽取器呀。</p>
 
 
         </article>
@@ -263,6 +252,11 @@
                 
                     
                 
+            
+        
+            
+            
+                
                     
                 
             
@@ -272,8 +266,6 @@
                 
                     
                 
-                    
-                
             
         
             
@@ -281,19 +273,28 @@
                 
                     
                 
-                    
-                
             
-        
-            
-            
-                
-                    
                 
                     
                         
                         <h2 id="similar_posts">Similar Posts</h2>
                         <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
                         
                         <li class="relatedPost">
                             <a href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术
@@ -308,26 +309,6 @@
         
             
             
-                
-                    
-                
-                    
-                        
-                        <li class="relatedPost">
-                            <a href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">最近阅读文章小抄
-                            
-                            </a>
-                        </li>
-                        
-                        
-                    
-                
-            
-        
-            
-            
-                
-                    
                 
                     
                         
@@ -347,6 +328,11 @@
                 
                     
                 
+            
+        
+            
+            
+                
                     
                 
             
@@ -356,32 +342,10 @@
                 
                     
                 
-                    
-                
             
         
             
             
-                
-                    
-                        
-                        <li class="relatedPost">
-                            <a href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文
-                            
-                            </a>
-                        </li>
-                        
-                        
-                    
-                
-                    
-                
-            
-        
-            
-            
-                
-                    
                 
                     
                 
@@ -394,13 +358,13 @@
         <div class="post-recent">
     <div class="pre">
         
-        <p><strong>上一篇</strong> <a href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术</a></p>
+        <p><strong>上一篇</strong> <a href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/">Transformer在NLP词向量预训练中的应用</a></p>
         
     </div>
     <div class="nex">
 
         
-        <p><strong>下一篇</strong> <a href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a></p>
+        <p><strong>下一篇</strong> <a href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术</a></p>
         
     </div>
 </div>
@@ -418,8 +382,8 @@
      */
 
     var disqus_config = function() {
-        this.page.url = 'http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/'; // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.url = 'http://localhost:4000/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://localhost:4000/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
 
     (function() { // DON'T EDIT BELOW THIS LINE

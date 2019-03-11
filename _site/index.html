@@ -112,6 +112,8 @@
                 
                     
                 
+                    
+                
             </ul>
         </nav>
     </div>
@@ -124,6 +126,581 @@
         <small>这里记录着我的NLP学习之路</small>
         <hr>
         <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">爬虫环境安装</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-11
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#spider" title="Tag: spider" rel="tag">spider</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h4 id="spider-note">spider Note</h4>
+
+<h5 id="python环境安装">python环境安装</h5>
+
+<ul>
+  <li>python3.7</li>
+</ul>
+
+<h5 id="请求库的安装">请求库的安装</h5>
+
+<ul>
+  <li>
+    <p>请求库requests的安装：<code class="highlighter-rouge">conda install requests -n spider</code></p>
+  </li>
+  <li>
+    <p>自动化测试工具Senlenium的安装：<code class="highlighter-rouge">conda install selenium -n spider</code></p>
+  </li>
+  <li>
+    <p>senlenium驱动chrome浏览器工具chromedriver添加到PATH中：</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">在</span><span class="o">~/.</span><span class="n">bashrc</span><span class="err">最后添加：</span><span class="n">PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">henry</span><span class="o">/</span><span class="n">opt</span><span class="p">:</span><span class="err">$</span><span class="n">PATH</span>
+<span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>使用phantomJS实现后台的浏览器控制</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">下载</span><span class="n">phantomJS</span><span class="err">，并且将其路径添加到系统变量中</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装异步web请求库aiohttp</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">aiohttp</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="解析库的安装">解析库的安装</h5>
+
+<ul>
+  <li>
+    <p>lxml的安装，支持HTML、XML的解析，支持XPath解析方式</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">lxml</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>beautifulsoup4的安装，其依赖lxml</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">beautifulsoup4</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>pyquery的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">pyquery</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装验证码识别工具tesseract</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">tesseract</span><span class="o">-</span><span class="n">ocr</span> <span class="n">libtesseract</span><span class="o">-</span><span class="n">dev</span> <span class="n">libleptonica</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">spider</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">tesserocr</span> <span class="n">pillow</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="数据库的安装">数据库的安装</h5>
+
+<ul>
+  <li>
+    <p>mysql的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span>
+<span class="c1">#mysql启动、关闭、重启命令
+#sudo service mysql start
+#sudo service mysql stop
+#sudo service mysql restart
+</span></code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql5</span><span class="mf">.7</span><span class="err">以上不会有密码设置过程，需要手动配置</span>
+<span class="err">$</span> <span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">debian</span><span class="o">-</span><span class="n">sys</span><span class="o">-</span><span class="n">maint</span> <span class="o">-</span><span class="n">p</span>
+<span class="c1">#密码在/etc/mysql/debian.cnf文件中可查看(V3XKquzHqnW18GWc)，在mysql命令行中执行下列语句
+</span>  
+<span class="n">show</span> <span class="n">databases</span><span class="err">；</span>
+<span class="n">use</span> <span class="n">mysql</span><span class="p">;</span>
+<span class="n">update</span> <span class="n">user</span> <span class="nb">set</span> <span class="n">authentication_string</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">(</span><span class="s">"zhou"</span><span class="p">)</span> <span class="n">where</span> <span class="n">user</span><span class="o">=</span><span class="s">'root'</span><span class="p">;</span>
+<span class="n">update</span> <span class="n">user</span> <span class="nb">set</span> <span class="n">plugin</span><span class="o">=</span><span class="s">"mysql_native_password"</span><span class="p">;</span>
+<span class="n">flush</span> <span class="n">privileges</span><span class="p">;</span>
+<span class="n">quit</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#完全卸载mysql的方法
+</span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">purge</span> <span class="n">mysql</span><span class="o">-*</span>
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">autoremove</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装redis</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">redis</span><span class="o">-</span><span class="n">server</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="存储库的安装">存储库的安装</h5>
+
+<ul>
+  <li>
+    <p>安装pymysql存储库以使用python和mysql交互</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">pymysql</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装redis_py</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">redis</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="web库的安装">Web库的安装</h5>
+
+<ul>
+  <li>
+    <p>安装Flask web库来搭建一些API接口，供爬虫使用，后面会利用Flask+Redis维护动态代理池和Cookies池</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">tornado</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装tornado，后面会使用tornado+redis来搭建一个ADSL拨号代理池</p>
+  </li>
+</ul>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/03/11/markdown_Guide/">Markdown_Guide</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-11
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#markdown" title="Tag: markdown" rel="tag">markdown</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="欢迎使用markdown编辑器写博客">欢迎使用Markdown编辑器写博客</h1>
+
+<p>本Markdown编辑器使用<a href="https://github.com/benweet/stackedit">StackEdit</a>修改而来，用它写博客，将会带来全新的体验哦：</p>
+
+<ul>
+  <li><strong>Markdown和扩展Markdown简洁的语法</strong></li>
+  <li><strong>代码块高亮</strong></li>
+  <li><strong>图片链接和图片上传</strong></li>
+  <li><strong><em>LaTex</em>数学公式</strong></li>
+  <li><strong>UML序列图和流程图</strong></li>
+  <li><strong>离线写博客</strong></li>
+  <li><strong>导入导出Markdown文件</strong></li>
+  <li><strong>丰富的快捷键</strong></li>
+</ul>
+
+<hr />
+
+<h2 id="快捷键">快捷键</h2>
+
+<ul>
+  <li>加粗    <code class="highlighter-rouge">Ctrl + B</code></li>
+  <li>斜体    <code class="highlighter-rouge">Ctrl + I</code></li>
+  <li>引用    <code class="highlighter-rouge">Ctrl + Q</code></li>
+  <li>插入链接    <code class="highlighter-rouge">Ctrl + L</code></li>
+  <li>插入代码    <code class="highlighter-rouge">Ctrl + K</code></li>
+  <li>插入图片    <code class="highlighter-rouge">Ctrl + G</code></li>
+  <li>提升标题    <code class="highlighter-rouge">Ctrl + H</code></li>
+  <li>有序列表    <code class="highlighter-rouge">Ctrl + O</code></li>
+  <li>无序列表    <code class="highlighter-rouge">Ctrl + U</code></li>
+  <li>横线    <code class="highlighter-rouge">Ctrl + R</code></li>
+  <li>撤销    <code class="highlighter-rouge">Ctrl + Z</code></li>
+  <li>重做    <code class="highlighter-rouge">Ctrl + Y</code></li>
+</ul>
+
+<h2 id="markdown及扩展">Markdown及扩展</h2>
+
+<blockquote>
+  <p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank"> [ 维基百科 ]</a></p>
+</blockquote>
+
+<p>使用简单的符号标识不同的标题，将某些文字标记为<strong>粗体</strong>或者<em>斜体</em>，创建一个<a href="http://www.csdn.net">链接</a>等，详细语法参考帮助？。</p>
+
+<p>本编辑器支持 <strong>Markdown Extra</strong> , 　扩展了很多好用的功能。具体请参考<a href="https://github.com/jmcmanus/pagedown-extra" title="Pagedown Extra">Github</a>.</p>
+
+<h3 id="表格">表格</h3>
+
+<p><strong>Markdown　Extra</strong>　表格语法：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>项目</th>
+      <th>价格</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Computer</td>
+      <td>$1600</td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td>$12</td>
+    </tr>
+    <tr>
+      <td>Pipe</td>
+      <td>$1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>可以使用冒号来定义对齐方式：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">项目</th>
+      <th style="text-align: right">价格</th>
+      <th style="text-align: center">数量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Computer</td>
+      <td style="text-align: right">1600 元</td>
+      <td style="text-align: center">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Phone</td>
+      <td style="text-align: right">12 元</td>
+      <td style="text-align: center">12</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Pipe</td>
+      <td style="text-align: right">1 元</td>
+      <td style="text-align: center">234</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>###定义列表</p>
+
+<dl>
+  <dt><strong>Markdown　Extra</strong>　定义列表语法：</dt>
+  <dt>项目１</dt>
+  <dt>项目２</dt>
+  <dd>定义 A</dd>
+  <dd>定义 B</dd>
+  <dt>项目３</dt>
+  <dd>定义 C</dd>
+  <dd>
+    <p>定义 D</p>
+
+    <blockquote>
+      <p>定义D内容</p>
+    </blockquote>
+  </dd>
+</dl>
+
+<h3 id="代码块">代码块</h3>
+<p>代码块语法遵循标准markdown代码，例如：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">requires_authorization</span>
+<span class="k">def</span> <span class="nf">somefunc</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">param2</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="s">'''A docstring'''</span>
+    <span class="k">if</span> <span class="n">param1</span> <span class="o">&gt;</span> <span class="n">param2</span><span class="p">:</span> <span class="c1"># interesting
+</span>        <span class="k">print</span> <span class="s">'Greater'</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">param2</span> <span class="o">-</span> <span class="n">param1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+<span class="k">class</span> <span class="nc">SomeClass</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">message</span> <span class="o">=</span> <span class="s">'''interpreter
+... prompt'''</span>
+</code></pre></div></div>
+
+<p>###脚注
+生成一个脚注[^footnote].
+[^footnote]: 这里是 <strong>脚注</strong> 的 <em>内容</em>.</p>
+
+<h3 id="目录">目录</h3>
+<p>用 <code class="highlighter-rouge">[TOC]</code>来生成目录：</p>
+
+<p>[TOC]</p>
+
+<h3 id="数学公式">数学公式</h3>
+<p>使用MathJax渲染<em>LaTex</em> 数学公式，详见<a href="http://math.stackexchange.com/">math.stackexchange.com</a>.</p>
+
+<ul>
+  <li>行内公式，数学公式为：$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$。</li>
+  <li>块级公式：</li>
+</ul>
+
+<script type="math/tex; mode=display">x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}</script>
+
+<p>更多LaTex语法请参考 <a href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference">这儿</a>.</p>
+
+<h3 id="uml-图">UML 图:</h3>
+
+<p>可以渲染序列图：</p>
+
+<pre><code class="language-sequence">张三-&gt;李四: 嘿，小四儿, 写博客了没?
+Note right of 李四: 李四愣了一下，说：
+李四--&gt;张三: 忙得吐血，哪有时间写。
+</code></pre>
+
+<p>或者流程图：</p>
+
+<pre><code class="language-flow">st=&gt;start: 开始
+e=&gt;end: 结束
+op=&gt;operation: 我的操作
+cond=&gt;condition: 确认？
+
+st-&gt;op-&gt;cond
+cond(yes)-&gt;e
+cond(no)-&gt;op
+</code></pre>
+
+<ul>
+  <li>关于 <strong>序列图</strong> 语法，参考 <a href="http://bramp.github.io/js-sequence-diagrams/">这儿</a>,</li>
+  <li>关于 <strong>流程图</strong> 语法，参考 <a href="http://adrai.github.io/flowchart.js/">这儿</a>.</li>
+</ul>
+
+<h2 id="离线写博客">离线写博客</h2>
+
+<p>即使用户在没有网络的情况下，也可以通过本编辑器离线写博客（直接在曾经使用过的浏览器中输入<a href="http://write.blog.csdn.net/mdeditor">write.blog.csdn.net/mdeditor</a>即可。<strong>Markdown编辑器</strong>使用浏览器离线存储将内容保存在本地。</p>
+
+<p>用户写博客的过程中，内容实时保存在浏览器缓存中，在用户关闭浏览器或者其它异常情况下，内容不会丢失。用户再次打开浏览器时，会显示上次用户正在编辑的没有发表的内容。</p>
+
+<p>博客发表后，本地缓存将被删除。　</p>
+
+<p>用户可以选择 <i class="icon-disk"></i> 把正在写的博客保存到服务器草稿箱，即使换浏览器或者清除缓存，内容也不会丢失。</p>
+
+<blockquote>
+  <p><strong>注意：</strong>虽然浏览器存储大部分时候都比较可靠，但为了您的数据安全，在联网后，<strong>请务必及时发表或者保存到服务器草稿箱</strong>。</p>
+</blockquote>
+
+<h2 id="浏览器兼容">浏览器兼容</h2>
+
+<ol>
+  <li>目前，本编辑器对Chrome浏览器支持最为完整。建议大家使用较新版本的Chrome。</li>
+  <li>IE９以下不支持</li>
+  <li>IE９，１０，１１存在以下问题
+    <ol>
+      <li>不支持离线功能</li>
+      <li>IE9不支持文件导入导出</li>
+      <li>IE10不支持拖拽文件导入</li>
+    </ol>
+  </li>
+</ol>
+
+<hr />
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/11/markdown_Guide/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-11
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#spider" title="Tag: spider" rel="tag">spider</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h5 id="gpt10">GPT1.0</h5>
+
+<p>简述如下：GPT 1.0采取预训练+FineTuning两个阶段，它采取Transformer作为特征抽取器。预训练阶段采用“单向语言模型”作为训练任务，把语言知识编码到Transformer里。第二阶段，在第一阶段训练好的模型基础上，通过Finetuning来做具体的NLP任务。</p>
+
+<p>从大框架上来说，Bert基本就是GPT 1.0的结构，除了预训练阶段采取的是“双向语言模型”之外，它们并没什么本质差异，其它的技术差异都是细枝末节，不影响大局，基本可忽略。</p>
+
+<h5 id="gpt20">GPT2.0</h5>
+
+<p>GPT2.0大框架其实还是GPT 1.0的框架，但是把第二阶段的Finetuning做有监督地下游NLP任务，换成了无监督地做下游任务。本质上，GPT2.0选择了这么一条路来强化Bert或者是强化GPT 1.0的第一个预训练阶段：就是说首先把Transformer模型参数扩容，常规的Transformer Big包含24个叠加的Block，GPT2.0将Transformer层数增加到48层，参数规模15亿。真正的目的是：GPT 2.0准备用更多的训练数据来做预训练，更大的模型，更多的参数，意味着更高的模型容量，所以先扩容，免得Transformer楼层不够多的房间（模型容量）容纳不下过多的住户（就是NLP知识）。</p>
+
+<p>GPT2.0的语料：GPT2.0找了800万互联网网页作为语言模型的训练数据，它们被称为WebText，互联网网页的优点是覆盖的主题范围非常广，这样训练出来的语言模型，通用性好，覆盖几乎任何领域的内容，这意味着它可以用于任意领域的下游任务，有点像图像领域的Imagenet的意思。GPT 2.0论文其实更强调训练数据的通用性强这点。当然，除了量大通用性强外，数据质量也很重要，高质量的数据必然包含更好的语言及人类知识，所以GPT 2.0还做了数据质量筛选，过滤出高质量的网页内容来。</p>
+
+<p>GPT 2.0用这些网页做“单向语言模型”，GPT 2.0没有像Bert或者1.0版本一样，拿这个第一阶段的预训练模型有监督地去做第二阶段的Finetuning任务，而是选择了无监督地去做下游任务。另外论文中提到的对Transformer结构的微调，以及BPE输入方式，我相信都是不太关键的改动，应该不影响大局。</p>
+
+<p><strong>问题一：为什么GPT 2.0第二阶段不通过Finetuning去有监督地做下游任务呢？</strong>无监督地去做很多第二阶段的任务，只是GPT作者想说明在第一阶段Transformer学到了很多通用的包含各个领域的知识，第二部分各种实验是对这点的例证，如此而已。这是为何说第二阶段其实不重要，因为它不是论文的中心思想，而是说明中心思想的例子。</p>
+
+<p><strong>问题二：在预训练阶段，为什么GPT 2.0仍然固执地用单向语言模型，而不是双向语言模型呢？</strong>Bert在论文的实验部分已经证明了：Bert的效果比GPT好主要归因于这个双向语言模型。也许GPT 作者只想强调他们想做语言模型这个事情，毕竟生成内容后续单词这种模式，单向语言模型更方便，这估计是真正原因。</p>
+
+<p><strong>问题三：GPT 2.0 既然第二阶段是无监督的任务，而它不做Finetuning，那么你训练好一个语言模型，它当然会根据输入的一句话，给你蹦出后面可能紧跟那个单词，这是标准的语言模型过程，这个正常。但是如果这时候让它去做一个文本摘要任务，它怎么知道它现在在做什么事情呢，根据输入，应该输出什么东西呢？</strong>其实GPT 2.0在做下游无监督任务的时候，给定输入（对于不同类型的输入，加入一些引导字符，引导GPT正确地预测目标，比如如果做摘要，在输入时候加入“TL：DR”引导字符串），它的输出跟语言模型的输出是一样的，就是蹦出一个单词。那么问题来了：对于比如摘要任务，我们期待的输出结果是一句话或者几句话，你给我一个单词，有点太小气，那该怎么办？很简单，继续一个字一个字往出蹦，按照这些字从系统里蹦出来的时间顺序连起来，就是你想要的摘要结果，这种所有任务采取相同的往出蹦字的输出模式也是有点意思的。就是说，GPT2.0给出了一种新颖的生成式任务的做法，就是一个字一个字往出蹦，然后拼接出输出内容作为翻译结果或者摘要结果。传统的NLP网络的输出模式一般需要有个序列的产生结构的，而GPT 2.0完全是语言模型的产生结果方式：一个字一个字往出蹦，没有输出的序列结构。</p>
+
+<h5 id="归纳">归纳</h5>
+
+<p>我们可以从两个不同的角度来理解GPT 2.0。</p>
+
+<p><strong>一个角度是把它看作采取类似Elmo/GPT/Bert的两阶段模型解决NLP任务的一种后续改进策略</strong>，这种策略可以用来持续优化第一阶段的预训练过程。通过现在的Transformer架构，采用更高质量的数据，采用更宽泛的数据（Web数据量大了估计包含任何你能想到的领域），采用更大量的数据（WebText，800万网页），Transformer采用更复杂的模型（最大的GPT2.0模型是Transformer的两倍层深），那么在Transformer里能学会更多更好的NLP的通用知识。如果我们第二阶段仍然采取Finetuning，对下游任务的提升效果是可以很乐观地期待的。</p>
+
+<p><strong>另外一个角度也可以把GPT 2.0看成一个效果特别好的语言模型</strong>，可以用它来做语言生成类任务，比如摘要，QA这种，再比如给个故事的开头，让它给你写完后面的情节，目前看它的效果出奇的好。</p>
+
+<h5 id="bert的另外一种改进模式">Bert的另外一种改进模式</h5>
+
+<p>GPT2.0给出的思路是优化Bert的第一个预训练阶段，方向是扩充数据数量，提升数据质量，增强通用性，追求的是通过做大来做强。</p>
+
+<p>另一个思路：机器学习里面还有有监督学习，NLP任务里也有不少有监督任务是有训练数据的，这些数据能用来改善Bert第二阶段学习各种知识的Transformer。这种做法一个典型的模型是最近微软推出的MT-DNN，核心思想：结构上底层就是标准的Bert Transformer，第一阶段采用Bert的预训练模型不动，在Finetuning阶段，在上层针对不同任务构造不同优化目标，所有不同上层任务共享底层Transformer参数，这样就强迫Transformer通过预训练做很多NLP任务，来学会新的知识，并编码到Transformer的参数中。</p>
+
+<h5 id="nlp主流模型进化">NLP主流模型进化</h5>
+
+<ul>
+  <li>采取Bert的两阶段模式</li>
+  <li>特征抽取器采用Transformer</li>
+  <li>Bert两阶段模式中，第一个预训练阶段的两种改进方向：
+    <ul>
+      <li><strong>一种是强调通用性好以及规模大</strong>。加入越来越多高质量的各种类型的无监督数据，GPT 2.0指出了个明路，就是净化的高质量网页</li>
+      <li><strong>第二种是通过多任务训练</strong>，加入各种新型的NLP任务数据，它的好处是有监督，能够有针对性的把任务相关的知识编码到网络参数里，所以明显的好处是学习目标明确，学习效率高；而对应的缺点是NLP的具体有监督任务，往往训练数据量少，于是包含的知识点少；而且有点偏科，学到的知识通用性不强。</li>
+    </ul>
+  </li>
+  <li>GPT2.0<strong>采取超深层Transformer+更大量的网页数据去做更好的语言模型</strong>，并进而做各种生成式任务是很有研究应用前景。</li>
+</ul>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
             
               <li>
                 <h2>
@@ -166,8 +743,6 @@
 <span class="pageTag">
   <i class="fa fa-tags"></i>
   
-    
-        <a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a>&nbsp;
     
         <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>&nbsp;
     
@@ -263,125 +838,11 @@
             
               <li>
                 <h2>
-                  <a class="post-link" href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundler安装jekyll</a>
+                  <a class="post-link" href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-19
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <ul>
-  <li><strong>新建一个空目录，作为blog的根目录。</strong></li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir blog
-cd ./blog
-</code></pre></div></div>
-
-<ul>
-  <li><strong>创建Gemfile，内容简单复制以下代码就行,命名为Gemfile</strong></li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source  'https://rubygems.org'
-gem 'github-pages',group: :jekyll_plugins
-</code></pre></div></div>
-
-<ul>
-  <li><strong>安装ruby和ruby-dev</strong></li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install ruby ruby-dev
-</code></pre></div></div>
-
-<ul>
-  <li><strong>通过ruby的安装器gem安装bundler</strong></li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install bundler
-</code></pre></div></div>
-
-<ul>
-  <li><strong>通过bundler批量安装jekyll组件</strong></li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
-</code></pre></div></div>
-
-<p>到nokogiri时终止了安装，搜索网上的问题解决办法后，发现是一些第三方依赖库没有安装，linux下在终端中输入以下命令，在手动安装nokogiri,成功！</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libz-dev libiconv-hook1 libiconv-hook-dev
-</code></pre></div></div>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install nokogiri -v '1.8.4'
-</code></pre></div></div>
-
-<ul>
-  <li><strong>回过头来根据Gemfile安装jekyll</strong></li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
-</code></pre></div></div>
-
-<ul>
-  <li>试试能不能启动jekyll,成功！在浏览器中网址栏输入localhost:4000,验证jekyll的运行情况</li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec jekyll serve
-</code></pre></div></div>
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
-              <li>
-                <h2>
-                  <a class="post-link" href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-16
+                        <i class="fa fa-calendar"></i>2019-03-06
                     </div>
                     <div class="label-card">
                         <i class="fa fa-user"></i>Henryzhou
@@ -417,7 +878,7 @@ gem 'github-pages',group: :jekyll_plugins
   <i class="fa fa-tags"></i>
   
     
-        <a href="/tag/#python" title="Tag: python" rel="tag">python</a>
+        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
     
   
 
@@ -426,105 +887,186 @@ gem 'github-pages',group: :jekyll_plugins
                     </div>
                 </div>
                 <div class="excerpt">
-                    <p>[TOC]</p>
+                    <h3 id="北大ai第三讲何晓东-京东ai研究院常务副院长ieee-fellow自然语言与多模态交互前言技术">北大AI第三讲：何晓东-京东AI研究院常务副院长、IEEE Fellow：自然语言与多模态交互前言技术</h3>
 
+<h4 id="nlp进展">NLP进展：</h4>
 
-                </div>
-                <div class="read-all">
-                    <a  href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
-              <li>
-                <h2>
-                  <a class="post-link" href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-16
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
+<ul>
+  <li>语言理解/语义槽值提取</li>
+  <li>语言理解/意图分类，2016年提出层次化注意力模型（HAN），以更好的在词、句子、段落、等多个层面来理解语言，判断意图，并通过对神经元激活的的可视化给出一定程度的可解释性。</li>
+  <li>语言理解/语义的表征：从自然语言中提取出语义并将其投影到语义空间以帮助搜索、推荐、分类、问答等应用；自然语言的描述，通过深度神经网络逐步抽取语义上的不变形（invariance），生成抽象的语义表征。</li>
+  <li>机器阅读理解（MRC）：机器阅读文本，回答问题；BERT模型在SQuAD封闭数据集上的成绩已经超过人类</li>
+</ul>
 
-                    <div class="label-card">
-                    
+<h4 id="未来">未来</h4>
 
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#DL" title="Tag: DL" rel="tag">DL</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <ul>
-  <li>人工智能早期，计算机能够迅速解决那些对人类智力来说非常困难的问题。而人工智能的真正挑战在于解决那些对人来说很容易执行，但很难形式化描述的任务，如识别人们所说的话或图像中的脸。</li>
-  <li>深度学习讨论的是一种让计算机从经验中学习，并根据层次化的概念来__理解世界__的解决方案，而每个概念则通过某些相对简单的概念之间的关系来定义</li>
-  <li>人类擅长对事物抽象因而能够认识世界，计算机则只能做一些形式化的数据处理，人工智能要做的就是通过形式化的数据处理__从另一条路径__达到认识世界的目的</li>
-  <li>深度学习
+<ul>
+  <li>多模态智能：综合文字、语音、图像、知识图谱等信息来获取信息
     <ul>
-      <li>计算机难以理解原始感官输入数据的含义，如表示为像素值集合的图像。将一组像素映射到对象标识的函数非常复杂。</li>
-      <li>深度学习将所需的复杂映射分解为一系列嵌套的简单映射（每个模型的不同层描述）
+      <li>建立多模态语义空间：联结图像和文字
         <ul>
-          <li>可见层：包含我们能观察到的变量</li>
-          <li>隐藏层：它们的值不再数据中给出，所以称为隐藏层。模型必须确定那些概念有利于解释观察数据中关系</li>
+          <li>通过深度结构语义模型（DSSM）把图像和文字表征成语义空间内的向量</li>
+          <li>在此空间中进行语义相似度计算，生成最匹配图像内容的文字表述。</li>
         </ul>
+      </li>
+      <li>理解场景和知识，用语言表达（image caption）
+        <ul>
+          <li>一个棒球</li>
+          <li>一个棒球运动员</li>
+          <li>一个棒球运动员在扔</li>
+          <li>一个棒球运动员在扔一个球</li>
+        </ul>
+      </li>
+      <li>图像描述机器人：CaptionBot</li>
+      <li>智能绘画机器人：AI根据语言描述创作绘画</li>
+      <li>AI+Art：更多（艺术化的）创作</li>
+      <li>综合图像和语言推理，回答问题：eg.那两把蓝色椅子之间是什么？</li>
+      <li>视觉-语言多模态导航：结合语言理解和对环境的视觉信息建模，机器人按指令从一个地方走到另一个地方。</li>
+    </ul>
+  </li>
+  <li>复杂内容创作：比如人工智能写作（长文章）
+    <ul>
+      <li>创作长文的技术挑战：
+        <ul>
+          <li>从简单输入到创作长文需要大量内容的扩充</li>
+          <li>长文的生成要可控，能满足组合爆炸式需求。模型需要时组合性的，能与训练的。</li>
+          <li>现有的端到端的模型不适合长文创作：为短文本生成（如机器翻译）而设计，不能抓住长文的高层语义。度量优化，信用分配，维持一致性，目标函数平衡等要重新设计。</li>
+        </ul>
+      </li>
+      <li>长文创作的前沿探索：比如顶层设计和规划
+        <ul>
+          <li>现有的文本生成模型缺乏“规划”，应先产生粗略的高层主题规划，然后再对主题和子主题展开长文</li>
+          <li>最近的一些工作：多层增强学习模型及其在主题设计和长文生成中的应用。</li>
+        </ul>
+      </li>
+      <li>创作诗歌（控制）</li>
+    </ul>
+  </li>
+  <li>情感智能：不只识别人的情感，还能像人一样表达情感和风格
+    <ul>
+      <li>生成带情感的语言：让AI在语言表达中加入情感，提升用户体验</li>
+      <li>表达情感和风格：让AI用语言表达浪漫或者幽默的风格——StyleNet</li>
+    </ul>
+  </li>
+  <li>多轮人机对话：理解语境、常识、语言，生成逻辑严谨的有情感的对话，服务于人
+    <ul>
+      <li>图灵测试：通过人类和机器之间的自然语言对话来判断机器是否具有智能。</li>
+      <li>主要的人机对话系统框架：任务型对话系统、问答型对话系统、聊天型对话系统、检索性对话系统</li>
+      <li>我们将成为有史以来第一代与AI共生的人类，《从Eliza到小冰：社交对话机器人的机遇与挑战》</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="ai产业化的下一个方向是什么">AI产业化的下一个方向是什么</h4>
+
+<ul>
+  <li>
+    <p>智能服务产业是新蓝海：传统人类密集型产业，有广阔自动化、智能化空间；随着AI技术、IOT技术等的创新，市场在快速成长。</p>
+  </li>
+  <li>
+    <p>服务型对话</p>
+
+    <ul>
+      <li>服务：生活、娱乐、消费、客服等为人提供的的服务</li>
+      <li>对话：多模态、大规模开放领域，具有常识和情感、能完成复杂任务的智能交互技术。</li>
+    </ul>
+  </li>
+  <li>
+    <p>产业界应用：</p>
+
+    <ul>
+      <li>京东客服机器人：首个大规模商用情感客服机器人：能够检测用户的情感类型，做出道歉、安抚、祝福的动作，提升用户体验。</li>
+      <li>京东智能服务产品矩阵：JIMI和AlphaSales</li>
+      <li>京东智能IoT</li>
+      <li>京东智能市政服务</li>
+    </ul>
+  </li>
+  <li>
+    <p>人机融合、多模态智能服务的产业时代</p>
+
+    <ul>
+      <li>
+        <p>服务即对话：多模态、大规模开放领域、具有常识和情感、能完成复杂任务的对话系统是推动下一代智能产业的核心技术。</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>分级</th>
+              <th>目标</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>低级智能对话</td>
+              <td>对用户简单意图进行识别并给出预设答案</td>
+            </tr>
+            <tr>
+              <td>初级智能对话</td>
+              <td>能识别复杂意图，联系上下文给出回答</td>
+            </tr>
+            <tr>
+              <td>中级智能对话</td>
+              <td>根据用户问题及情绪完成个性化多轮对话，协助用户完成目标</td>
+            </tr>
+            <tr>
+              <td>高级智能对话</td>
+              <td>能对多模态信息进行推理，自主判断，并组织语言与用户沟通，具备自我学习能力</td>
+            </tr>
+            <tr>
+              <td>通用智能对话</td>
+              <td>能基于一切信息开展自我学习，自我适应，及自我创新。在复杂问题领域达到人类水平。</td>
+            </tr>
+          </tbody>
+        </table>
       </li>
     </ul>
   </li>
-  <li>课程组织
+</ul>
+
+<h4 id="提问环节">提问环节</h4>
+
+<ul>
+  <li>关于OpenAI的GPT模型暴力解决问题的看法
     <ul>
-      <li>介绍基本的数学工具和机器学习的概念</li>
-      <li>介绍最成熟的深度学习算法</li>
-      <li>讨论某些具有展望性的想法，他们被广泛的认为是深度学习未来的研究重点</li>
+      <li>算法是解决问题的核心，但是光有算法是不够的。GPT2是算法和产业界结合的一个例子，有大量高质量的数据和算力。对科研机构不算一个坏事。算法是灵魂，数据和算力是物质基础</li>
+    </ul>
+  </li>
+  <li>NLP领域的问题是否可以认为比图像领域的问题要难解决，所有在进度上有所落后？
+    <ul>
+      <li>NLP领域的问题是一种认知领域的问题，比图像领域的感知问题要复杂一些，所以图像领域的问题能够比较清晰的被定义，相对而言也会推进的更加深入。</li>
+    </ul>
+  </li>
+  <li>如何判断机器是否真正理解了人类的问题？
+    <ul>
+      <li>这是一个哲学问题，科学家的作用就是将哲学问题转化成科学问题，可以通过定义一些测试任务来进行一定程度上的判断。比如小冰提出了聊天轮数的metric，作为判断聊天机器人是否能像人类一样进行聊天。</li>
+    </ul>
+  </li>
+  <li>智能音响等IoT产品的发展趋势？
+    <ul>
+      <li>每一次交互的革命都能带来一个万亿级别的产业，智能IoT就具有这样的潜力</li>
+    </ul>
+  </li>
+  <li>如何看待当前CV行业如火如荼，NLP行业相对比较平静的现象？
+    <ul>
+      <li>当问题已经定义的很清楚的时候，机会相对来说就小了很多。智能服务产业的未来可能要比CV的智能安防产业还要大。</li>
     </ul>
   </li>
 </ul>
 
                 </div>
                 <div class="read-all">
-                    <a  href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                    <a  href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/"><i class="fa fa-newspaper-o"></i>Read All</a>
                 </div>
                 <hr>
               </li>
             
               <li>
                 <h2>
-                  <a class="post-link" href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a>
+                  <a class="post-link" href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">最近阅读文章小抄</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-16
+                        <i class="fa fa-calendar"></i>2019-03-06
                     </div>
                     <div class="label-card">
                         <i class="fa fa-user"></i>Henryzhou
@@ -560,7 +1102,7 @@ gem 'github-pages',group: :jekyll_plugins
   <i class="fa fa-tags"></i>
   
     
-        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>
+        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
     
   
 
@@ -569,254 +1111,14 @@ gem 'github-pages',group: :jekyll_plugins
                     </div>
                 </div>
                 <div class="excerpt">
-                    <h1 id="硕士班研究所新生手册观点收获">硕士班研究所新生手册(观点收获)</h1>
+                    <h4 id="2019121nlp-领域的-imagenet-时代到来词嵌入已死语言模型当立">2019.1.21–《NLP 领域的 ImageNet 时代到来：词嵌入「已死」，语言模型当立》</h4>
 
-<p>Issued by and valid in the PPSC Lab.Directed by Prof.MH.Perng</p>
+<p>计算机视觉领域常使用在 ImageNet 上预训练的模型，它们可以进一步用于目标检测、语义分割等不同的 CV 任务。而在自然语言处理领域中，我们通常只会使用预训练词嵌入向量编码词汇间的关系，因此也就没有一个能用于整体模型的预训练方法。Sebastian Ruder 表示语言模型有作为整体预训练模型的潜质，它能由浅到深抽取语言的各种特征，并用于机器翻译、问答系统和自动摘要等广泛的 NLP 任务。Ruder 同样展示了用语言模型做预训练模型的效果，并表示 NLP 领域中的「ImageNet」终要到来。</p>
 
-<h3 id="论文的要求">论文的要求</h3>
-
-<ul>
-  <li>论文的主要内容，是叙述一套方法在一个特定场合中的应用</li>
-  <li>这套方法必须要有所创新或突破，并因而对学术界有所贡献。因此，他或者是解决既有问题的新方法，或者是既有方法的新应用，或者是以一个新的方法开启一整片新的应用领域。</li>
-  <li>提出足够的证据来让读者信服说：针对这个应用场合，你所提出的方法确实比文献中一切方法有更优越之处</li>
-  <li>清楚的指出这个方法在应用上的限制，并且提出充分证据来说服读者，任何应用场合，只要能满足你所提出来的假设（前提）条件，你的方法一定适用，而且你所描述的有点就一定存在</li>
-  <li>清楚指出这个方法的限制和可能的缺点</li>
-  <li>清楚地交代这个方法的应用程序以及所有仿真或实验结果的过程，使得这个专业领域内的任何读者，都有办法根据你的描述，在他的实验室中复制出你的研究成果。</li>
-  <li>你对这个方法中每一个步骤都必须要提供充分的理由说明“为什么非如此不可”。</li>
-  <li>论文必须在适当的位置清楚注明所有和你研究之题目相关的文献，而且是和你所研究的问题相关的学术文献（尤其是学术期刊论文），你都有必要全部找出来（如果漏掉就是你的过失），仔细读过。假如在学位论文口试时，有口试委员指出有一篇既有文献，在你所讨论的问题中处理的比你的方法还好，这就构成你论文无法及格的充分理由</li>
-  <li>所谓对学术界的贡献指的是：把你的所有研究成果扣除学术界已经发表的所有成果（不管你实际有没有参考过，没有参考过也算是你的重大过失），剩下的就是你的贡献。假如这个贡献太少，也构成你的论文无法及格的充分理由。</li>
-</ul>
-
-<h3 id="完成硕士论文所需要的能力">完成硕士论文所需要的能力</h3>
-
-<ul>
-  <li>数据检索的能力
-    <ul>
-      <li>有能力利用数据检索系统（教育部[博硕士论文检索系统]、Compendex和SCI这三套论文数据索引系统），查处所有相关的论文，而无任何遗漏</li>
-      <li>关键词很重要，假如你用的关键词太一般化，通常找到的集合会太大，除了所有相关文献之外还加上好几十倍的不相关的文献</li>
-    </ul>
-  </li>
-  <li>资料筛选能力：在你找到的百来篇和你的研究子题直接且密切相关的论文中，你如何只读论文的题目、摘要、简介和结论，而还没有完全看懂内文，就准确的判断这篇论文中是否值得你进一步参考的内容，以便快速的把需要仔细读完的论文从数百篇为二三十篇。</li>
-  <li>期刊论文的阅读能力：硕士毕业生和大学毕业生的最大区别就是：学士只需要吸收系统的能力（也就是读别人整理、组织好的知识，典型的就是课本），但硕士则学习过自己从无组织的知识中检索、筛选、组织知识的能力</li>
-  <li>期刊论文的分析能力
-    <ul>
-      <li>一个严格训练过的合格硕士，他做事的时候应该是不需要有人在背后替他做检证，他自己就应该要有能力分析自己的优缺点，主动向上级或者平行单位要求支持。其实，至少要能够完成这个能力，才勉强可以说你是有“独立自主的判断能力。</li>
-    </ul>
-  </li>
-  <li>创新的能力
-    <ul>
-      <li>大学毕业生的主要能力是吸收既有知识，但硕士毕业生却应该要有能力创造知识</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="为什么要坚持培养阅读与分析期刊论文的能力">为什么要坚持培养阅读与分析期刊论文的能力</h3>
-
-<ul>
-  <li>对于那些之想学现成技术而不想研究方法的学生，十年后可能会因为不会读期刊论文而面临提前退休</li>
-  <li>技术的创新不是完全靠天才，只要学会分析期刊论文的优缺点和一套技术创新的方法，几乎就可以轻易的组合出你所需要的绝大部分创意。</li>
-</ul>
-
-<h3 id="期刊论文的分析技巧和程序">期刊论文的分析技巧和程序</h3>
-
-<ul>
-  <li>Abstract
-    <ul>
-      <li>说明这篇论文的主要贡献、方法特色与主要内容，需要培养只看Abstract和Inroduction便可以判断出这篇论文和你研究的有没有直接关系的能力，从而决定要不要把它读完。</li>
-    </ul>
-  </li>
-  <li>Introduction
-    <ul>
-      <li>功能是介绍问题的背景和起源，交代前人在这个题目上已经有过的主要贡献和遗留的问题</li>
-    </ul>
-  </li>
-  <li>main body
-    <ul>
-      <li>这篇论文的假设及其成立的难度以判断其参考价值</li>
-      <li>在这些假设下，这篇论文的主要好处</li>
-      <li>这些好处主要表现在那些公式的那些项目的简化上，从中可以评估出这个方法使用上的方便程度或者计算效率</li>
-      <li>不需要完全弄懂一片论文所有的恒等式推导过程或者把整篇论文细细读完，只需要把确定会用到的部分完全搞懂就好，不确定或者不会用到的地方，只需要了解他的主要点子就够了。</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="论文阅读的补充说明">论文阅读的补充说明</h3>
-
-<ul>
-  <li>硕士生开始读论文的时候容易犯的毛病：
-    <ul>
-      <li>老是想逐行读懂，有一行读不懂就受不了</li>
-      <li>不敢发挥自己的想象，读论文像在读教科书，论文没写的就不会，自己去猜测或想象的时候，老怕弄错作者的意思</li>
-    </ul>
-  </li>
-  <li>每次读论文要呆着问题去阅读，只图你要回答的问题。因此要有选择的阅读，由粗而细，一定是一整批一起读懂到某个层次，而不是逐篇逐篇的一次读懂</li>
-</ul>
-
-<h3 id="论文报告的要求与技巧">论文报告的要求与技巧</h3>
-
-<ul>
-  <li>第一页列出论文的题目、作者、论文出处与年份</li>
-  <li>每一页幻灯片只能讲一个观念</li>
-  <li>说明这篇论文所研究的问题的重点，以及这个问题可能和工业界的哪些应用有关</li>
-  <li>清楚交代这篇论文的主要假设、主要公式与主要应用方式（以及应用上可能的解题流程）</li>
-  <li>说明这篇论文的范例（simulation examples and/or experiments)，预测这个方法在不同场合可能会有的准确度或者好用的程度</li>
-  <li>你个人的分析、评价与批评，包括：
-    <ul>
-      <li>这篇论文的最主要创意是什么？</li>
-      <li>这些创意在应用上有什么好处？</li>
-      <li>这些创意和应用上的好处是哪些条件下才能成立？</li>
-      <li>这篇论文最主要的缺点或局限是什么？</li>
-      <li>这些缺点或局限在应用上有什么坏处？</li>
-      <li>这些缺点和应用上的坏处是因为哪些因素而引入的？</li>
-      <li>你建议学长学弟的时候参考这篇论文的哪些部分（点子）</li>
-    </ul>
-  </li>
-</ul>
 
                 </div>
                 <div class="read-all">
-                    <a  href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
-              <li>
-                <h2>
-                  <a class="post-link" href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-16
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a>&nbsp;
-    
-        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <h1 id="vim的使用">Vim的使用</h1>
-
-<ul>
-  <li>3种模式
-    <ul>
-      <li>一般模式：移动光标、删除字符或者整行，复制粘帖数据</li>
-      <li>编辑模式：按下“i,I,o,O,a,A,r,R”可以进入编辑模式，按下Esc可以推出编辑模式</li>
-      <li>命令行模式：输入”:,/,?”可以进入命令行模式，进行数据查找、大量替换字符、保存离开等功能</li>
-    </ul>
-  </li>
-  <li>一般模式下移动光标的方法
-    <ul>
-      <li>左右：h，l，使用组合键5h即可多列跳跃</li>
-      <li>上下：k，j，使用组合键5j即可多行跳跃</li>
-      <li>行首（行尾）：0（$）</li>
-      <li>文件首（尾）：gg（G）</li>
-      <li>向下（上）翻页：ctrl+f（b）</li>
-    </ul>
-  </li>
-  <li>一般模式下查找与替换
-    <ul>
-      <li>/word：向下寻找名称为word 的字符串</li>
-      <li>n：查找下一个</li>
-      <li>N：查找上一个</li>
-      <li>:n1,n2s/Word1/Word2/g：将n1和n2行之间的Word1替换为Word2</li>
-      <li>:1,$s/Word1/Word2/g：将第一行和最后一行之间的Word1替换为Word2</li>
-      <li>:1,$s/Word1/Word2/gc：将第一行和最后一行之间的Word1替换为Word2，并且逐个确认</li>
-    </ul>
-  </li>
-  <li>一般模式下删除
-    <ul>
-      <li>x,X:在一行字中，x为向后删除一个字符（相当于Del键），X为向前删除一个字符（相当于Backspace键），可使用组合键nx（X)连续删除n个字符</li>
-      <li>dd：删除光标所在一整行，可使用ndd删除光标所在行开始的n行</li>
-      <li>d1G：删除光标所在到第一行的所有数据</li>
-      <li>dG：删除从光标所在到最后一行的所有数据</li>
-      <li>d$：删除从光标所在处到该行最后一个数据</li>
-      <li>d0：删除从光标所在处到该行第一个数据</li>
-    </ul>
-  </li>
-  <li>一般模式下复制
-    <ul>
-      <li>yy：复制光标所在行的数据</li>
-      <li>nyy：复制光标所在向下n行</li>
-      <li>y1G：复制光标所在行到第一行的数据</li>
-      <li>yG：复制光标所在行到最后一行的数据</li>
-      <li>y0：复制光标所在字符到该行行首的所有数据</li>
-      <li>y$：复制光标所在字符到该行行尾的所有数据</li>
-      <li>p,P：p为将以复制的数据在光标下一行粘帖，P则为粘帖在光标上一行</li>
-    </ul>
-  </li>
-  <li>一般模式下其他操作
-    <ul>
-      <li>J：将光标所在行与下一行的数据结合成一行</li>
-      <li>u：撤销前一个操作</li>
-      <li>ctrl+r：重做前一个操作</li>
-      <li>.：小数点为重复前一个操作</li>
-      <li>ZZ：保存并且退出</li>
-    </ul>
-  </li>
-  <li>编辑模式
-    <ul>
-      <li>i,I：i为从目前光标所在处开始插入，I为在当前所在行第一个非空格符处开始插入</li>
-      <li>a,A：a为从当前光标所在的下一个字符处开始插入，A为从光标所在行的最后一格字符处开始插入</li>
-      <li>o,O：o为当前所在的下一行处插入新的一行，O为目前光标所在的上一行插入新的一行</li>
-      <li>r,R：r只会替换光标所在字符，R会一直替换知道Esc</li>
-      <li>Esc：退出编辑模式，进入一般模式</li>
-    </ul>
-  </li>
-  <li>命令行模式
-    <ul>
-      <li>:w：将编辑的数据写入硬盘文件中</li>
-      <li>:w!：若文件为只读，强制写入文件，至于能不能写入与文件权限有关</li>
-      <li>:q：离开vim</li>
-      <li>:q!：若修改过文件，又不想保存，使用！强制离开</li>
-      <li>:wq：保存后离开，“:wq!”强制保存后离开</li>
-      <li>:set nu：显示行号</li>
-      <li>:set nonu：取消行号显示</li>
-    </ul>
-  </li>
-</ul>
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                    <a  href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/"><i class="fa fa-newspaper-o"></i>Read All</a>
                 </div>
                 <hr>
               </li>
@@ -831,10 +1133,10 @@ gem 'github-pages',group: :jekyll_plugins
             <span class="previous disable"><i class="fa fa-angle-double-left"></i></span>
             <span class="previous disable"><i class="fa fa-angle-left"></i></span>
           
-          <span class="page_number ">1/2</span>
+          <span class="page_number ">1/3</span>
           
             <a href="/page2" class="next"><i class="fa fa-angle-right"></i></a>
-            <a href="/page2" class="next"><i class="fa fa-angle-double-right"></i></a>
+            <a href="/page3" class="next"><i class="fa fa-angle-double-right"></i></a>
           
         </div>
     </div>
@@ -848,23 +1150,25 @@ gem 'github-pages',group: :jekyll_plugins
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">爬虫环境安装</a></li>
+                    
+                        <li><a href="/2019/03/11/markdown_Guide/">Markdown_Guide</a></li>
+                    
+                        <li><a href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a></li>
+                    
                         <li><a href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记</a></li>
                     
-                        <li><a href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundler安装jekyll</a></li>
+                        <li><a href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术</a></li>
+                    
+                        <li><a href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">最近阅读文章小抄</a></li>
+                    
+                        <li><a href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/">Transformer在NLP词向量预训练中的应用</a></li>
                     
                         <li><a href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a></li>
                     
                         <li><a href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a></li>
                     
                         <li><a href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a></li>
-                    
-                        <li><a href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a></li>
-                    
-                        <li><a href="/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Bash学习笔记</a></li>
-                    
-                        <li><a href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a></li>
-                    
-                        <li><a href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">markdown语法</a></li>
                     
                 </ul>
             </div>
@@ -882,16 +1186,7 @@ gem 'github-pages',group: :jekyll_plugins
                             <span class="name">
                                 notes
                             </span>
-                            <span class="badge">9</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="/category/#linux" class="categories-list-item" cate="linux">
-                            <span class="name">
-                                linux
-                            </span>
-                            <span class="badge">1</span>
+                            <span class="badge">15</span>
                         </a>
                     </li>
                     
@@ -917,21 +1212,21 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       
-                      <a href="/tag/#markdown" style="font-size: 9pt; color: #999;">markdown</a>
+                      <a href="/tag/#markdown" style="font-size: 12pt; color: #666;">markdown</a>
                     
                       
                       
                       
                       
                       
-                      <a href="/tag/#notes" style="font-size: 18pt; color: #000;">notes</a>
+                      <a href="/tag/#linux" style="font-size: 15pt; color: #333;">linux</a>
                     
                       
                       
                       
                       
                       
-                      <a href="/tag/#linux" style="font-size: 12pt; color: #666;">linux</a>
+                      <a href="/tag/#jekyll" style="font-size: 9pt; color: #999;">jekyll</a>
                     
                       
                       
@@ -945,7 +1240,7 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       
-                      <a href="/tag/#DL" style="font-size: 9pt; color: #999;">DL</a>
+                      <a href="/tag/#deep_learning" style="font-size: 9pt; color: #999;">deep_learning</a>
                     
                       
                       
@@ -959,7 +1254,14 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       
-                      <a href="/tag/#nlp" style="font-size: 9pt; color: #999;">nlp</a>
+                      <a href="/tag/#nlp" style="font-size: 18pt; color: #000;">nlp</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#spider" style="font-size: 12pt; color: #666;">spider</a>
                     
                 </div>
             </div>

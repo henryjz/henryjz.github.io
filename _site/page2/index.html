@@ -112,6 +112,8 @@
                 
                     
                 
+                    
+                
             </ul>
         </nav>
     </div>
@@ -124,6 +126,636 @@
         <small>这里记录着我的NLP学习之路</small>
         <hr>
         <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/">Transformer在NLP词向量预训练中的应用</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-02-28
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h4 id="bert发展沿革">BERT发展沿革</h4>
+
+<h5 id="四个部分">四个部分</h5>
+
+<ul>
+  <li>回顾Transformer的网络结构、和RNN、RNN的对比</li>
+  <li>介绍ELMo模型语境化的词嵌入，重点介绍其双向语言模型和根据具体语境生成词嵌入的原理</li>
+  <li>介绍三种使用Transformer作为特征提取器的网络：GPT、BERT。分别讨论其思路、原理、输入输出方式、下游任务的匹配方式，介绍他们的联系和区别</li>
+</ul>
+
+<h5 id="一回顾transformer">一：回顾Transformer</h5>
+
+<p>​	RNN的两个缺点：1.并行性能力差；2.捕获长期依赖的能力差</p>
+
+<p>​	第一点：RNN之所以是RNN，能将其和其它模型区分开的最典型标志是：T时刻隐层状态的计算，依赖两个输入，一个是T时刻的句子输入单词Xt，另外一个输入，T时刻的隐层状态St还依赖T-1时刻的隐层状态S(t-1)，这种序列依赖关系使得RNN无法并行计算，只能按着时间步一个单词一个单词往后走。</p>
+
+<p>​	第二点：RNN长期依赖的根本问题是，经过许多阶段传播后的梯度倾向于消失（大部分情况）或爆炸（很少，但对优化过程影响很大）。梯度爆炸可以使用梯度修剪的方式解决。梯度消失的问题在引进LSTM和GRU之后也得到了解决，然而LSTM或者GRU都没有解决RNN无法并行计算的局限性。新的特征提取器Transformer能够同时解决这两个问题。</p>
+
+<p>​	Self attention会让当前输入单词和句子中任意单词发生关系，然后集成到一个embedding向量里，简单来说就是每个单词都会产生三个向量——query、key、value，当前单词的query向量和其他单词的key向量进行内积操作，并且进行softmax归一化之后会得到当前单词和其他单词的注意力打分，然后使用注意力打分对所有的单词的值向量做加权求和。Transformer是用位置函数来进行位置编码的。Self attention层的输出会传递到前馈（feed-forward）神经网络中，每个位置的单词对应的前馈神经网络都完全一样，不是共享参数的而是各自独立的。前馈神经网络的输出就是对于特定单词想要得到的最终的词嵌入。</p>
+
+<h5 id="二语境化的词嵌入elmo">二：语境化的词嵌入ELMo</h5>
+
+<p><strong>《ELMO：Deep contextualized word representations》</strong>是NAACL 2018的最佳论文，全称为Embedding from Language Models，它解决了以往使用RNN做为特征提取器的Word Embedding网络的一个没有解决的问题：语义多样性的问题，比如一个单词“bank”“有多种含义，取决于它的上下文是什么。ELMO的<strong>本质思想</strong>是：先用语言模型学好一个单词的Word Embedding，此时多义词无法区分，不过这没关系。在我实际使用Word Embedding的时候，单词已经具备了特定的上下文了，这个时候我可以根据上下文单词的语义去调整单词的Word Embedding表示，这样经过调整后的Word Embedding更能表达在这个上下文中的具体含义，自然也就解决了多义词的问题了。所以ELMO本身是个根据当前上下文对Word Embedding动态调整的思路。</p>
+
+<p><img src="https://pic4.zhimg.com/80/v2-fe335ea9fdcd6e0e5ec4a9ac0e2290db_hd.jpg" alt="" /></p>
+
+<p>具体的<strong>实现原理</strong>：它的网络结构采用了双层双向LSTM，目前语言模型训练的任务目标是根据单词 <img src="https://www.zhihu.com/equation?tex=W_i" alt="W_i" /> 的上下文去正确预测单词 <img src="https://www.zhihu.com/equation?tex=W_i" alt="W_i" /> ， <img src="https://www.zhihu.com/equation?tex=W_i" alt="W_i" /> 之前的单词序列Context-before称为上文，之后的单词序列Context-after称为下文。图中左端的前向双层LSTM代表正方向编码器，输入的是从左到右顺序的除了预测单词外 <img src="https://www.zhihu.com/equation?tex=W_i" alt="W_i" /> 的上文Context-before；右端的逆向双层LSTM代表反方向编码器，输入的是从右到左的逆序的句子下文Context-after；句子中每个单词都能得到对应的三个Embedding:最底层是单词的Word Embedding，往上走是第一层双向LSTM中对应单词位置的Embedding，这层编码单词的句法信息更多一些；再往上走是第二层LSTM中对应单词位置的Embedding，这层编码单词的语义信息更多一些。之后给予这三个Embedding中的每一个Embedding一个权重a，这个权重可以学习得来，根据各自权重累加求和，将三个Embedding整合成一个。然后将整合后的这个Embedding作为X句在自己任务的那个网络结构中对应单词的输入，以此作为补充的新特征给下游任务使用。</p>
+
+<p><strong>总结</strong>：ELMo使用了双向语言建模的方式使得词嵌入能够获取上下文的信息；ELMo根据具体语境下将单词的三个Embedding融合的方式解决多语义的问题。<strong>不足之处</strong>：BiLSTM的特征提取能力要显著低于Transformer。</p>
+
+<h5 id="三gpt">三：GPT</h5>
+
+<p>GPT是“Generative Pre-Training”的简称，从名字看其含义是指的生成式的预训练。GPT也采用两阶段过程，第一个阶段是利用语言模型进行预训练，第二阶段通过Fine-tuning的模式解决下游任务。上图展示了GPT的预训练过程，其实和ELMO是类似的，主要不同在于两点：首先，特征抽取器不是用的RNN，而是用的Transformer；其次，GPT的预训练虽然仍然是以语言模型作为目标任务，但是采用的是单向的语言模型，ELMO在做语言模型预训练的时候，预测单词 <img src="https://www.zhihu.com/equation?tex=W_i" alt="W_i" /> 同时使用了上文和下文，而GPT则只采用Context-before这个单词的上文来进行预测，而抛开了下文。</p>
+
+<p><img src="https://pic1.zhimg.com/80/v2-5028b1de8fb50e6630cc9839f0b16568_hd.jpg" alt="" /></p>
+
+<p>总结：GPT在BERT之前使用Transformer+两阶段训练的方式获取word Embedding，这种做法已经成为了NLP预训练模型的标准方式，所以GPT的贡献是具有开创性的。但是因为没有使用双向语言模型使得其效果很快被BERT超越，从事后看，BERT本质上也就是比GPT多使用了双向语言模型。</p>
+
+<h5 id="四bert">四：BERT</h5>
+
+<p>BERT=Transformer+双向语言建模预训练+下游任务Fine-tunning</p>
+
+<p>Bert采用和GPT完全相同的两阶段模型，首先是语言模型预训练；其次是使用Fine-Tuning模式解决下游任务。和GPT的最主要不同在于在预训练阶段采用了类似ELMO的双向语言模型，当然另外一点是语言模型的数据规模要比GPT大。</p>
+
+<p><img src="https://pic3.zhimg.com/v2-330788d33e39396db17655e42c7f6afa_r.jpg" alt="" /></p>
+
+<p><strong>第一阶段的预训练</strong></p>
+
+<p>BERT 的创新点在于它将双向 Transformer 用于语言模型，没有使用传统的从左到右或从右到左的语言模型来预训练 BERT，而是使用两个新型无监督预测任务。</p>
+
+<p>任务 #1：Masked LM</p>
+
+<p>在将单词序列输入给 BERT 之前，每个序列中有 15％ 的单词被 [MASK] token 替换。 然后模型尝试基于序列中其他未被 mask 的单词的上下文来预测被掩盖的原单词。</p>
+
+<p>这样就需要：</p>
+
+<ol>
+  <li>在 encoder 的输出上添加一个分类层</li>
+  <li>用嵌入矩阵乘以输出向量，将其转换为词汇的维度</li>
+  <li>用 softmax 计算词汇表中每个单词的概率</li>
+</ol>
+
+<p>BERT 的损失函数只考虑了 mask 的预测值，忽略了没有掩蔽的字的预测。这样的话，模型要比单向模型收敛得慢，不过结果的情境意识增加了。</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/1667471-29bc20334044e169.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/777/format/webp" alt="" /></p>
+
+<p>任务 #2：下一句预测</p>
+
+<p>在 BERT 的训练过程中，模型接收成对的句子作为输入，并且预测其中第二个句子是否在原始文档中也是后续句子。
+ 在训练期间，50％ 的输入对在原始文档中是前后关系，另外 50％ 中是从语料库中随机组成的，并且是与第一句断开的。</p>
+
+<p>为了帮助模型区分开训练中的两个句子，输入在进入模型之前要按以下方式进行处理：</p>
+
+<ol>
+  <li>在第一个句子的开头插入 [CLS] 标记，在每个句子的末尾插入 [SEP] 标记。</li>
+  <li>将表示句子 A 或句子 B 的一个句子 embedding 添加到每个 token 上。</li>
+  <li>给每个 token 添加一个位置 embedding，来表示它在序列中的位置。</li>
+</ol>
+
+<p>为了预测第二个句子是否是第一个句子的后续句子，用下面几个步骤来预测：</p>
+
+<ol>
+  <li>整个输入序列输入给 Transformer 模型</li>
+  <li>用一个简单的分类层将 [CLS] 标记的输出变换为 2×1 形状的向量</li>
+  <li>用 softmax 计算 IsNextSequence 的概率</li>
+</ol>
+
+<p>在训练 BERT 模型时，Masked LM 和 Next Sentence Prediction 是一起训练的，目标就是要最小化两种策略的组合损失函数。</p>
+
+<p><strong>第二阶段微调Fine-tuning</strong></p>
+
+<p>BERT 可以用于各种NLP任务，只需在核心模型中添加一个层，例如：</p>
+
+<ol>
+  <li>在分类任务中，例如情感分析等，只需要在 Transformer 的输出之上加一个分类层</li>
+  <li>在问答任务（例如SQUAD v1.1）中，问答系统需要接收有关文本序列的 question，并且需要在序列中标记 answer。 可以使用 BERT 学习两个标记 answer 开始和结尾的向量来训练Q＆A模型。</li>
+  <li>在命名实体识别（NER）中，系统需要接收文本序列，标记文本中的各种类型的实体（人员，组织，日期等）。 可以用 BERT 将每个 token 的输出向量送到预测 NER 标签的分类层。</li>
+</ol>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/1667471-aa82f64085510604.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/522/format/webp" alt="" /></p>
+
+<ul>
+  <li>句子关系类任务，加上一个起始和终结符号，句子之间加个分隔符即可。对于输出来说，把第一个起始符号对应的Transformer最后一层位置上面串接一个softmax分类层即可。</li>
+  <li>对于分类问题，与GPT一样，只需要增加起始和终结符号，输出部分和句子关系判断任务类似改造；</li>
+  <li>对于序列标注问题，输入部分和单句分类是一样的，只需要输出部分Transformer最后一层每个单词对应位置都进行分类即可。</li>
+  <li>生成类任务,尽管Bert论文没有提，最简单的是直接在单个Transformer结构上加装隐层产生输出，更复杂一点就是使用encoder-decoder结构，编码器和解码器都是用预训练的词嵌入进行初始化。</li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#python" title="Tag: python" rel="tag">python</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>[TOC]</p>
+
+<h3 id="1鸭子模型">1.鸭子模型</h3>
+
+<p>在程序设计中，鸭子类型（duck typing）是动态类型的一种风格。在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由”当前方法和属性的集合”决定。“鸭子测试”可以这样表述:</p>
+
+<blockquote>
+  <p>一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟可以被称为鸭子“</p>
+</blockquote>
+
+<p>在鸭子类型中，关注点在于对象的行为，能作什么；而不是关注对象所属的类型。例如，在不使用鸭子类型的语言中，我们可以编写一个函数，它接受一个类型为”鸭子”的对象，并调用它的”走”和”叫”方法。在使用鸭子类型的语言中，这样的一个函数可以接受一个任意类型的对象，并调用它的”走”和”叫”方法。如果这些需要被调用的方法不存在，那么将引发一个运行时错误。任何拥有这样的正确的”走”和”叫”方法的对象都可被函数接受的这种行为引出了以上表述，这种决定类型的方式因此得名。</p>
+
+<p>鸭子类型通常得益于”不”测试方法和函数中参数的类型，而是依赖文档、清晰的代码和测试来确保正确使用。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#使用鸭子类型处理单个字符串或由字符串组成的可迭代对象
+</span><span class="k">try</span><span class="p">:</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="n">field_names</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">','</span><span class="p">,</span><span class="s">' '</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="k">except</span> <span class="nb">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="n">field_names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">field_names</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#deep_learning" title="Tag: deep_learning" rel="tag">deep_learning</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <ul>
+  <li>人工智能早期，计算机能够迅速解决那些对人类智力来说非常困难的问题。而人工智能的真正挑战在于解决那些对人来说很容易执行，但很难形式化描述的任务，如识别人们所说的话或图像中的脸。</li>
+  <li>深度学习讨论的是一种让计算机从经验中学习，并根据层次化的概念来__理解世界__的解决方案，而每个概念则通过某些相对简单的概念之间的关系来定义</li>
+  <li>人类擅长对事物抽象因而能够认识世界，计算机则只能做一些形式化的数据处理，人工智能要做的就是通过形式化的数据处理__从另一条路径__达到认识世界的目的</li>
+  <li>深度学习
+    <ul>
+      <li>计算机难以理解原始感官输入数据的含义，如表示为像素值集合的图像。将一组像素映射到对象标识的函数非常复杂。</li>
+      <li>深度学习将所需的复杂映射分解为一系列嵌套的简单映射（每个模型的不同层描述）
+        <ul>
+          <li>可见层：包含我们能观察到的变量</li>
+          <li>隐藏层：它们的值不再数据中给出，所以称为隐藏层。模型必须确定那些概念有利于解释观察数据中关系</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>课程组织
+    <ul>
+      <li>介绍基本的数学工具和机器学习的概念</li>
+      <li>介绍最成熟的深度学习算法</li>
+      <li>讨论某些具有展望性的想法，他们被广泛的认为是深度学习未来的研究重点</li>
+    </ul>
+  </li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="硕士班研究所新生手册观点收获">硕士班研究所新生手册(观点收获)</h1>
+
+<p>Issued by and valid in the PPSC Lab.Directed by Prof.MH.Perng</p>
+
+<h3 id="论文的要求">论文的要求</h3>
+
+<ul>
+  <li>论文的主要内容，是叙述一套方法在一个特定场合中的应用</li>
+  <li>这套方法必须要有所创新或突破，并因而对学术界有所贡献。因此，他或者是解决既有问题的新方法，或者是既有方法的新应用，或者是以一个新的方法开启一整片新的应用领域。</li>
+  <li>提出足够的证据来让读者信服说：针对这个应用场合，你所提出的方法确实比文献中一切方法有更优越之处</li>
+  <li>清楚的指出这个方法在应用上的限制，并且提出充分证据来说服读者，任何应用场合，只要能满足你所提出来的假设（前提）条件，你的方法一定适用，而且你所描述的有点就一定存在</li>
+  <li>清楚指出这个方法的限制和可能的缺点</li>
+  <li>清楚地交代这个方法的应用程序以及所有仿真或实验结果的过程，使得这个专业领域内的任何读者，都有办法根据你的描述，在他的实验室中复制出你的研究成果。</li>
+  <li>你对这个方法中每一个步骤都必须要提供充分的理由说明“为什么非如此不可”。</li>
+  <li>论文必须在适当的位置清楚注明所有和你研究之题目相关的文献，而且是和你所研究的问题相关的学术文献（尤其是学术期刊论文），你都有必要全部找出来（如果漏掉就是你的过失），仔细读过。假如在学位论文口试时，有口试委员指出有一篇既有文献，在你所讨论的问题中处理的比你的方法还好，这就构成你论文无法及格的充分理由</li>
+  <li>所谓对学术界的贡献指的是：把你的所有研究成果扣除学术界已经发表的所有成果（不管你实际有没有参考过，没有参考过也算是你的重大过失），剩下的就是你的贡献。假如这个贡献太少，也构成你的论文无法及格的充分理由。</li>
+</ul>
+
+<h3 id="完成硕士论文所需要的能力">完成硕士论文所需要的能力</h3>
+
+<ul>
+  <li>数据检索的能力
+    <ul>
+      <li>有能力利用数据检索系统（教育部[博硕士论文检索系统]、Compendex和SCI这三套论文数据索引系统），查处所有相关的论文，而无任何遗漏</li>
+      <li>关键词很重要，假如你用的关键词太一般化，通常找到的集合会太大，除了所有相关文献之外还加上好几十倍的不相关的文献</li>
+    </ul>
+  </li>
+  <li>资料筛选能力：在你找到的百来篇和你的研究子题直接且密切相关的论文中，你如何只读论文的题目、摘要、简介和结论，而还没有完全看懂内文，就准确的判断这篇论文中是否值得你进一步参考的内容，以便快速的把需要仔细读完的论文从数百篇为二三十篇。</li>
+  <li>期刊论文的阅读能力：硕士毕业生和大学毕业生的最大区别就是：学士只需要吸收系统的能力（也就是读别人整理、组织好的知识，典型的就是课本），但硕士则学习过自己从无组织的知识中检索、筛选、组织知识的能力</li>
+  <li>期刊论文的分析能力
+    <ul>
+      <li>一个严格训练过的合格硕士，他做事的时候应该是不需要有人在背后替他做检证，他自己就应该要有能力分析自己的优缺点，主动向上级或者平行单位要求支持。其实，至少要能够完成这个能力，才勉强可以说你是有“独立自主的判断能力。</li>
+    </ul>
+  </li>
+  <li>创新的能力
+    <ul>
+      <li>大学毕业生的主要能力是吸收既有知识，但硕士毕业生却应该要有能力创造知识</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="为什么要坚持培养阅读与分析期刊论文的能力">为什么要坚持培养阅读与分析期刊论文的能力</h3>
+
+<ul>
+  <li>对于那些之想学现成技术而不想研究方法的学生，十年后可能会因为不会读期刊论文而面临提前退休</li>
+  <li>技术的创新不是完全靠天才，只要学会分析期刊论文的优缺点和一套技术创新的方法，几乎就可以轻易的组合出你所需要的绝大部分创意。</li>
+</ul>
+
+<h3 id="期刊论文的分析技巧和程序">期刊论文的分析技巧和程序</h3>
+
+<ul>
+  <li>Abstract
+    <ul>
+      <li>说明这篇论文的主要贡献、方法特色与主要内容，需要培养只看Abstract和Inroduction便可以判断出这篇论文和你研究的有没有直接关系的能力，从而决定要不要把它读完。</li>
+    </ul>
+  </li>
+  <li>Introduction
+    <ul>
+      <li>功能是介绍问题的背景和起源，交代前人在这个题目上已经有过的主要贡献和遗留的问题</li>
+    </ul>
+  </li>
+  <li>main body
+    <ul>
+      <li>这篇论文的假设及其成立的难度以判断其参考价值</li>
+      <li>在这些假设下，这篇论文的主要好处</li>
+      <li>这些好处主要表现在那些公式的那些项目的简化上，从中可以评估出这个方法使用上的方便程度或者计算效率</li>
+      <li>不需要完全弄懂一片论文所有的恒等式推导过程或者把整篇论文细细读完，只需要把确定会用到的部分完全搞懂就好，不确定或者不会用到的地方，只需要了解他的主要点子就够了。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="论文阅读的补充说明">论文阅读的补充说明</h3>
+
+<ul>
+  <li>硕士生开始读论文的时候容易犯的毛病：
+    <ul>
+      <li>老是想逐行读懂，有一行读不懂就受不了</li>
+      <li>不敢发挥自己的想象，读论文像在读教科书，论文没写的就不会，自己去猜测或想象的时候，老怕弄错作者的意思</li>
+    </ul>
+  </li>
+  <li>每次读论文要呆着问题去阅读，只图你要回答的问题。因此要有选择的阅读，由粗而细，一定是一整批一起读懂到某个层次，而不是逐篇逐篇的一次读懂</li>
+</ul>
+
+<h3 id="论文报告的要求与技巧">论文报告的要求与技巧</h3>
+
+<ul>
+  <li>第一页列出论文的题目、作者、论文出处与年份</li>
+  <li>每一页幻灯片只能讲一个观念</li>
+  <li>说明这篇论文所研究的问题的重点，以及这个问题可能和工业界的哪些应用有关</li>
+  <li>清楚交代这篇论文的主要假设、主要公式与主要应用方式（以及应用上可能的解题流程）</li>
+  <li>说明这篇论文的范例（simulation examples and/or experiments)，预测这个方法在不同场合可能会有的准确度或者好用的程度</li>
+  <li>你个人的分析、评价与批评，包括：
+    <ul>
+      <li>这篇论文的最主要创意是什么？</li>
+      <li>这些创意在应用上有什么好处？</li>
+      <li>这些创意和应用上的好处是哪些条件下才能成立？</li>
+      <li>这篇论文最主要的缺点或局限是什么？</li>
+      <li>这些缺点或局限在应用上有什么坏处？</li>
+      <li>这些缺点和应用上的坏处是因为哪些因素而引入的？</li>
+      <li>你建议学长学弟的时候参考这篇论文的哪些部分（点子）</li>
+    </ul>
+  </li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="vim的使用">Vim的使用</h1>
+
+<ul>
+  <li>3种模式
+    <ul>
+      <li>一般模式：移动光标、删除字符或者整行，复制粘帖数据</li>
+      <li>编辑模式：按下“i,I,o,O,a,A,r,R”可以进入编辑模式，按下Esc可以推出编辑模式</li>
+      <li>命令行模式：输入”:,/,?”可以进入命令行模式，进行数据查找、大量替换字符、保存离开等功能</li>
+    </ul>
+  </li>
+  <li>一般模式下移动光标的方法
+    <ul>
+      <li>左右：h，l，使用组合键5h即可多列跳跃</li>
+      <li>上下：k，j，使用组合键5j即可多行跳跃</li>
+      <li>行首（行尾）：0（$）</li>
+      <li>文件首（尾）：gg（G）</li>
+      <li>向下（上）翻页：ctrl+f（b）</li>
+    </ul>
+  </li>
+  <li>一般模式下查找与替换
+    <ul>
+      <li>/word：向下寻找名称为word 的字符串</li>
+      <li>n：查找下一个</li>
+      <li>N：查找上一个</li>
+      <li>:n1,n2s/Word1/Word2/g：将n1和n2行之间的Word1替换为Word2</li>
+      <li>:1,$s/Word1/Word2/g：将第一行和最后一行之间的Word1替换为Word2</li>
+      <li>:1,$s/Word1/Word2/gc：将第一行和最后一行之间的Word1替换为Word2，并且逐个确认</li>
+    </ul>
+  </li>
+  <li>一般模式下删除
+    <ul>
+      <li>x,X:在一行字中，x为向后删除一个字符（相当于Del键），X为向前删除一个字符（相当于Backspace键），可使用组合键nx（X)连续删除n个字符</li>
+      <li>dd：删除光标所在一整行，可使用ndd删除光标所在行开始的n行</li>
+      <li>d1G：删除光标所在到第一行的所有数据</li>
+      <li>dG：删除从光标所在到最后一行的所有数据</li>
+      <li>d$：删除从光标所在处到该行最后一个数据</li>
+      <li>d0：删除从光标所在处到该行第一个数据</li>
+    </ul>
+  </li>
+  <li>一般模式下复制
+    <ul>
+      <li>yy：复制光标所在行的数据</li>
+      <li>nyy：复制光标所在向下n行</li>
+      <li>y1G：复制光标所在行到第一行的数据</li>
+      <li>yG：复制光标所在行到最后一行的数据</li>
+      <li>y0：复制光标所在字符到该行行首的所有数据</li>
+      <li>y$：复制光标所在字符到该行行尾的所有数据</li>
+      <li>p,P：p为将以复制的数据在光标下一行粘帖，P则为粘帖在光标上一行</li>
+    </ul>
+  </li>
+  <li>一般模式下其他操作
+    <ul>
+      <li>J：将光标所在行与下一行的数据结合成一行</li>
+      <li>u：撤销前一个操作</li>
+      <li>ctrl+r：重做前一个操作</li>
+      <li>.：小数点为重复前一个操作</li>
+      <li>ZZ：保存并且退出</li>
+    </ul>
+  </li>
+  <li>编辑模式
+    <ul>
+      <li>i,I：i为从目前光标所在处开始插入，I为在当前所在行第一个非空格符处开始插入</li>
+      <li>a,A：a为从当前光标所在的下一个字符处开始插入，A为从光标所在行的最后一格字符处开始插入</li>
+      <li>o,O：o为当前所在的下一行处插入新的一行，O为目前光标所在的上一行插入新的一行</li>
+      <li>r,R：r只会替换光标所在字符，R会一直替换知道Esc</li>
+      <li>Esc：退出编辑模式，进入一般模式</li>
+    </ul>
+  </li>
+  <li>命令行模式
+    <ul>
+      <li>:w：将编辑的数据写入硬盘文件中</li>
+      <li>:w!：若文件为只读，强制写入文件，至于能不能写入与文件权限有关</li>
+      <li>:q：离开vim</li>
+      <li>:q!：若修改过文件，又不想保存，使用！强制离开</li>
+      <li>:wq：保存后离开，“:wq!”强制保存后离开</li>
+      <li>:set nu：显示行号</li>
+      <li>:set nonu：取消行号显示</li>
+    </ul>
+  </li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
             
               <li>
                 <h2>
@@ -166,8 +798,6 @@
 <span class="pageTag">
   <i class="fa fa-tags"></i>
   
-    
-        <a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a>&nbsp;
     
         <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
     
@@ -317,409 +947,6 @@
                 <hr>
               </li>
             
-              <li>
-                <h2>
-                  <a class="post-link" href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-15
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>&nbsp;
-    
-        <a href="/category/#linux" title="Category: linux" rel="category">linux</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <h1 id="鸟哥的linux私房菜">鸟哥的Linux私房菜</h1>
-
-<h2 id="一linux文件目录与磁盘格式">一、Linux文件、目录与磁盘格式</h2>
-
-<h3 id="11学习资源">1.1学习资源</h3>
-
-<ul>
-  <li>推荐的网站
-    <ul>
-      <li>Study-Area:http://www.study-area.org</li>
-      <li>鸟哥的私房菜馆：http://linux.vbird.org</li>
-      <li>卧龙大师的网络技术文件：http://linux.tnc.edu.cn.tw/techdoc/</li>
-      <li>中国linux团队：http://www.linux.org.cn/</li>
-      <li>狼主的网络实验室：http://netlab.kh.edu.cn/inde.htm</li>
-      <li>吴仁志的文件集：http://www.cses.tcc.edu.cn/~chihwu/</li>
-      <li>国人CLE计划：<a href="http://cle.linux.org.tw/">http://cle.linux.org.tw/</a></li>
-      <li>自由软件技术交流网： <a href="http://freesf.tnc.edu.tw/index.php">http://freesf.tnc.edu.tw/index.php</a></li>
-      <li>B2D: <a href="http://b2d.tnc.edu.tw/">http://b2d.tnc.edu.tw/</a></li>
-      <li>KNOPPIX：<a href="http://www.knoppix.net/">http://www.knoppix.net/</a></li>
-      <li>中文 KNOPPIX: <a href="http://knoppix.tnc.edu.tw/">http://knoppix.tnc.edu.tw/</a></li>
-      <li>FHS: <a href="http://www.pathname.com/fhs/">http://www.pathname.com/fhs/</a></li>
-      <li>LSB: <a href="http://www.linuxbase.org/">http://www.linuxbase.org/</a></li>
-      <li>计算机基础 (http://www.study-area.org/compu/compu.htm)</li>
-      <li>网络基础 (http://www.study-area.org/network/network.htm)</li>
-      <li><a href="http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php">http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php</a>About Internet</li>
-      <li>大南国小（林克敏主任文件集） http://freebsd.lab.mlc.edu.tw/</li>
-      <li>张毓麟先生的小文章 http://www.se.ntou.edu.tw/~ylchang/MyDocuments/index.html</li>
-      <li>台湾 Linux 社群  http://www.linux.org.tw/</li>
-    </ul>
-  </li>
-  <li>常用的FAQ网站
-    <ul>
-      <li>Linux 自己的文件数据： /usr/share/doc (在你的 PC 中)</li>
-      <li>CLDP 中文文件计划 <a href="http://www.linux.org.tw/CLDP/">http://www.linux.org.tw/CLDP/</a></li>
-      <li>Unix 的一般常见问题  <a href="http://www.csie.nctu.edu.tw/document/unixfaq/">http://www.csie.nctu.edu.tw/document/unixfaq/</a></li>
-      <li>The LinuxDocumentation Project：<a href="http://www.tldp.org/">http://www.tldp.org/</a></li>
-      <li>『提问的智慧<a href="http://phorum.vbird.org/viewtopic.php?t=96%E3%80%8F">http://phorum.vbird.org/viewtopic.php?t=96』</a></li>
-      <li>李果正先生之 GNU/Linux 初学者之旅： http://info.sayya.org/~edt1023/linux_entry.html</li>
-      <li>鸟哥备份：http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_3.php</li>
-      <li>信息人的有效学习(洪朝贵教授网页)：http://www.cyut.edu.tw/~ckhung/published/018learn.shtml</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="12安装">1.2安装</h2>
-
-<ul>
-  <li>分区
-    <ul>
-      <li>按照顺序：/boot、/、/usr、/var、/tmp</li>
-      <li>/home</li>
-      <li>Swap</li>
-    </ul>
-  </li>
-  <li>引导程序
-    <ul>
-      <li>引导程序grup最好安装地点选择整块磁盘的文件名</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="13系统终端使用">1.3系统终端使用</h2>
-
-<ul>
-  <li>命令行模式：
-    <ul>
-      <li>x-window提供的终端：terminal</li>
-      <li>ctrl+alt+[F1]~[F6]：进入tty1~tty6的操作界面环境，推出crtl+alt+F7</li>
-      <li>linux下区分大小写</li>
-      <li>使用过的命令保存在.bash_history文件中</li>
-      <li>ctrl+c命令能使当前终端运行的程序停止</li>
-      <li>ctrl+d命代表键盘输入结束，可以用来代替exit，也就是退出的功能</li>
-    </ul>
-  </li>
-  <li>man命令
-    <ul>
-      <li>man [数字] 命令：可以查到相应命令的手册，数字代表不同用户环境下该命令的用法</li>
-      <li>man -f 命令：寻找命令相关的手册</li>
-      <li>man -k 关键字：寻找关键字相关命令的手册</li>
-      <li>具体某一个软件手册可以到/usr/share/doc下去寻找对应的文件夹</li>
-    </ul>
-  </li>
-  <li>正确的关机方法
-    <ul>
-      <li>who：查看当前在线的用户</li>
-      <li>netstat -a：查看网络的联机状态</li>
-      <li>ps -aux：查看后台</li>
-      <li>sync：将数据同步写入硬盘</li>
-      <li>正确的关机命令：shundown</li>
-      <li>重启：reboot</li>
-    </ul>
-  </li>
-  <li>重启x-window：ctrl+alt+backspace</li>
-  <li>修改文件的权限
-    <ul>
-      <li>用户类别：u:user	;g:group	;o:others</li>
-      <li>权限类别：r:read ;w:write ;x:execute</li>
-      <li>操作类别：+：增加；-：减少；=：设置</li>
-      <li>chgrp 用户组 文件：修改文件的用户组</li>
-      <li>chown 所有者:用户组 文件：修改文件的所有者和用户组</li>
-      <li>chmod xyz 文件：xyz为数字，r：4;w：2;x：1;x=7=4+2+1表示rwx三种权限都有，以此类推</li>
-      <li>chmod u=rwx,go=rx 文件;u：user;g：group;o：others</li>
-      <li>chmod  u+w 文件：user增加对文件写权限</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="14目录结构">1.4目录结构</h2>
-
-<ul>
-  <li>FHS定义的目录规范
-    <ul>
-      <li>/（root，根目录）：与开机系统有关</li>
-      <li>/usr（UNIX software resource）：与软件安装/执行有关</li>
-      <li>/var（variable）：与系统运行过程有关</li>
-    </ul>
-  </li>
-  <li>/目录内容
-    <ul>
-      <li>/bin：放置单用户维护模式下还能被操作的命令</li>
-      <li>/boot：放置开机会使用到的文件，包括Linux内核文件以及开机菜单的开机所需要的配置文件等</li>
-      <li>/dev：放置设备与接口设备文件</li>
-      <li>/etc：放置系统的配置文件</li>
-      <li>/home：系统默认的用户主文件夹</li>
-      <li>/lib：放置开机时会使用的函数库</li>
-      <li>/media：放置可删除的设备</li>
-      <li>/mnt：用于暂时挂载某些额外的设备</li>
-      <li>/opt：给第三方软件放置的目录。不过在以前的linux 系统中，我们还是习惯放置在usr/local目录下</li>
-      <li>/root：系统管理员（root）的主文件夹，在进入单用户维护模式而仅挂载根目录时，我们能够访问到</li>
-      <li>/sbin：放置系统开机过程中需要的系统执行文件</li>
-      <li>/srv：可视为service的缩写，是一些网络服务启动后所需要取用的数据目录</li>
-      <li>/tmp：让用户或者正在执行的程序暂时放置文件爱你的地方</li>
-      <li>/proc：该目录本身是一个虚拟文件系统，他放置的内容都是在内存中，因此目录本身不占用内存空间</li>
-      <li>/sys：同上，也是一个虚拟文件系统，包括目前已加载的内核模块和内核检验到的硬件设备信息，同样不占用内存</li>
-      <li>/etc、/bin、/dev、/lib、/sbin这五个目录不能/目录分开，因为开机是只用根目录会被挂载，而以上目录与系统启动有着重要关系，必须在开机时能够访问到</li>
-    </ul>
-  </li>
-  <li>/usr目录内容
-    <ul>
-      <li>/usr一放置的数据属于可分享的与不可变动的，是UNIX Software Resource的缩写</li>
-      <li>/usr/X11R6/：X Window系统重要数据所放置的目录</li>
-      <li>/usr/bin：绝大部分用户可使用命令都放在这里。注意它与/bin的不同之处（是否与开机过程有关）</li>
-      <li>/usr/include/：放置C/C++等语言的头文件和包含文件，当我们以tarball方式安装软件时会使用到这里的许多包含文件</li>
-      <li>/usr/lib：包含各应用软件的函数库、目标文件以及不被一般用户惯用的执行文件或脚本</li>
-      <li>/usr/local：放置系统管理员自行安装自己下载的软件（非distribution默认提供者）</li>
-      <li>/usr/sbin：非系统正常运行所需要的系统命令，最常见的就是某些网络服务器软件的服务命令（daemon）</li>
-      <li>/usr/src：一般源码建议放置在这里。至于内核源码建议放置在/usr/src/linux/目录下</li>
-    </ul>
-  </li>
-  <li>/var目录内容
-    <ul>
-      <li>/var系统运行后开始暂用硬盘容量，包括缓存（cache）、登录文件（logfile）以及某些软件运行所产生的文件（lock file，run file），或者例如MYSQL数据库的文件</li>
-      <li>/var/cache/：应用程序本身运行过程中会产生的暂存文件</li>
-      <li>/var/lib/：程序执行过程中，需要使用到的数据文件位置，软件有各自的目录</li>
-      <li>/var/lock/：存放某些设备或者文件资源的使用锁文件</li>
-      <li>/var/log：登录文件放置的目录</li>
-      <li>/var/mail/：放置个人电子邮件信箱的目录，不过这个目录也被放置到val/spool/mail/目录中，通常这两个目录互为链接文件</li>
-      <li>/var/run/：某些程序或者服务启动后，会将他们的PID放置这个目录下</li>
-      <li>/var/spool/：存放程序使用的数据的队列</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="141目录与路径">1.4.1目录与路径</h3>
-
-<ul>
-  <li>常见处理目录和文件的命令
-    <ul>
-      <li>cd：切换目录，重要：-表示前一个工作目录</li>
-      <li>pwd：现实当前目录</li>
-      <li>mkdir：新建一个新的目录</li>
-      <li>rmdir：删除一个空的目录</li>
-      <li>cp：复制文件或目录</li>
-      <li>dd：命令十分强大，可以用于备份，设置制作启动盘</li>
-      <li>rm：删除文件或目录</li>
-      <li>mv：移动文件或目录</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="15文件操作">1.5文件操作</h3>
-
-<ul>
-  <li>文件创建或者查看
-    <ul>
-      <li>cat：由第一行开始显示文件内容</li>
-      <li>tac：从最后一行开始显示，可以看出tac是cat的倒写</li>
-      <li>nl：显示的时候顺便输出行号</li>
-      <li>more：一页一页地显示文件内容</li>
-      <li>less：与more相似，但是比more更好的是，它可以往前翻页</li>
-      <li>head：只看头几行</li>
-      <li>tail：只看结尾几行</li>
-      <li>od：以二进制的方式读取文件内容</li>
-      <li>touch：创建文件</li>
-      <li>file：查看文件类型</li>
-    </ul>
-  </li>
-  <li>文件的查询
-    <ul>
-      <li>which ：寻找“执行文件”的位置</li>
-      <li>type：判断“执行文件”的类型</li>
-      <li>whereis：查找文件的绝对地址</li>
-      <li>locate：查找文件的绝对地址</li>
-      <li>find：可以查询时间、用户、类型、权限、大小相关的文件，功能强大，但是需要扫描磁盘，一次速度略慢</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="16磁盘管理">1.6磁盘管理</h3>
-
-<ul>
-  <li>磁盘管理常用命令
-    <ul>
-      <li>df：查看磁盘占用情况</li>
-      <li>fdisk：磁盘分区</li>
-      <li>mkfs：磁盘格式化</li>
-      <li>fsck、badblocks：磁盘检验，通常只有身为root且你的文件系统有问题的时候才使用这个命令</li>
-      <li>mount：磁盘挂载</li>
-      <li>unmount：磁盘卸载</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="17常见的压缩命令">1.7常见的压缩命令</h3>
-
-<ul>
-  <li>常见的压缩格式：
-    <ul>
-      <li>.Z：compress程序压缩的命令</li>
-      <li>.gz：gzip程序压缩的文件</li>
-      <li>.bz2：bzip2程序压缩的文件</li>
-      <li>.tar：tar程序打包的数据，并没有压缩过</li>
-      <li>.tar.gz：tar程序打包的文件，其中经过gzip的压缩</li>
-      <li>.tar.bz2：tar程序打包的文件，其中经过bzip2的压缩</li>
-    </ul>
-  </li>
-  <li>压缩与解压缩命令
-    <ul>
-      <li>gzip：压缩并且删除源文件</li>
-      <li>gzip -d：解压缩并且删除源文件</li>
-      <li>zcat：查看压缩文件内容</li>
-      <li>bzip2：为取代gzip而开发的压缩命令，效果比gzip更好，-k选项能够保留源文件</li>
-      <li>bzip2 -d：解压缩</li>
-      <li>bzcat：查看压缩文件的内容</li>
-      <li>tar -jcv -f filename.tar.bz2 要被压缩的文件：通过bzip2的支持进行压缩，排除特定文件可用–exclude=file</li>
-      <li>tar -zcv -f filename.tar.gz 要被压缩的文件：通过gzip的支持进行压缩</li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td>tar -jtv -f 文件路径：查阅tar文件中的数据内容（可查看文件名），后面加上</td>
-              <td>grep ’string‘可以查看tar包中符合搜索项的文件</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-      <li>tar -jxv -f 文件路径：解压缩bzip2压缩的tar文件，后面加上带解开文件名即可解压缩指定文件</li>
-      <li>tar -zxv -f 文件路径：解压缩gzip压缩的tar文件，后面同上</li>
-    </ul>
-  </li>
-</ul>
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
-              <li>
-                <h2>
-                  <a class="post-link" href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">markdown语法</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-11
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#markdown" title="Tag: markdown" rel="tag">markdown</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <p>This is an H1</p>
-
-<hr />
-
-<p>为什么===+回车不会变成横线</p>
-
-<p>====</p>
-
-<p>这是H1</p>
-
-<p>这是 H2</p>
-
-<p>这是 H6</p>
-
-<p>尾部加上#只是为了美观，没有实质作用</p>
-
-<p>This is  a blockquote with two paragraphs.Lorem ipsum dolor sit amet,</p>
-
-<p>consectetuer adipiscing elit.Aliquam hendrefit mi posuere lectus.</p>
-
-<p>Vestibulum enim wisi,viverra nec,fringilla in,laoreet vitae,risus.</p>
-
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
         </ul>
 
 
@@ -730,10 +957,10 @@
             <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
             <a href="/" class="previous"><i class="fa fa-angle-left"></i></a>
           
-          <span class="page_number ">2/2</span>
+          <span class="page_number ">2/3</span>
           
-            <span class="next disable"><i class="fa fa-angle-right"></i></span>
-            <span class="next disable"><i class="fa fa-angle-double-right"></i></span>
+            <a href="/page3" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page3" class="next"><i class="fa fa-angle-double-right"></i></a>
           
         </div>
     </div>
@@ -747,23 +974,25 @@
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">爬虫环境安装</a></li>
+                    
+                        <li><a href="/2019/03/11/markdown_Guide/">Markdown_Guide</a></li>
+                    
+                        <li><a href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a></li>
+                    
                         <li><a href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记</a></li>
                     
-                        <li><a href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundler安装jekyll</a></li>
+                        <li><a href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术</a></li>
+                    
+                        <li><a href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">最近阅读文章小抄</a></li>
+                    
+                        <li><a href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/">Transformer在NLP词向量预训练中的应用</a></li>
                     
                         <li><a href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a></li>
                     
                         <li><a href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a></li>
                     
                         <li><a href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a></li>
-                    
-                        <li><a href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a></li>
-                    
-                        <li><a href="/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Bash学习笔记</a></li>
-                    
-                        <li><a href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a></li>
-                    
-                        <li><a href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">markdown语法</a></li>
                     
                 </ul>
             </div>
@@ -781,16 +1010,7 @@
                             <span class="name">
                                 notes
                             </span>
-                            <span class="badge">9</span>
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="/category/#linux" class="categories-list-item" cate="linux">
-                            <span class="name">
-                                linux
-                            </span>
-                            <span class="badge">1</span>
+                            <span class="badge">15</span>
                         </a>
                     </li>
                     
@@ -816,21 +1036,21 @@
                       
                       
                       
-                      <a href="/tag/#markdown" style="font-size: 9pt; color: #999;">markdown</a>
+                      <a href="/tag/#markdown" style="font-size: 12pt; color: #666;">markdown</a>
                     
                       
                       
                       
                       
                       
-                      <a href="/tag/#notes" style="font-size: 18pt; color: #000;">notes</a>
+                      <a href="/tag/#linux" style="font-size: 15pt; color: #333;">linux</a>
                     
                       
                       
                       
                       
                       
-                      <a href="/tag/#linux" style="font-size: 12pt; color: #666;">linux</a>
+                      <a href="/tag/#jekyll" style="font-size: 9pt; color: #999;">jekyll</a>
                     
                       
                       
@@ -844,7 +1064,7 @@
                       
                       
                       
-                      <a href="/tag/#DL" style="font-size: 9pt; color: #999;">DL</a>
+                      <a href="/tag/#deep_learning" style="font-size: 9pt; color: #999;">deep_learning</a>
                     
                       
                       
@@ -858,7 +1078,14 @@
                       
                       
                       
-                      <a href="/tag/#nlp" style="font-size: 9pt; color: #999;">nlp</a>
+                      <a href="/tag/#nlp" style="font-size: 18pt; color: #000;">nlp</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#spider" style="font-size: 12pt; color: #666;">spider</a>
                     
                 </div>
             </div>

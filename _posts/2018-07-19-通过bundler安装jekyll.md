@@ -1,7 +1,10 @@
 ---
 layout: post
-comments: true
+title:  "通过bundle安装jekyll"
+date: 2018-07-15 21:35:10 +0800
 categories: notes
+tags: jekyll
+author: Henryzhou
 ---
 
 - **新建一个空目录，作为blog的根目录。**
