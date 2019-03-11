@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Bash学习笔记</title>
-    <meta name="description" content="Bash学习  history命令会列出记录的所有bash命令          !number：执行.bash_history文件中第n条命令      !!：执行上一条命令      !command：执行以command开头的最近的一条命令        bash下组合按键          ctrl+C：...">
+    <title>Pytorch环境搭建</title>
+    <meta name="description" content="Pytorch 环境搭建PyTorch 的安装十分简单，根据 PyTorch 官网，对系统选择和安装方式等灵活选择即可。 这里以 anaconda 为例，简单的说一下步骤和要点。 国内安装 anaconda 建议使用清华或者中科大 [http://mirrors.ustc.edu.cn/help/anaconda...">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
     <link rel="stylesheet" href="/css/main.css ">
-    <link rel="canonical" href="http://localhost:4000/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+    <link rel="canonical" href="http://localhost:4000/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
     <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
 
 
@@ -122,11 +122,11 @@
 
         <div class="page clearfix" post>
     <div class="left">
-        <h1>Bash学习笔记</h1>
+        <h1>Pytorch环境搭建</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i>2018-07-16
+                <i class="fa fa-calendar"></i>2019-03-11
             </div>
 
             <div class="label-card">
@@ -164,8 +164,8 @@
   <i class="fa fa-tags"></i>
   
     
-        <!--a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a-->
-        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
+        <!--a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a-->
+        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>
     
   
 
@@ -176,137 +176,71 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-        <h1 id="bash学习">Bash学习</h1>
+        <p><strong>Pytorch 环境搭建</strong></p>
 
-<ul>
-  <li>history命令会列出记录的所有bash命令
-    <ul>
-      <li>!number：执行.bash_history文件中第n条命令</li>
-      <li>!!：执行上一条命令</li>
-      <li>!command：执行以command开头的最近的一条命令</li>
-    </ul>
-  </li>
-  <li>bash下组合按键
-    <ul>
-      <li>ctrl+C：终止目前的命令</li>
-      <li>ctrl+D：输入结束（EOF)</li>
-      <li>ctrl+Z：暂停目前的命令</li>
-    </ul>
-  </li>
-  <li>通配符
-    <ul>
-      <li>*：代表0到无穷多个任意字符</li>
-      <li>?：代表一定有一个任意字符</li>
-      <li>[]：代表一定有一个在中括号内的字符（非任意字符），例如[abcd]，代表一定有一个字符，可能是a,b,c,d这四个中任意一个</li>
-      <li>[-]：若有减号在中括号内，代表在编码顺序内的所有顺序，例如[0-9]代表0到9之间的所有数字</li>
-      <li>[^]：若中括号内的第一个字符为指数符号^，那表示原向选择，例如[ ^abc]代表一定有一个字符，只要是非a,b,c的其他字符就接受的意思</li>
-    </ul>
-  </li>
-  <li>bash其他符号
-    <ul>
-      <li>#：注释符号，后面内容不执行</li>
-      <li>\：转移符号</li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td>：管道符号，分隔两个管道命令的界定</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-      <li>～：用户的主文件夹</li>
-      <li>;：连续命令执行分隔符</li>
-      <li>$：变量前导符</li>
-      <li>&amp;：作业控制，将命令变成背景下工作</li>
-      <li>！：逻辑运算符非</li>
-      <li>/：目录符号</li>
-      <li>&gt;,»：数据流重定向，分别是“替换”和“累加”,1&gt;表示输出正确信息，2&gt;表示输出错误信息，同时输出则为2&gt;&amp;1</li>
-      <li>&lt;,«：数据流重定向，输入导向</li>
-      <li>``：两个反单引号中间为先执行命令，也可使用$()</li>
-    </ul>
-  </li>
-  <li>数据管理命令
-    <ul>
-      <li>cut：对于比较规整的信息，cut可以截取每一行特定部分的字符</li>
-      <li>grep：对输出结果进行查询筛选</li>
-      <li>sort：对输入内容进行排序</li>
-      <li>uniq：对输入去重的操作</li>
-      <li>wc：对输入进行统计计数</li>
-      <li>tee：同时将数据屏幕输出和保存到文件</li>
-      <li>xargs：将输入通过空格符或者断行符分开作为参数</li>
-      <li>-的用途：有些命令需要用到文件名作为参数，可以用-代指srdout和stdin输出的文件名</li>
-    </ul>
-  </li>
-  <li>正则表达式
-    <ul>
-      <li>字符集
-        <ul>
-          <li>[:alnum:]：代表英文大小写字符及数字，即0-9,A-Z，a-z</li>
-          <li>[:alpha:]：代表任何英文大小写字符，即A-Z,a-z</li>
-          <li>[:blank:]：代表空格键与[Tab]按键</li>
-          <li>[:cntrl:]：代表键盘上面的控制按键，即包括CR，LF，Tab，Del等</li>
-          <li>[:digit:]：代表数字字符，即0-9</li>
-          <li>[:graph:]：除了空格符（空格键与[Tab]按键）外的其他所有按键</li>
-          <li>[:lower:]：代表小写字符，即a-z</li>
-          <li>[:print:]：代表任何可以被打印出来的字符</li>
-          <li>[:punct:]：代表标点符号</li>
-          <li>[:upper:]：代表大写字符，即A-Z</li>
-          <li>[:space:]：任何会产生空白的字符，包括空格键[Tab]CR等</li>
-          <li>[:xdigit:]：代表十六进制的数字类型，因此包括0-9,A-F,a-f等</li>
-        </ul>
-      </li>
-      <li>基础字符表达式与应用
-        <ul>
-          <li>.：代表一定有一个任意字符</li>
-          <li>*：代表重复前一个0到无穷次</li>
-          <li>^word：待查找的字符串在行首</li>
-          <li>word$：待查找的字符串在行尾</li>
-          <li>[list]：从字符集合的RE字符里面找出想要选取的字符</li>
-          <li>[^list]：从字符集合的RE字符里面中找出不要的字符串或范围</li>
-          <li>[n1-n2]：从字符集合的RE字符里面找出想要选取的字符范围</li>
-          <li>[^$]：指定空白行</li>
-          <li>\{n1,n2\}：连续n到m个的前一个RE字符，若为\{n}则是连续n个的前一个RE字符，若为\{n,}则是连续n个以上的前一个RE字符</li>
-        </ul>
-      </li>
-      <li>扩展的正则表达式
-        <ul>
-          <li>+：重复一个或者一个以上的前一个RE字符</li>
-          <li>?：零个或者一个的前一个RE字符</li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>：用或（or）的方法找出数个字符串</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
-          <li>()：找出”组“字符串</li>
-          <li>()+：多个重复组的判别</li>
-        </ul>
-      </li>
-      <li>sed命令
-        <ul>
-          <li>作用：sed本身是一个管道命令，可以分析stdin，还可以将数据进行替换、删除、新增、选取特定行的功能</li>
-          <li>语法：sed [n1] [n2] function;function选项如下所示</li>
-          <li>a:新增，a后面可以接字符串，而这些字符串会在新的一行中出现</li>
-          <li>c：替换，c的后面可以接字符串，这些字符串可以替换n1,n2之间的行</li>
-          <li>d：删除，因为是删除，所以d后面通常不接任何参数</li>
-          <li>i：插入，i的后面可以接字符串，而这些字符串会在新的一行出现</li>
-          <li>p：打印，也就是将某一个选择的数据打印出来，通常p会与sed -n一起运行</li>
-          <li>s：替换，可以直接进行替换的工作，通常这个s的动作可以搭配正则表达式，例如1,20s/word1/word2/g,即将1到20行中word1替换成word2</li>
-        </ul>
-      </li>
-      <li>文件比较工具
-        <ul>
-          <li>diff [-bBi] from-file to-file：比较from-file和to-file的差别，注意不要用diff命令去比较不相干的文件，这样没有比较的结果</li>
-          <li>cmp [-s] file1 file2：比较file1和file2，返回第一个发现的不同点字节处和行数</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
+<p>PyTorch 的安装十分简单，根据 PyTorch 官网，对系统选择和安装方式等灵活选择即可。 这里以 anaconda 为例，简单的说一下步骤和要点。 国内安装 anaconda 建议使用清华或者中科大 [http://mirrors.ustc.edu.cn/help/anaconda.html] 镜像，快的不是一点半点。</p>
+
+<p><strong>1.安装 Pytorch</strong></p>
+
+<p>anaconda 安装完成后可以开始创建环境，这里以 win10 系统为例。打开 Anaconda Prompt</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#pytorch 为环境名，这里创建 python3.6 版。
+</span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">pytorch</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.6</span>
+
+<span class="c1"># 切换到 pytorch 环境
+</span><span class="n">activate</span> <span class="n">pytorch</span>
+
+<span class="c1">#安装 GPU 版本，根据 cuda 版本选择 cuda80，cuda92，如果 cuda 是 9.0 版，则不需要
+#直接 conda install pytorch -c pytorch 即可
+# win 下查看 cuda 版本命令 nvcc -V
+</span><span class="n">conda</span> <span class="n">install</span> <span class="n">pytorch</span> <span class="n">cudatoolkit</span><span class="o">=</span><span class="mf">10.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">pytorch</span>
+
+<span class="c1"># cpu 版本使用
+# conda install pytorch-cpu -c pytorch
+# torchvision 是 torch 提供的计算机视觉工具包，后面介绍
+</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">torchvision</span>
+</code></pre></div></div>
+
+<p>需要说明的一点是如果使用清华源，可以直接添加 pytorch 源镜像去掉，并且去掉 - c pytorch 这样才能使用镜像源。</p>
+
+<p>验证输入 python 进入</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">__version__</span>
+
+<span class="c1"># 得到结果 '1.0.1'
+</span></code></pre></div></div>
+
+<p><strong>2. 配置 Jupyter Notebook</strong></p>
+
+<p>新建的环境是没有安装安装 ipykernel 的所以无法注册到 Jupyter Notebook 中，所以先要准备下环境</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#安装 ipykernel
+</span><span class="n">conda</span> <span class="n">install</span> <span class="n">ipykernel</span>
+
+<span class="c1">#写入环境
+</span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">ipykernel</span> <span class="n">install</span>  <span class="o">--</span><span class="n">name</span> <span class="n">pytorch</span> <span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">name</span> <span class="s">"Pytorch for Deeplearning"</span>
+</code></pre></div></div>
+
+<p>下一步就是定制 Jupyter Notebook</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#切换回基础环境
+</span><span class="n">activate</span> <span class="n">base</span>
+
+<span class="c1">#创建 jupyter notebook 配置文件
+</span><span class="n">jupyter</span> <span class="n">notebook</span> <span class="o">--</span><span class="n">generate</span><span class="o">-</span><span class="n">config</span>
+
+<span class="c1">## 这里会显示创建 jupyter_notebook_config.py 的具体位置
+</span></code></pre></div></div>
+
+<p>打开文件，修改</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span><span class="o">.</span><span class="n">NotebookApp</span><span class="o">.</span><span class="n">notebook_dir</span> <span class="o">=</span> <span class="s">''</span> <span class="err">默认目录位置</span>
+
+<span class="n">c</span><span class="o">.</span><span class="n">NotebookApp</span><span class="o">.</span><span class="n">iopub_data_rate_limit</span> <span class="o">=</span> <span class="mi">100000000</span> <span class="err">这个改大一些否则有可能报错</span>
+</code></pre></div></div>
 
         </article>
         <hr>
@@ -340,12 +274,12 @@
                     
                 
             
-        
-            
-            
                 
                     
                 
+            
+        
+            
             
                 
                     
@@ -392,13 +326,13 @@
         <div class="post-recent">
     <div class="pre">
         
-        <p><strong>上一篇</strong> <a href="/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundle安装jekyll</a></p>
+        <p><strong>上一篇</strong> <a href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a></p>
         
     </div>
     <div class="nex">
 
         
-        <p><strong>下一篇</strong> <a href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a></p>
+        <p><strong>下一篇</strong> <a href="/2019/03/11/markdown_Guide/">Markdown_Guide</a></p>
         
     </div>
 </div>
@@ -416,8 +350,8 @@
      */
 
     var disqus_config = function() {
-        this.page.url = 'http://localhost:4000/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'; // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'http://localhost:4000/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.url = 'http://localhost:4000/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://localhost:4000/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
 
     (function() { // DON'T EDIT BELOW THIS LINE
