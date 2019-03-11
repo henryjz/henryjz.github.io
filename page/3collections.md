@@ -56,10 +56,10 @@ type: page
 
 + 《Neural Network Methods for Natural Language Processing (Synthesis Lectures on Human Language Technologies)》by Goldberg, Yoav
 + [《Neural Networks and Deep Learning》](http://neuralnetworksanddeeplearning.com/) by Michael Nielsen
-
 + 《Epilogue: Frontiers of NLP in the Deep Learning Era》by Deng Li, Liu Yang
-+  《Pattern Recognition and Machine Learning》by Christopher M. Bishop
++ 《Pattern Recognition and Machine Learning》by Christopher M. Bishop
 + 《Deep Learning》by Ian Goodfellow
++ [《Pytorch handbook》](https://github.com/zergtant/pytorch-handbook)Pytorch中文入门书籍，在github上开源
 
 ## 网站
 
