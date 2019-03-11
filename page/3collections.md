@@ -52,7 +52,17 @@ type: page
 
 - 量子位、大数据文摘、机器之心、paperweekly、新智元、人工智能头条、微软研究院AI头条、AINLP
 
+## 书籍
+
++ 《Neural Network Methods for Natural Language Processing (Synthesis Lectures on Human Language Technologies)》by Goldberg, Yoav
++ [《Neural Networks and Deep Learning》](http://neuralnetworksanddeeplearning.com/) by Michael Nielsen
+
++ 《Epilogue: Frontiers of NLP in the Deep Learning Era》by Deng Li, Liu Yang
++  《Pattern Recognition and Machine Learning》by Christopher M. Bishop
++ 《Deep Learning》by Ian Goodfellow
+
 ## 网站
+
 + [VReadTech:在网页上关注和浏览微信公众号](http://www.vreadtech.com)
 + [百度教育云](https://eduai.baidu.com)
 
@@ -60,12 +70,12 @@ type: page
 
 ## 软件
 
-### Ubuntu：
+**Ubuntu：**
 
 + apt: transmission, git, gnome-shell-pomodoro
 + deb: wps, chrome, typora, nutstore, vscode, xmind, anaconda, jdk,idea(6L8XTRW3KA)
 
-### Macos:
+**Macos:**
 
 - dmg：chrome、微信、网易云、vscode、mendeley、office2019、transmission、IINA、typora、cheatsheet、anaconda、坚果云、ccleaner、百度云
 - ruby：homebrew
