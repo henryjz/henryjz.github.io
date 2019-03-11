@@ -1,0 +1,58 @@
+<ul>
+  <li><strong>新建一个空目录，作为blog的根目录。</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir blog
+cd ./blog
+</code></pre></div></div>
+
+<ul>
+  <li><strong>创建Gemfile，内容简单复制以下代码就行,命名为Gemfile</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source  'https://rubygems.org'
+gem 'github-pages',group: :jekyll_plugins
+</code></pre></div></div>
+
+<ul>
+  <li><strong>安装ruby和ruby-dev</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install ruby ruby-dev
+</code></pre></div></div>
+
+<ul>
+  <li><strong>通过ruby的安装器gem安装bundler</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install bundler
+</code></pre></div></div>
+
+<ul>
+  <li><strong>通过bundler批量安装jekyll组件</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
+</code></pre></div></div>
+
+<p>到nokogiri时终止了安装，搜索网上的问题解决办法后，发现是一些第三方依赖库没有安装，linux下在终端中输入以下命令，在手动安装nokogiri,成功！</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libz-dev libiconv-hook1 libiconv-hook-dev
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install nokogiri -v '1.8.4'
+</code></pre></div></div>
+
+<ul>
+  <li><strong>回过头来根据Gemfile安装jekyll</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
+</code></pre></div></div>
+
+<ul>
+  <li>试试能不能启动jekyll,成功！在浏览器中网址栏输入localhost:4000,验证jekyll的运行情况</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec jekyll serve
+</code></pre></div></div>

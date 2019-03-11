@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>henryzhou</title>
+    <description></description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 11 Mar 2019 11:27:04 +0800</pubDate>
+    <lastBuildDate>Mon, 11 Mar 2019 11:27:04 +0800</lastBuildDate>
+    <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>论文《MT-DNN》笔记</title>
+        <description>&lt;h2 id=&quot;论文multi-task-deep-neural-networks-for-natural-language-understanding笔记&quot;&gt;论文《Multi-Task Deep Neural Networks for Natural Language Understanding》笔记&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  论文地址：&lt;a href=&quot;https://arxiv.org/pdf/1901.11504.pdf&quot;&gt;微软MT-DNN论文《Multi-Task Deep Neural Networks for Natural Language Understanding》&lt;/a&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;mt-dnn简单介绍&quot;&gt;MT-DNN简单介绍&lt;/h4&gt;
+
+​	谷歌的&lt;a href=&quot;https://arxiv.org/pdf/1810.04805.pdf&quot;&gt;BERT&lt;/a&gt;在各个NLP任务（GLUE、SQuAD、命名实体识别、SWAG)上的表现都很好，但是BERT在词向量的预训练的第二阶段只使用了单个任务进行模型fine-tune，我们自然而然地会问：Fine-tune阶段使用多任务同时对网络参数进行微调效果会不会更好？。
+
+​	微软研究院在2019年发布的论文《Multi-Task Deep Neural Networks for Natural Language Understanding》就做了这方面的实验。论文提出了一个假设：在单一领域的数据集上使用单一的任务训练模型限制了模型的泛化。MT-DNN提供的思路是：利用多任务之间的约束来避免单一任务上的过拟合问题，从而提高模型的泛化能力。文章中使用的多任务是相似的，作者任务机器能够像人一样在相似的任务中获取到相关的经验，比如会滑雪的人就能比较容易的学会滑冰，对机器来说也就是能够使用更少的训练数据是模型获得相同的效果。
+
+&lt;h4 id=&quot;实验结果&quot;&gt;实验结果&lt;/h4&gt;
+
+​	&lt;strong&gt;(1)&lt;/strong&gt;MT-DNN在8/9的GLUE&lt;a href=&quot;Gerneral Lanuage Understanding Evaluation，是评估模型自然语言理解能力的最权威的指标&quot;&gt;1&lt;/a&gt;任务中取得了SOAT成绩，其中未达到SOAT成绩的原因是数据集存在问题。这８个数据集（任务）可以归纳分为以下四种类别：
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;任务&lt;/th&gt;
+      &lt;th&gt;数据集&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Single sentence classification&lt;/td&gt;
+      &lt;td&gt;CoLA：情感分类&lt;br /&gt;SST-2：判断句子是否符合语法要求&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Text similarity score&lt;/td&gt;
+      &lt;td&gt;STS-B：两句话的相似性&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pairwise Text classification&lt;/td&gt;
+      &lt;td&gt;RET、MNLI：判断两句话的关系(emtaiment, controdictional, neutral)&lt;br /&gt;QQP, MRPC：判断那两句话是否具有相同的语义&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Relevence ranking&lt;/td&gt;
+      &lt;td&gt;QNLI：判断问答句子对的相关性&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+​	&lt;strong&gt;(2)&lt;/strong&gt;通过这种多任务训练得到的模型能够很好的适用于其他未见过的相似任务，即使只有很少的带标注的数据。因为MT-DNN底层使用的是BERT(Base)的网络，所以这种相似任务之间的适用性的提高可以确定由多任务的fine-tune带来的。实验表明即使只使用原始数据集的0.1%、1%样本，同样能够获得不错的准确率。下面是MT-DNN模型和BERT两个模型在SNLI数据集上的表现：
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;模型&lt;/th&gt;
+      &lt;th&gt;0.1%&lt;/th&gt;
+      &lt;th&gt;1％&lt;/th&gt;
+      &lt;th&gt;10%&lt;/th&gt;
+      &lt;th&gt;100%&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;BERT&lt;/td&gt;
+      &lt;td&gt;51%&lt;/td&gt;
+      &lt;td&gt;82%&lt;/td&gt;
+      &lt;td&gt;90%&lt;/td&gt;
+      &lt;td&gt;94%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MT-DNN&lt;/td&gt;
+      &lt;td&gt;82%&lt;/td&gt;
+      &lt;td&gt;88%&lt;/td&gt;
+      &lt;td&gt;91%&lt;/td&gt;
+      &lt;td&gt;96%&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Sun, 10 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</guid>
+        
+        <category>notes</category>
+        
+        <category>paper</category>
+        
+        <category>nlp</category>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+      <item>
+        <title>通过bundler安装jekyll</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;新建一个空目录，作为blog的根目录。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir blog
+cd ./blog
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;创建Gemfile，内容简单复制以下代码就行,命名为Gemfile&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source  'https://rubygems.org'
+gem 'github-pages',group: :jekyll_plugins
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;安装ruby和ruby-dev&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt install ruby ruby-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;通过ruby的安装器gem安装bundler&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo gem install bundler
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;通过bundler批量安装jekyll组件&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+到nokogiri时终止了安装，搜索网上的问题解决办法后，发现是一些第三方依赖库没有安装，linux下在终端中输入以下命令，在手动安装nokogiri,成功！
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install libz-dev libiconv-hook1 libiconv-hook-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo gem install nokogiri -v '1.8.4'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;回过头来根据Gemfile安装jekyll&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;试试能不能启动jekyll,成功！在浏览器中网址栏输入localhost:4000,验证jekyll的运行情况&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle exec jekyll serve
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Thu, 19 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/</guid>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+      <item>
+        <title>流畅的python笔记</title>
+        <description>[TOC]
+
+</description>
+        <pubDate>Mon, 16 Jul 2018 21:35:10 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</guid>
+        
+        <category>python</category>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+      <item>
+        <title>深度学习小记</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;人工智能早期，计算机能够迅速解决那些对人类智力来说非常困难的问题。而人工智能的真正挑战在于解决那些对人来说很容易执行，但很难形式化描述的任务，如识别人们所说的话或图像中的脸。&lt;/li&gt;
+  &lt;li&gt;深度学习讨论的是一种让计算机从经验中学习，并根据层次化的概念来__理解世界__的解决方案，而每个概念则通过某些相对简单的概念之间的关系来定义&lt;/li&gt;
+  &lt;li&gt;人类擅长对事物抽象因而能够认识世界，计算机则只能做一些形式化的数据处理，人工智能要做的就是通过形式化的数据处理__从另一条路径__达到认识世界的目的&lt;/li&gt;
+  &lt;li&gt;深度学习
+    &lt;ul&gt;
+      &lt;li&gt;计算机难以理解原始感官输入数据的含义，如表示为像素值集合的图像。将一组像素映射到对象标识的函数非常复杂。&lt;/li&gt;
+      &lt;li&gt;深度学习将所需的复杂映射分解为一系列嵌套的简单映射（每个模型的不同层描述）
+        &lt;ul&gt;
+          &lt;li&gt;可见层：包含我们能观察到的变量&lt;/li&gt;
+          &lt;li&gt;隐藏层：它们的值不再数据中给出，所以称为隐藏层。模型必须确定那些概念有利于解释观察数据中关系&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;课程组织
+    &lt;ul&gt;
+      &lt;li&gt;介绍基本的数学工具和机器学习的概念&lt;/li&gt;
+      &lt;li&gt;介绍最成熟的深度学习算法&lt;/li&gt;
+      &lt;li&gt;讨论某些具有展望性的想法，他们被广泛的认为是深度学习未来的研究重点&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 16 Jul 2018 21:35:10 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/</guid>
+        
+        <category>DL</category>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+      <item>
+        <title>如何阅读论文</title>
+        <description>&lt;h1 id=&quot;硕士班研究所新生手册观点收获&quot;&gt;硕士班研究所新生手册(观点收获)&lt;/h1&gt;
+
+Issued by and valid in the PPSC Lab.Directed by Prof.MH.Perng
+
+&lt;h3 id=&quot;论文的要求&quot;&gt;论文的要求&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;论文的主要内容，是叙述一套方法在一个特定场合中的应用&lt;/li&gt;
+  &lt;li&gt;这套方法必须要有所创新或突破，并因而对学术界有所贡献。因此，他或者是解决既有问题的新方法，或者是既有方法的新应用，或者是以一个新的方法开启一整片新的应用领域。&lt;/li&gt;
+  &lt;li&gt;提出足够的证据来让读者信服说：针对这个应用场合，你所提出的方法确实比文献中一切方法有更优越之处&lt;/li&gt;
+  &lt;li&gt;清楚的指出这个方法在应用上的限制，并且提出充分证据来说服读者，任何应用场合，只要能满足你所提出来的假设（前提）条件，你的方法一定适用，而且你所描述的有点就一定存在&lt;/li&gt;
+  &lt;li&gt;清楚指出这个方法的限制和可能的缺点&lt;/li&gt;
+  &lt;li&gt;清楚地交代这个方法的应用程序以及所有仿真或实验结果的过程，使得这个专业领域内的任何读者，都有办法根据你的描述，在他的实验室中复制出你的研究成果。&lt;/li&gt;
+  &lt;li&gt;你对这个方法中每一个步骤都必须要提供充分的理由说明“为什么非如此不可”。&lt;/li&gt;
+  &lt;li&gt;论文必须在适当的位置清楚注明所有和你研究之题目相关的文献，而且是和你所研究的问题相关的学术文献（尤其是学术期刊论文），你都有必要全部找出来（如果漏掉就是你的过失），仔细读过。假如在学位论文口试时，有口试委员指出有一篇既有文献，在你所讨论的问题中处理的比你的方法还好，这就构成你论文无法及格的充分理由&lt;/li&gt;
+  &lt;li&gt;所谓对学术界的贡献指的是：把你的所有研究成果扣除学术界已经发表的所有成果（不管你实际有没有参考过，没有参考过也算是你的重大过失），剩下的就是你的贡献。假如这个贡献太少，也构成你的论文无法及格的充分理由。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;完成硕士论文所需要的能力&quot;&gt;完成硕士论文所需要的能力&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;数据检索的能力
+    &lt;ul&gt;
+      &lt;li&gt;有能力利用数据检索系统（教育部[博硕士论文检索系统]、Compendex和SCI这三套论文数据索引系统），查处所有相关的论文，而无任何遗漏&lt;/li&gt;
+      &lt;li&gt;关键词很重要，假如你用的关键词太一般化，通常找到的集合会太大，除了所有相关文献之外还加上好几十倍的不相关的文献&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;资料筛选能力：在你找到的百来篇和你的研究子题直接且密切相关的论文中，你如何只读论文的题目、摘要、简介和结论，而还没有完全看懂内文，就准确的判断这篇论文中是否值得你进一步参考的内容，以便快速的把需要仔细读完的论文从数百篇为二三十篇。&lt;/li&gt;
+  &lt;li&gt;期刊论文的阅读能力：硕士毕业生和大学毕业生的最大区别就是：学士只需要吸收系统的能力（也就是读别人整理、组织好的知识，典型的就是课本），但硕士则学习过自己从无组织的知识中检索、筛选、组织知识的能力&lt;/li&gt;
+  &lt;li&gt;期刊论文的分析能力
+    &lt;ul&gt;
+      &lt;li&gt;一个严格训练过的合格硕士，他做事的时候应该是不需要有人在背后替他做检证，他自己就应该要有能力分析自己的优缺点，主动向上级或者平行单位要求支持。其实，至少要能够完成这个能力，才勉强可以说你是有“独立自主的判断能力。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;创新的能力
+    &lt;ul&gt;
+      &lt;li&gt;大学毕业生的主要能力是吸收既有知识，但硕士毕业生却应该要有能力创造知识&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;为什么要坚持培养阅读与分析期刊论文的能力&quot;&gt;为什么要坚持培养阅读与分析期刊论文的能力&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;对于那些之想学现成技术而不想研究方法的学生，十年后可能会因为不会读期刊论文而面临提前退休&lt;/li&gt;
+  &lt;li&gt;技术的创新不是完全靠天才，只要学会分析期刊论文的优缺点和一套技术创新的方法，几乎就可以轻易的组合出你所需要的绝大部分创意。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;期刊论文的分析技巧和程序&quot;&gt;期刊论文的分析技巧和程序&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Abstract
+    &lt;ul&gt;
+      &lt;li&gt;说明这篇论文的主要贡献、方法特色与主要内容，需要培养只看Abstract和Inroduction便可以判断出这篇论文和你研究的有没有直接关系的能力，从而决定要不要把它读完。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Introduction
+    &lt;ul&gt;
+      &lt;li&gt;功能是介绍问题的背景和起源，交代前人在这个题目上已经有过的主要贡献和遗留的问题&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;main body
+    &lt;ul&gt;
+      &lt;li&gt;这篇论文的假设及其成立的难度以判断其参考价值&lt;/li&gt;
+      &lt;li&gt;在这些假设下，这篇论文的主要好处&lt;/li&gt;
+      &lt;li&gt;这些好处主要表现在那些公式的那些项目的简化上，从中可以评估出这个方法使用上的方便程度或者计算效率&lt;/li&gt;
+      &lt;li&gt;不需要完全弄懂一片论文所有的恒等式推导过程或者把整篇论文细细读完，只需要把确定会用到的部分完全搞懂就好，不确定或者不会用到的地方，只需要了解他的主要点子就够了。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;论文阅读的补充说明&quot;&gt;论文阅读的补充说明&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;硕士生开始读论文的时候容易犯的毛病：
+    &lt;ul&gt;
+      &lt;li&gt;老是想逐行读懂，有一行读不懂就受不了&lt;/li&gt;
+      &lt;li&gt;不敢发挥自己的想象，读论文像在读教科书，论文没写的就不会，自己去猜测或想象的时候，老怕弄错作者的意思&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;每次读论文要呆着问题去阅读，只图你要回答的问题。因此要有选择的阅读，由粗而细，一定是一整批一起读懂到某个层次，而不是逐篇逐篇的一次读懂&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;论文报告的要求与技巧&quot;&gt;论文报告的要求与技巧&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;第一页列出论文的题目、作者、论文出处与年份&lt;/li&gt;
+  &lt;li&gt;每一页幻灯片只能讲一个观念&lt;/li&gt;
+  &lt;li&gt;说明这篇论文所研究的问题的重点，以及这个问题可能和工业界的哪些应用有关&lt;/li&gt;
+  &lt;li&gt;清楚交代这篇论文的主要假设、主要公式与主要应用方式（以及应用上可能的解题流程）&lt;/li&gt;
+  &lt;li&gt;说明这篇论文的范例（simulation examples and/or experiments)，预测这个方法在不同场合可能会有的准确度或者好用的程度&lt;/li&gt;
+  &lt;li&gt;你个人的分析、评价与批评，包括：
+    &lt;ul&gt;
+      &lt;li&gt;这篇论文的最主要创意是什么？&lt;/li&gt;
+      &lt;li&gt;这些创意在应用上有什么好处？&lt;/li&gt;
+      &lt;li&gt;这些创意和应用上的好处是哪些条件下才能成立？&lt;/li&gt;
+      &lt;li&gt;这篇论文最主要的缺点或局限是什么？&lt;/li&gt;
+      &lt;li&gt;这些缺点或局限在应用上有什么坏处？&lt;/li&gt;
+      &lt;li&gt;这些缺点和应用上的坏处是因为哪些因素而引入的？&lt;/li&gt;
+      &lt;li&gt;你建议学长学弟的时候参考这篇论文的哪些部分（点子）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 16 Jul 2018 21:35:10 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/</guid>
+        
+        <category>paper</category>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+      <item>
+        <title>Vim的使用</title>
+        <description>&lt;h1 id=&quot;vim的使用&quot;&gt;Vim的使用&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;3种模式
+    &lt;ul&gt;
+      &lt;li&gt;一般模式：移动光标、删除字符或者整行，复制粘帖数据&lt;/li&gt;
+      &lt;li&gt;编辑模式：按下“i,I,o,O,a,A,r,R”可以进入编辑模式，按下Esc可以推出编辑模式&lt;/li&gt;
+      &lt;li&gt;命令行模式：输入”:,/,?”可以进入命令行模式，进行数据查找、大量替换字符、保存离开等功能&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一般模式下移动光标的方法
+    &lt;ul&gt;
+      &lt;li&gt;左右：h，l，使用组合键5h即可多列跳跃&lt;/li&gt;
+      &lt;li&gt;上下：k，j，使用组合键5j即可多行跳跃&lt;/li&gt;
+      &lt;li&gt;行首（行尾）：0（$）&lt;/li&gt;
+      &lt;li&gt;文件首（尾）：gg（G）&lt;/li&gt;
+      &lt;li&gt;向下（上）翻页：ctrl+f（b）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一般模式下查找与替换
+    &lt;ul&gt;
+      &lt;li&gt;/word：向下寻找名称为word 的字符串&lt;/li&gt;
+      &lt;li&gt;n：查找下一个&lt;/li&gt;
+      &lt;li&gt;N：查找上一个&lt;/li&gt;
+      &lt;li&gt;:n1,n2s/Word1/Word2/g：将n1和n2行之间的Word1替换为Word2&lt;/li&gt;
+      &lt;li&gt;:1,$s/Word1/Word2/g：将第一行和最后一行之间的Word1替换为Word2&lt;/li&gt;
+      &lt;li&gt;:1,$s/Word1/Word2/gc：将第一行和最后一行之间的Word1替换为Word2，并且逐个确认&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一般模式下删除
+    &lt;ul&gt;
+      &lt;li&gt;x,X:在一行字中，x为向后删除一个字符（相当于Del键），X为向前删除一个字符（相当于Backspace键），可使用组合键nx（X)连续删除n个字符&lt;/li&gt;
+      &lt;li&gt;dd：删除光标所在一整行，可使用ndd删除光标所在行开始的n行&lt;/li&gt;
+      &lt;li&gt;d1G：删除光标所在到第一行的所有数据&lt;/li&gt;
+      &lt;li&gt;dG：删除从光标所在到最后一行的所有数据&lt;/li&gt;
+      &lt;li&gt;d$：删除从光标所在处到该行最后一个数据&lt;/li&gt;
+      &lt;li&gt;d0：删除从光标所在处到该行第一个数据&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一般模式下复制
+    &lt;ul&gt;
+      &lt;li&gt;yy：复制光标所在行的数据&lt;/li&gt;
+      &lt;li&gt;nyy：复制光标所在向下n行&lt;/li&gt;
+      &lt;li&gt;y1G：复制光标所在行到第一行的数据&lt;/li&gt;
+      &lt;li&gt;yG：复制光标所在行到最后一行的数据&lt;/li&gt;
+      &lt;li&gt;y0：复制光标所在字符到该行行首的所有数据&lt;/li&gt;
+      &lt;li&gt;y$：复制光标所在字符到该行行尾的所有数据&lt;/li&gt;
+      &lt;li&gt;p,P：p为将以复制的数据在光标下一行粘帖，P则为粘帖在光标上一行&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一般模式下其他操作
+    &lt;ul&gt;
+      &lt;li&gt;J：将光标所在行与下一行的数据结合成一行&lt;/li&gt;
+      &lt;li&gt;u：撤销前一个操作&lt;/li&gt;
+      &lt;li&gt;ctrl+r：重做前一个操作&lt;/li&gt;
+      &lt;li&gt;.：小数点为重复前一个操作&lt;/li&gt;
+      &lt;li&gt;ZZ：保存并且退出&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;编辑模式
+    &lt;ul&gt;
+      &lt;li&gt;i,I：i为从目前光标所在处开始插入，I为在当前所在行第一个非空格符处开始插入&lt;/li&gt;
+      &lt;li&gt;a,A：a为从当前光标所在的下一个字符处开始插入，A为从光标所在行的最后一格字符处开始插入&lt;/li&gt;
+      &lt;li&gt;o,O：o为当前所在的下一行处插入新的一行，O为目前光标所在的上一行插入新的一行&lt;/li&gt;
+      &lt;li&gt;r,R：r只会替换光标所在字符，R会一直替换知道Esc&lt;/li&gt;
+      &lt;li&gt;Esc：退出编辑模式，进入一般模式&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;命令行模式
+    &lt;ul&gt;
+      &lt;li&gt;:w：将编辑的数据写入硬盘文件中&lt;/li&gt;
+      &lt;li&gt;:w!：若文件为只读，强制写入文件，至于能不能写入与文件权限有关&lt;/li&gt;
+      &lt;li&gt;:q：离开vim&lt;/li&gt;
+      &lt;li&gt;:q!：若修改过文件，又不想保存，使用！强制离开&lt;/li&gt;
+      &lt;li&gt;:wq：保存后离开，“:wq!”强制保存后离开&lt;/li&gt;
+      &lt;li&gt;:set nu：显示行号&lt;/li&gt;
+      &lt;li&gt;:set nonu：取消行号显示&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 16 Jul 2018 21:35:10 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/</guid>
+        
+        <category>notes</category>
+        
+        <category>linux</category>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+      <item>
+        <title>Bash学习笔记</title>
+        <description>&lt;h1 id=&quot;bash学习&quot;&gt;Bash学习&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;history命令会列出记录的所有bash命令
+    &lt;ul&gt;
+      &lt;li&gt;!number：执行.bash_history文件中第n条命令&lt;/li&gt;
+      &lt;li&gt;!!：执行上一条命令&lt;/li&gt;
+      &lt;li&gt;!command：执行以command开头的最近的一条命令&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;bash下组合按键
+    &lt;ul&gt;
+      &lt;li&gt;ctrl+C：终止目前的命令&lt;/li&gt;
+      &lt;li&gt;ctrl+D：输入结束（EOF)&lt;/li&gt;
+      &lt;li&gt;ctrl+Z：暂停目前的命令&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;通配符
+    &lt;ul&gt;
+      &lt;li&gt;*：代表0到无穷多个任意字符&lt;/li&gt;
+      &lt;li&gt;?：代表一定有一个任意字符&lt;/li&gt;
+      &lt;li&gt;[]：代表一定有一个在中括号内的字符（非任意字符），例如[abcd]，代表一定有一个字符，可能是a,b,c,d这四个中任意一个&lt;/li&gt;
+      &lt;li&gt;[-]：若有减号在中括号内，代表在编码顺序内的所有顺序，例如[0-9]代表0到9之间的所有数字&lt;/li&gt;
+      &lt;li&gt;[^]：若中括号内的第一个字符为指数符号^，那表示原向选择，例如[ ^abc]代表一定有一个字符，只要是非a,b,c的其他字符就接受的意思&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;bash其他符号
+    &lt;ul&gt;
+      &lt;li&gt;#：注释符号，后面内容不执行&lt;/li&gt;
+      &lt;li&gt;\：转移符号&lt;/li&gt;
+      &lt;li&gt;
+        &lt;table&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;
+              &lt;td&gt;：管道符号，分隔两个管道命令的界定&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/li&gt;
+      &lt;li&gt;～：用户的主文件夹&lt;/li&gt;
+      &lt;li&gt;;：连续命令执行分隔符&lt;/li&gt;
+      &lt;li&gt;$：变量前导符&lt;/li&gt;
+      &lt;li&gt;&amp;amp;：作业控制，将命令变成背景下工作&lt;/li&gt;
+      &lt;li&gt;！：逻辑运算符非&lt;/li&gt;
+      &lt;li&gt;/：目录符号&lt;/li&gt;
+      &lt;li&gt;&amp;gt;,»：数据流重定向，分别是“替换”和“累加”,1&amp;gt;表示输出正确信息，2&amp;gt;表示输出错误信息，同时输出则为2&amp;gt;&amp;amp;1&lt;/li&gt;
+      &lt;li&gt;&amp;lt;,«：数据流重定向，输入导向&lt;/li&gt;
+      &lt;li&gt;``：两个反单引号中间为先执行命令，也可使用$()&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;数据管理命令
+    &lt;ul&gt;
+      &lt;li&gt;cut：对于比较规整的信息，cut可以截取每一行特定部分的字符&lt;/li&gt;
+      &lt;li&gt;grep：对输出结果进行查询筛选&lt;/li&gt;
+      &lt;li&gt;sort：对输入内容进行排序&lt;/li&gt;
+      &lt;li&gt;uniq：对输入去重的操作&lt;/li&gt;
+      &lt;li&gt;wc：对输入进行统计计数&lt;/li&gt;
+      &lt;li&gt;tee：同时将数据屏幕输出和保存到文件&lt;/li&gt;
+      &lt;li&gt;xargs：将输入通过空格符或者断行符分开作为参数&lt;/li&gt;
+      &lt;li&gt;-的用途：有些命令需要用到文件名作为参数，可以用-代指srdout和stdin输出的文件名&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;正则表达式
+    &lt;ul&gt;
+      &lt;li&gt;字符集
+        &lt;ul&gt;
+          &lt;li&gt;[:alnum:]：代表英文大小写字符及数字，即0-9,A-Z，a-z&lt;/li&gt;
+          &lt;li&gt;[:alpha:]：代表任何英文大小写字符，即A-Z,a-z&lt;/li&gt;
+          &lt;li&gt;[:blank:]：代表空格键与[Tab]按键&lt;/li&gt;
+          &lt;li&gt;[:cntrl:]：代表键盘上面的控制按键，即包括CR，LF，Tab，Del等&lt;/li&gt;
+          &lt;li&gt;[:digit:]：代表数字字符，即0-9&lt;/li&gt;
+          &lt;li&gt;[:graph:]：除了空格符（空格键与[Tab]按键）外的其他所有按键&lt;/li&gt;
+          &lt;li&gt;[:lower:]：代表小写字符，即a-z&lt;/li&gt;
+          &lt;li&gt;[:print:]：代表任何可以被打印出来的字符&lt;/li&gt;
+          &lt;li&gt;[:punct:]：代表标点符号&lt;/li&gt;
+          &lt;li&gt;[:upper:]：代表大写字符，即A-Z&lt;/li&gt;
+          &lt;li&gt;[:space:]：任何会产生空白的字符，包括空格键[Tab]CR等&lt;/li&gt;
+          &lt;li&gt;[:xdigit:]：代表十六进制的数字类型，因此包括0-9,A-F,a-f等&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;基础字符表达式与应用
+        &lt;ul&gt;
+          &lt;li&gt;.：代表一定有一个任意字符&lt;/li&gt;
+          &lt;li&gt;*：代表重复前一个0到无穷次&lt;/li&gt;
+          &lt;li&gt;^word：待查找的字符串在行首&lt;/li&gt;
+          &lt;li&gt;word$：待查找的字符串在行尾&lt;/li&gt;
+          &lt;li&gt;[list]：从字符集合的RE字符里面找出想要选取的字符&lt;/li&gt;
+          &lt;li&gt;[^list]：从字符集合的RE字符里面中找出不要的字符串或范围&lt;/li&gt;
+          &lt;li&gt;[n1-n2]：从字符集合的RE字符里面找出想要选取的字符范围&lt;/li&gt;
+          &lt;li&gt;[^$]：指定空白行&lt;/li&gt;
+          &lt;li&gt;\{n1,n2\}：连续n到m个的前一个RE字符，若为\{n}则是连续n个的前一个RE字符，若为\{n,}则是连续n个以上的前一个RE字符&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;扩展的正则表达式
+        &lt;ul&gt;
+          &lt;li&gt;+：重复一个或者一个以上的前一个RE字符&lt;/li&gt;
+          &lt;li&gt;?：零个或者一个的前一个RE字符&lt;/li&gt;
+          &lt;li&gt;
+            &lt;table&gt;
+              &lt;tbody&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;：用或（or）的方法找出数个字符串&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/li&gt;
+          &lt;li&gt;()：找出”组“字符串&lt;/li&gt;
+          &lt;li&gt;()+：多个重复组的判别&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;sed命令
+        &lt;ul&gt;
+          &lt;li&gt;作用：sed本身是一个管道命令，可以分析stdin，还可以将数据进行替换、删除、新增、选取特定行的功能&lt;/li&gt;
+          &lt;li&gt;语法：sed [n1] [n2] function;function选项如下所示&lt;/li&gt;
+          &lt;li&gt;a:新增，a后面可以接字符串，而这些字符串会在新的一行中出现&lt;/li&gt;
+          &lt;li&gt;c：替换，c的后面可以接字符串，这些字符串可以替换n1,n2之间的行&lt;/li&gt;
+          &lt;li&gt;d：删除，因为是删除，所以d后面通常不接任何参数&lt;/li&gt;
+          &lt;li&gt;i：插入，i的后面可以接字符串，而这些字符串会在新的一行出现&lt;/li&gt;
+          &lt;li&gt;p：打印，也就是将某一个选择的数据打印出来，通常p会与sed -n一起运行&lt;/li&gt;
+          &lt;li&gt;s：替换，可以直接进行替换的工作，通常这个s的动作可以搭配正则表达式，例如1,20s/word1/word2/g,即将1到20行中word1替换成word2&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;文件比较工具
+        &lt;ul&gt;
+          &lt;li&gt;diff [-bBi] from-file to-file：比较from-file和to-file的差别，注意不要用diff命令去比较不相干的文件，这样没有比较的结果&lt;/li&gt;
+          &lt;li&gt;cmp [-s] file1 file2：比较file1和file2，返回第一个发现的不同点字节处和行数&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 16 Jul 2018 21:35:10 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+        
+        <category>notes</category>
+        
+        <category>linux</category>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+      <item>
+        <title>Linux文件、目录与磁盘格式</title>
+        <description>&lt;h1 id=&quot;鸟哥的linux私房菜&quot;&gt;鸟哥的Linux私房菜&lt;/h1&gt;
+
+&lt;h2 id=&quot;一linux文件目录与磁盘格式&quot;&gt;一、Linux文件、目录与磁盘格式&lt;/h2&gt;
+
+&lt;h3 id=&quot;11学习资源&quot;&gt;1.1学习资源&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;推荐的网站
+    &lt;ul&gt;
+      &lt;li&gt;Study-Area:http://www.study-area.org&lt;/li&gt;
+      &lt;li&gt;鸟哥的私房菜馆：http://linux.vbird.org&lt;/li&gt;
+      &lt;li&gt;卧龙大师的网络技术文件：http://linux.tnc.edu.cn.tw/techdoc/&lt;/li&gt;
+      &lt;li&gt;中国linux团队：http://www.linux.org.cn/&lt;/li&gt;
+      &lt;li&gt;狼主的网络实验室：http://netlab.kh.edu.cn/inde.htm&lt;/li&gt;
+      &lt;li&gt;吴仁志的文件集：http://www.cses.tcc.edu.cn/~chihwu/&lt;/li&gt;
+      &lt;li&gt;国人CLE计划：&lt;a href=&quot;http://cle.linux.org.tw/&quot;&gt;http://cle.linux.org.tw/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;自由软件技术交流网： &lt;a href=&quot;http://freesf.tnc.edu.tw/index.php&quot;&gt;http://freesf.tnc.edu.tw/index.php&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;B2D: &lt;a href=&quot;http://b2d.tnc.edu.tw/&quot;&gt;http://b2d.tnc.edu.tw/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;KNOPPIX：&lt;a href=&quot;http://www.knoppix.net/&quot;&gt;http://www.knoppix.net/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;中文 KNOPPIX: &lt;a href=&quot;http://knoppix.tnc.edu.tw/&quot;&gt;http://knoppix.tnc.edu.tw/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;FHS: &lt;a href=&quot;http://www.pathname.com/fhs/&quot;&gt;http://www.pathname.com/fhs/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;LSB: &lt;a href=&quot;http://www.linuxbase.org/&quot;&gt;http://www.linuxbase.org/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;计算机基础 (http://www.study-area.org/compu/compu.htm)&lt;/li&gt;
+      &lt;li&gt;网络基础 (http://www.study-area.org/network/network.htm)&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php&quot;&gt;http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php&lt;/a&gt;About Internet&lt;/li&gt;
+      &lt;li&gt;大南国小（林克敏主任文件集） http://freebsd.lab.mlc.edu.tw/&lt;/li&gt;
+      &lt;li&gt;张毓麟先生的小文章 http://www.se.ntou.edu.tw/~ylchang/MyDocuments/index.html&lt;/li&gt;
+      &lt;li&gt;台湾 Linux 社群  http://www.linux.org.tw/&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;常用的FAQ网站
+    &lt;ul&gt;
+      &lt;li&gt;Linux 自己的文件数据： /usr/share/doc (在你的 PC 中)&lt;/li&gt;
+      &lt;li&gt;CLDP 中文文件计划 &lt;a href=&quot;http://www.linux.org.tw/CLDP/&quot;&gt;http://www.linux.org.tw/CLDP/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;Unix 的一般常见问题  &lt;a href=&quot;http://www.csie.nctu.edu.tw/document/unixfaq/&quot;&gt;http://www.csie.nctu.edu.tw/document/unixfaq/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;The LinuxDocumentation Project：&lt;a href=&quot;http://www.tldp.org/&quot;&gt;http://www.tldp.org/&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;『提问的智慧&lt;a href=&quot;http://phorum.vbird.org/viewtopic.php?t=96%E3%80%8F&quot;&gt;http://phorum.vbird.org/viewtopic.php?t=96』&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;李果正先生之 GNU/Linux 初学者之旅： http://info.sayya.org/~edt1023/linux_entry.html&lt;/li&gt;
+      &lt;li&gt;鸟哥备份：http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_3.php&lt;/li&gt;
+      &lt;li&gt;信息人的有效学习(洪朝贵教授网页)：http://www.cyut.edu.tw/~ckhung/published/018learn.shtml&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;12安装&quot;&gt;1.2安装&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;分区
+    &lt;ul&gt;
+      &lt;li&gt;按照顺序：/boot、/、/usr、/var、/tmp&lt;/li&gt;
+      &lt;li&gt;/home&lt;/li&gt;
+      &lt;li&gt;Swap&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;引导程序
+    &lt;ul&gt;
+      &lt;li&gt;引导程序grup最好安装地点选择整块磁盘的文件名&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;13系统终端使用&quot;&gt;1.3系统终端使用&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;命令行模式：
+    &lt;ul&gt;
+      &lt;li&gt;x-window提供的终端：terminal&lt;/li&gt;
+      &lt;li&gt;ctrl+alt+[F1]~[F6]：进入tty1~tty6的操作界面环境，推出crtl+alt+F7&lt;/li&gt;
+      &lt;li&gt;linux下区分大小写&lt;/li&gt;
+      &lt;li&gt;使用过的命令保存在.bash_history文件中&lt;/li&gt;
+      &lt;li&gt;ctrl+c命令能使当前终端运行的程序停止&lt;/li&gt;
+      &lt;li&gt;ctrl+d命代表键盘输入结束，可以用来代替exit，也就是退出的功能&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;man命令
+    &lt;ul&gt;
+      &lt;li&gt;man [数字] 命令：可以查到相应命令的手册，数字代表不同用户环境下该命令的用法&lt;/li&gt;
+      &lt;li&gt;man -f 命令：寻找命令相关的手册&lt;/li&gt;
+      &lt;li&gt;man -k 关键字：寻找关键字相关命令的手册&lt;/li&gt;
+      &lt;li&gt;具体某一个软件手册可以到/usr/share/doc下去寻找对应的文件夹&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;正确的关机方法
+    &lt;ul&gt;
+      &lt;li&gt;who：查看当前在线的用户&lt;/li&gt;
+      &lt;li&gt;netstat -a：查看网络的联机状态&lt;/li&gt;
+      &lt;li&gt;ps -aux：查看后台&lt;/li&gt;
+      &lt;li&gt;sync：将数据同步写入硬盘&lt;/li&gt;
+      &lt;li&gt;正确的关机命令：shundown&lt;/li&gt;
+      &lt;li&gt;重启：reboot&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;重启x-window：ctrl+alt+backspace&lt;/li&gt;
+  &lt;li&gt;修改文件的权限
+    &lt;ul&gt;
+      &lt;li&gt;用户类别：u:user	;g:group	;o:others&lt;/li&gt;
+      &lt;li&gt;权限类别：r:read ;w:write ;x:execute&lt;/li&gt;
+      &lt;li&gt;操作类别：+：增加；-：减少；=：设置&lt;/li&gt;
+      &lt;li&gt;chgrp 用户组 文件：修改文件的用户组&lt;/li&gt;
+      &lt;li&gt;chown 所有者:用户组 文件：修改文件的所有者和用户组&lt;/li&gt;
+      &lt;li&gt;chmod xyz 文件：xyz为数字，r：4;w：2;x：1;x=7=4+2+1表示rwx三种权限都有，以此类推&lt;/li&gt;
+      &lt;li&gt;chmod u=rwx,go=rx 文件;u：user;g：group;o：others&lt;/li&gt;
+      &lt;li&gt;chmod  u+w 文件：user增加对文件写权限&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;14目录结构&quot;&gt;1.4目录结构&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;FHS定义的目录规范
+    &lt;ul&gt;
+      &lt;li&gt;/（root，根目录）：与开机系统有关&lt;/li&gt;
+      &lt;li&gt;/usr（UNIX software resource）：与软件安装/执行有关&lt;/li&gt;
+      &lt;li&gt;/var（variable）：与系统运行过程有关&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;/目录内容
+    &lt;ul&gt;
+      &lt;li&gt;/bin：放置单用户维护模式下还能被操作的命令&lt;/li&gt;
+      &lt;li&gt;/boot：放置开机会使用到的文件，包括Linux内核文件以及开机菜单的开机所需要的配置文件等&lt;/li&gt;
+      &lt;li&gt;/dev：放置设备与接口设备文件&lt;/li&gt;
+      &lt;li&gt;/etc：放置系统的配置文件&lt;/li&gt;
+      &lt;li&gt;/home：系统默认的用户主文件夹&lt;/li&gt;
+      &lt;li&gt;/lib：放置开机时会使用的函数库&lt;/li&gt;
+      &lt;li&gt;/media：放置可删除的设备&lt;/li&gt;
+      &lt;li&gt;/mnt：用于暂时挂载某些额外的设备&lt;/li&gt;
+      &lt;li&gt;/opt：给第三方软件放置的目录。不过在以前的linux 系统中，我们还是习惯放置在usr/local目录下&lt;/li&gt;
+      &lt;li&gt;/root：系统管理员（root）的主文件夹，在进入单用户维护模式而仅挂载根目录时，我们能够访问到&lt;/li&gt;
+      &lt;li&gt;/sbin：放置系统开机过程中需要的系统执行文件&lt;/li&gt;
+      &lt;li&gt;/srv：可视为service的缩写，是一些网络服务启动后所需要取用的数据目录&lt;/li&gt;
+      &lt;li&gt;/tmp：让用户或者正在执行的程序暂时放置文件爱你的地方&lt;/li&gt;
+      &lt;li&gt;/proc：该目录本身是一个虚拟文件系统，他放置的内容都是在内存中，因此目录本身不占用内存空间&lt;/li&gt;
+      &lt;li&gt;/sys：同上，也是一个虚拟文件系统，包括目前已加载的内核模块和内核检验到的硬件设备信息，同样不占用内存&lt;/li&gt;
+      &lt;li&gt;/etc、/bin、/dev、/lib、/sbin这五个目录不能/目录分开，因为开机是只用根目录会被挂载，而以上目录与系统启动有着重要关系，必须在开机时能够访问到&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;/usr目录内容
+    &lt;ul&gt;
+      &lt;li&gt;/usr一放置的数据属于可分享的与不可变动的，是UNIX Software Resource的缩写&lt;/li&gt;
+      &lt;li&gt;/usr/X11R6/：X Window系统重要数据所放置的目录&lt;/li&gt;
+      &lt;li&gt;/usr/bin：绝大部分用户可使用命令都放在这里。注意它与/bin的不同之处（是否与开机过程有关）&lt;/li&gt;
+      &lt;li&gt;/usr/include/：放置C/C++等语言的头文件和包含文件，当我们以tarball方式安装软件时会使用到这里的许多包含文件&lt;/li&gt;
+      &lt;li&gt;/usr/lib：包含各应用软件的函数库、目标文件以及不被一般用户惯用的执行文件或脚本&lt;/li&gt;
+      &lt;li&gt;/usr/local：放置系统管理员自行安装自己下载的软件（非distribution默认提供者）&lt;/li&gt;
+      &lt;li&gt;/usr/sbin：非系统正常运行所需要的系统命令，最常见的就是某些网络服务器软件的服务命令（daemon）&lt;/li&gt;
+      &lt;li&gt;/usr/src：一般源码建议放置在这里。至于内核源码建议放置在/usr/src/linux/目录下&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;/var目录内容
+    &lt;ul&gt;
+      &lt;li&gt;/var系统运行后开始暂用硬盘容量，包括缓存（cache）、登录文件（logfile）以及某些软件运行所产生的文件（lock file，run file），或者例如MYSQL数据库的文件&lt;/li&gt;
+      &lt;li&gt;/var/cache/：应用程序本身运行过程中会产生的暂存文件&lt;/li&gt;
+      &lt;li&gt;/var/lib/：程序执行过程中，需要使用到的数据文件位置，软件有各自的目录&lt;/li&gt;
+      &lt;li&gt;/var/lock/：存放某些设备或者文件资源的使用锁文件&lt;/li&gt;
+      &lt;li&gt;/var/log：登录文件放置的目录&lt;/li&gt;
+      &lt;li&gt;/var/mail/：放置个人电子邮件信箱的目录，不过这个目录也被放置到val/spool/mail/目录中，通常这两个目录互为链接文件&lt;/li&gt;
+      &lt;li&gt;/var/run/：某些程序或者服务启动后，会将他们的PID放置这个目录下&lt;/li&gt;
+      &lt;li&gt;/var/spool/：存放程序使用的数据的队列&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;141目录与路径&quot;&gt;1.4.1目录与路径&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;常见处理目录和文件的命令
+    &lt;ul&gt;
+      &lt;li&gt;cd：切换目录，重要：-表示前一个工作目录&lt;/li&gt;
+      &lt;li&gt;pwd：现实当前目录&lt;/li&gt;
+      &lt;li&gt;mkdir：新建一个新的目录&lt;/li&gt;
+      &lt;li&gt;rmdir：删除一个空的目录&lt;/li&gt;
+      &lt;li&gt;cp：复制文件或目录&lt;/li&gt;
+      &lt;li&gt;dd：命令十分强大，可以用于备份，设置制作启动盘&lt;/li&gt;
+      &lt;li&gt;rm：删除文件或目录&lt;/li&gt;
+      &lt;li&gt;mv：移动文件或目录&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;15文件操作&quot;&gt;1.5文件操作&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;文件创建或者查看
+    &lt;ul&gt;
+      &lt;li&gt;cat：由第一行开始显示文件内容&lt;/li&gt;
+      &lt;li&gt;tac：从最后一行开始显示，可以看出tac是cat的倒写&lt;/li&gt;
+      &lt;li&gt;nl：显示的时候顺便输出行号&lt;/li&gt;
+      &lt;li&gt;more：一页一页地显示文件内容&lt;/li&gt;
+      &lt;li&gt;less：与more相似，但是比more更好的是，它可以往前翻页&lt;/li&gt;
+      &lt;li&gt;head：只看头几行&lt;/li&gt;
+      &lt;li&gt;tail：只看结尾几行&lt;/li&gt;
+      &lt;li&gt;od：以二进制的方式读取文件内容&lt;/li&gt;
+      &lt;li&gt;touch：创建文件&lt;/li&gt;
+      &lt;li&gt;file：查看文件类型&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;文件的查询
+    &lt;ul&gt;
+      &lt;li&gt;which ：寻找“执行文件”的位置&lt;/li&gt;
+      &lt;li&gt;type：判断“执行文件”的类型&lt;/li&gt;
+      &lt;li&gt;whereis：查找文件的绝对地址&lt;/li&gt;
+      &lt;li&gt;locate：查找文件的绝对地址&lt;/li&gt;
+      &lt;li&gt;find：可以查询时间、用户、类型、权限、大小相关的文件，功能强大，但是需要扫描磁盘，一次速度略慢&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;16磁盘管理&quot;&gt;1.6磁盘管理&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;磁盘管理常用命令
+    &lt;ul&gt;
+      &lt;li&gt;df：查看磁盘占用情况&lt;/li&gt;
+      &lt;li&gt;fdisk：磁盘分区&lt;/li&gt;
+      &lt;li&gt;mkfs：磁盘格式化&lt;/li&gt;
+      &lt;li&gt;fsck、badblocks：磁盘检验，通常只有身为root且你的文件系统有问题的时候才使用这个命令&lt;/li&gt;
+      &lt;li&gt;mount：磁盘挂载&lt;/li&gt;
+      &lt;li&gt;unmount：磁盘卸载&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;17常见的压缩命令&quot;&gt;1.7常见的压缩命令&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;常见的压缩格式：
+    &lt;ul&gt;
+      &lt;li&gt;.Z：compress程序压缩的命令&lt;/li&gt;
+      &lt;li&gt;.gz：gzip程序压缩的文件&lt;/li&gt;
+      &lt;li&gt;.bz2：bzip2程序压缩的文件&lt;/li&gt;
+      &lt;li&gt;.tar：tar程序打包的数据，并没有压缩过&lt;/li&gt;
+      &lt;li&gt;.tar.gz：tar程序打包的文件，其中经过gzip的压缩&lt;/li&gt;
+      &lt;li&gt;.tar.bz2：tar程序打包的文件，其中经过bzip2的压缩&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;压缩与解压缩命令
+    &lt;ul&gt;
+      &lt;li&gt;gzip：压缩并且删除源文件&lt;/li&gt;
+      &lt;li&gt;gzip -d：解压缩并且删除源文件&lt;/li&gt;
+      &lt;li&gt;zcat：查看压缩文件内容&lt;/li&gt;
+      &lt;li&gt;bzip2：为取代gzip而开发的压缩命令，效果比gzip更好，-k选项能够保留源文件&lt;/li&gt;
+      &lt;li&gt;bzip2 -d：解压缩&lt;/li&gt;
+      &lt;li&gt;bzcat：查看压缩文件的内容&lt;/li&gt;
+      &lt;li&gt;tar -jcv -f filename.tar.bz2 要被压缩的文件：通过bzip2的支持进行压缩，排除特定文件可用–exclude=file&lt;/li&gt;
+      &lt;li&gt;tar -zcv -f filename.tar.gz 要被压缩的文件：通过gzip的支持进行压缩&lt;/li&gt;
+      &lt;li&gt;
+        &lt;table&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;
+              &lt;td&gt;tar -jtv -f 文件路径：查阅tar文件中的数据内容（可查看文件名），后面加上&lt;/td&gt;
+              &lt;td&gt;grep ’string‘可以查看tar包中符合搜索项的文件&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/li&gt;
+      &lt;li&gt;tar -jxv -f 文件路径：解压缩bzip2压缩的tar文件，后面加上带解开文件名即可解压缩指定文件&lt;/li&gt;
+      &lt;li&gt;tar -zxv -f 文件路径：解压缩gzip压缩的tar文件，后面同上&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 15 Jul 2018 21:35:10 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+        
+        <category>notes</category>
+        
+        
+        <category>notes</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>markdown语法</title>
+        <description>This is an H1
+
+&lt;hr /&gt;
+
+为什么===+回车不会变成横线
+
+====
+
+这是H1
+
+这是 H2
+
+这是 H6
+
+尾部加上#只是为了美观，没有实质作用
+
+This is  a blockquote with two paragraphs.Lorem ipsum dolor sit amet,
+
+consectetuer adipiscing elit.Aliquam hendrefit mi posuere lectus.
+
+Vestibulum enim wisi,viverra nec,fringilla in,laoreet vitae,risus.
+
+</description>
+        <pubDate>Wed, 11 Jul 2018 11:40:18 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+        
+        <category>markdown</category>
+        
+        
+        <category>notes</category>
+        
+      </item>
+    
+  </channel>
+</rss>

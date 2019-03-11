@@ -1,0 +1,1391 @@
+<p>[TOC]</p>
+
+<h3 id="1鸭子模型">1.鸭子模型</h3>
+
+<p>在程序设计中，鸭子类型（duck typing）是动态类型的一种风格。在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由”当前方法和属性的集合”决定。“鸭子测试”可以这样表述:</p>
+
+<blockquote>
+  <p>一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟可以被称为鸭子“</p>
+</blockquote>
+
+<p>在鸭子类型中，关注点在于对象的行为，能作什么；而不是关注对象所属的类型。例如，在不使用鸭子类型的语言中，我们可以编写一个函数，它接受一个类型为”鸭子”的对象，并调用它的”走”和”叫”方法。在使用鸭子类型的语言中，这样的一个函数可以接受一个任意类型的对象，并调用它的”走”和”叫”方法。如果这些需要被调用的方法不存在，那么将引发一个运行时错误。任何拥有这样的正确的”走”和”叫”方法的对象都可被函数接受的这种行为引出了以上表述，这种决定类型的方式因此得名。</p>
+
+<p>鸭子类型通常得益于”不”测试方法和函数中参数的类型，而是依赖文档、清晰的代码和测试来确保正确使用。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#使用鸭子类型处理单个字符串或由字符串组成的可迭代对象
+</span><span class="k">try</span><span class="p">:</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="n">field_names</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">','</span><span class="p">,</span><span class="s">' '</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="k">except</span> <span class="nb">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="n">field_names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">field_names</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2特殊方法">2.特殊方法</h3>
+
+<p>python解释器碰到特殊的句法时，会使用特殊方法去激活一些基本的对象操作，这些特殊方法的名字以两个下划线开头，以两个下划线结尾（例如__getitem__)。比如obj[key]背后就是__getitem__()方法，为了能求得my_collection[key]的值，解释器实际上会调用mycollection.__getitem__(key)。这些特殊方法名能让你自己的对象实现和支持以下的语言框架，并与之交互：</p>
+
+<blockquote>
+  <ul>
+    <li>迭代</li>
+    <li>集合类</li>
+    <li>属性访问</li>
+    <li>运算符重载</li>
+    <li>函数和方法的调用</li>
+    <li>字符串表示形式和格式化（基础方法）</li>
+    <li>管理上下文（用with块）</li>
+    <li>序列化</li>
+    <li>对象的创建和销毁</li>
+  </ul>
+</blockquote>
+
+<h4 id="21-python命名规则">2.1 python命名规则</h4>
+
+<ul>
+  <li>“单下划线”开始的成员变量叫做保护变量，意思是只有类对象和子类对象自己能访问到这些变量</li>
+  <li>”双下划线“开始是私有成员，意思是只有类对象自己能访问，连子对象也不能访问到这个数据</li>
+  <li>”双下划线“开始，”双下划线“结束的函数代表python里特殊方法专用的标识。</li>
+</ul>
+
+<h4 id="22-类的基础方法">2.2 类的基础方法</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>初始化一个实例</td>
+      <td>x = Myclass()</td>
+      <td>x.__init__()</td>
+    </tr>
+    <tr>
+      <td>字符串的“官方”表现形式</td>
+      <td>repr()</td>
+      <td>x.__repr__()</td>
+    </tr>
+    <tr>
+      <td>字符串的“非正式”值</td>
+      <td>str()</td>
+      <td>x.__str__()</td>
+    </tr>
+    <tr>
+      <td>字节数组的“非正式“值</td>
+      <td>bytes(x)</td>
+      <td>x.__bytes__()</td>
+    </tr>
+    <tr>
+      <td>格式化字符串的值</td>
+      <td>format(x,format_spec)</td>
+      <td>x.__format__(format_spec)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="23行为方式与迭代器类似的类">2.3行为方式与迭代器类似的类</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>遍历某个序列</td>
+      <td>iter(seq)</td>
+      <td>seq.__iter__()</td>
+    </tr>
+    <tr>
+      <td>从迭代器中获取下一个值</td>
+      <td>next(seq)</td>
+      <td>seq.__next__()</td>
+    </tr>
+    <tr>
+      <td>按逆序创建一个迭代器</td>
+      <td>reversed(seq)</td>
+      <td>seq.__reversed__()</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="24-集合类">2.4 集合类</h4>
+
+<h5 id="241-行为方式与序列类似的类">2.4.1 行为方式与序列类似的类</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>序列的长度</td>
+      <td>len(seq)</td>
+      <td>seq.__len__()</td>
+    </tr>
+    <tr>
+      <td>了解某序列是否包含特定的方法</td>
+      <td>x in seq</td>
+      <td>seq.__contain__(x)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="242-行为方式与字典类似的类">2.4.2 行为方式与字典类似的类</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>通过键来获取值</td>
+      <td>x[key]</td>
+      <td>x.__getitem__(key)</td>
+    </tr>
+    <tr>
+      <td>通过键来设置值</td>
+      <td>x[key] = value</td>
+      <td>x.__setitem__(key,value)</td>
+    </tr>
+    <tr>
+      <td>删除一个键值对</td>
+      <td>del x[key]</td>
+      <td>x.__delitem__(key)</td>
+    </tr>
+    <tr>
+      <td>为缺失提供默认值</td>
+      <td>x[nonexistent_key]</td>
+      <td>x.__missing__(nenexistent_key)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="24-属性访问">2.4 属性访问</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>获取一个计算属性</td>
+      <td>x.my_property</td>
+      <td>x.__getattribute__(‘my_property’)</td>
+    </tr>
+    <tr>
+      <td>获取一个计算属性（后备）</td>
+      <td>x.my_property</td>
+      <td>x.__getattr__(‘my_property’)</td>
+    </tr>
+    <tr>
+      <td>设置某属性</td>
+      <td>x.my_property = value</td>
+      <td>x.__setattr__(‘my_property,value’)</td>
+    </tr>
+    <tr>
+      <td>删除某属性</td>
+      <td>del x.my_property</td>
+      <td>x.__delattr__(‘my_property’)</td>
+    </tr>
+    <tr>
+      <td>列出所有属性和方法</td>
+      <td>dir(x)</td>
+      <td>x.__dir__()</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="25-运算符重载">2.5 运算符重载</h4>
+
+<h5 id="251比较运算符">2.5.1比较运算符</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>相等</td>
+      <td>x == y</td>
+      <td>x.__eq__(y)</td>
+    </tr>
+    <tr>
+      <td>不相等</td>
+      <td>x != y</td>
+      <td>x.__ne__(y)</td>
+    </tr>
+    <tr>
+      <td>小于</td>
+      <td>x &lt; y</td>
+      <td>x.__lt__(y)</td>
+    </tr>
+    <tr>
+      <td>小于或等于</td>
+      <td>x &lt;= y</td>
+      <td>x.__le__(y)</td>
+    </tr>
+    <tr>
+      <td>大于</td>
+      <td>x &gt; y</td>
+      <td>x.__gt__(y)</td>
+    </tr>
+    <tr>
+      <td>大于或等于</td>
+      <td>x &gt;= y</td>
+      <td>x.__ge__(y)</td>
+    </tr>
+    <tr>
+      <td>布尔上下文环境中的真值</td>
+      <td>if x:</td>
+      <td>x.__bool__()</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="252-计算运算符">2.5.2 计算运算符</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>加法或拼接</td>
+      <td>+</td>
+      <td>x.__add__(y)</td>
+    </tr>
+    <tr>
+      <td>减法</td>
+      <td>-</td>
+      <td>x.__sub__(y)</td>
+    </tr>
+    <tr>
+      <td>乘法或重复复制</td>
+      <td>×</td>
+      <td>x.__mul__(y)</td>
+    </tr>
+    <tr>
+      <td>除法</td>
+      <td>/</td>
+      <td>x.__truediv__(y)</td>
+    </tr>
+    <tr>
+      <td>整除</td>
+      <td>//</td>
+      <td>x.__floordiv__(y)</td>
+    </tr>
+    <tr>
+      <td>取模</td>
+      <td>%</td>
+      <td>x.__mod__(y)</td>
+    </tr>
+    <tr>
+      <td>返回由整除的商和模数组成的元祖</td>
+      <td>divmod()</td>
+      <td>x.__divmod__(y)</td>
+    </tr>
+    <tr>
+      <td>取幂</td>
+      <td>**,pow()</td>
+      <td>x.__pow__(y)</td>
+    </tr>
+    <tr>
+      <td>矩阵乘法</td>
+      <td>@</td>
+      <td>x.__matmul__(y)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="26-行为方式与函数类似的类">2.6 行为方式与函数类似的类</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>像调用函数一样”调用“一个实例</td>
+      <td>my_instance()</td>
+      <td>my_instance.__call__()</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="27-可在with语块中使用的类">2.7 可在with语块中使用的类</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>在进入with语块时进行一些特别操作</td>
+      <td>with x:</td>
+      <td>x.__enter__()</td>
+    </tr>
+    <tr>
+      <td>在退出with语块时进行一些特别操作</td>
+      <td>with x:</td>
+      <td>x.__exit_|_()</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>__exit__()方法将总是被调用，哪怕是在with语块中引发了例外。实际上，如果引发了例外，该例外信息将会被传递给__exit__()方法。</li>
+</ul>
+
+<h4 id="28-可序列化的类">2.8 可序列化的类</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>自定义对象的复制</td>
+      <td>copy.copy(x)</td>
+      <td>x.__copy__()</td>
+    </tr>
+    <tr>
+      <td>自定义对象的深度复制</td>
+      <td>copy.deepcopy(x)</td>
+      <td>x.__deepcopy__()</td>
+    </tr>
+    <tr>
+      <td>在picking之前获取对象的状态</td>
+      <td>pickle.dump(x,file)</td>
+      <td>x.__getstate__()</td>
+    </tr>
+    <tr>
+      <td>序列化某对象</td>
+      <td>pickle.dump(x,file)</td>
+      <td>x.__reduce__()</td>
+    </tr>
+    <tr>
+      <td>序列化某对象（新picking协议）</td>
+      <td>pickle.dum(x,file,protoco_version)</td>
+      <td>x.__reduce_ex__(protocol_version)</td>
+    </tr>
+    <tr>
+      <td>控制unpicking过程中对象的创建方式</td>
+      <td>x = pickle.load(file)</td>
+      <td>x.__getnewargs__()</td>
+    </tr>
+    <tr>
+      <td>在unpicking之后还原对象的状态</td>
+      <td>x = pickle.load(file)</td>
+      <td>x.__setstate__()</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="29-类的控制">2.9 类的控制</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>目的</th>
+      <th>代码</th>
+      <th>python实际调用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>类构造器</td>
+      <td>x.Myclass()</td>
+      <td>x.__new__()</td>
+    </tr>
+    <tr>
+      <td>类析构器</td>
+      <td>del x</td>
+      <td>x.__del__()</td>
+    </tr>
+    <tr>
+      <td>只定义特定集合的某些属性</td>
+      <td> </td>
+      <td>x.__slots__()</td>
+    </tr>
+    <tr>
+      <td>自定义散列值</td>
+      <td>hash(x)</td>
+      <td>x.__hash__()</td>
+    </tr>
+    <tr>
+      <td>获取某个属性的值</td>
+      <td>x.color</td>
+      <td>type(x).__dict__[‘color’].__get__(x,type(x))</td>
+    </tr>
+    <tr>
+      <td>设置某个属性的值</td>
+      <td>x.color = ‘PapayWhip’</td>
+      <td>type(x).__dict__[‘color’].__set__(x,’PapayWhip’)</td>
+    </tr>
+    <tr>
+      <td>删除某个属性</td>
+      <td>del x.color</td>
+      <td>type(x).__dict__[‘color’].__del__(x)</td>
+    </tr>
+    <tr>
+      <td>控制某个对象是否是该对象的实例</td>
+      <td>isinstance(x,MyClass)</td>
+      <td>Myclass.__instancecheck__(x)</td>
+    </tr>
+    <tr>
+      <td>控制某个类是否是该类的子类</td>
+      <td>insubclass(c,MyClass)</td>
+      <td>Myclass.__subclasscheck__(c)</td>
+    </tr>
+    <tr>
+      <td>控制某个类是否是该抽象基类的子类</td>
+      <td>issubclass(c,MyABC)</td>
+      <td>MyABC.__subclasshook__(c)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="3数据结构的操作">3、数据结构的操作</h3>
+
+<h4 id="31-迭代">3.1 迭代</h4>
+
+<ul>
+  <li>列表推导/列表生成</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#将字符串转化成对应的ascll字符
+</span><span class="n">symbols</span> <span class="o">=</span> <span class="s">'abcdef'</span>
+<span class="c1">#列表推导
+</span><span class="n">codes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">]</span>
+<span class="c1">#列表生成
+</span><span class="n">codes</span> <span class="o">=</span> <span class="n">tuplle</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>字典推导</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#将列表转化为字典
+</span><span class="n">DIAL_CODES</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">86</span><span class="p">,</span><span class="s">'CHINA'</span><span class="p">),(</span><span class="mi">91</span><span class="p">,</span><span class="s">'INDIA'</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="s">'UNITED STATE'</span><span class="p">)]</span>
+<span class="n">country_code</span> <span class="o">=</span> <span class="p">{</span><span class="n">country</span><span class="p">:</span><span class="n">code</span> <span class="k">for</span> <span class="n">code</span><span class="p">,</span><span class="n">country</span> <span class="ow">in</span> <span class="n">DIAL_CODES</span><span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>集合推导</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#把编码在32～255之间的字符的名字里有”SIGN“单词的挑出来，放在一个集合中
+</span><span class="p">{</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">256</span><span class="p">)</span> <span class="k">if</span> <span class="s">'SIGN'</span> <span class="ow">in</span> <span class="n">name</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="s">''</span><span class="p">)}</span>
+</code></pre></div></div>
+
+<h4 id="32切片">3.2切片</h4>
+
+<ul>
+  <li>
+    <p>一维数组/列表，无非记住一个规则 <code class="highlighter-rouge">arr_name[start : end :step]</code></p>
+
+    <blockquote>
+      <p><code class="highlighter-rouge">[:]</code>表示复制源列表</p>
+
+      <p>负的index表示，从后往前。-1表示最后一个元素</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>二维（多维）数组的一般语法为<code class="highlighter-rouge">arr_name[行操作,列操作]</code></p>
+
+    <blockquote>
+      <p>取行数据：</p>
+
+      <ul>
+        <li>arr[i,:]	#取第i行数据
+	arr[i:j, :]	#取第i行到第j行的数据</li>
+      </ul>
+
+      <p>取列数据：</p>
+
+      <ul>
+        <li>arr[: ,0]	#取第0列数据，以行的形式返回</li>
+        <li>arr[:, :1]  #取第0列数据，以列的形式返回</li>
+      </ul>
+
+      <p>取数据块：</p>
+
+      <ul>
+        <li>arr[1:2, 1:3]	#取第二行同时是第二列和地三列的元素</li>
+        <li>arr[:, ::2]         #取第一维的全部，按步长取第二维索引0到末尾之间的元素</li>
+      </ul>
+    </blockquote>
+  </li>
+</ul>
+
+<h4 id="33排序">3.3排序</h4>
+
+<h5 id="331排序">3.3.1排序</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">'grape'</span><span class="p">,</span><span class="s">'raspberry'</span><span class="p">,</span><span class="s">'apple'</span><span class="p">,</span><span class="s">'banana'</span><span class="p">]</span>
+
+<span class="c1">#list.sort方法
+</span><span class="n">fruits</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span><span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1">#内置的sorted方法
+</span><span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="332-用bisect来搜索">3.3.2 用bisect来搜索</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#bisect(haystack, needle)：在haystack（干草垛）中搜索needle（针）的位置
+</span><span class="kn">import</span> <span class="nn">bisect</span>
+<span class="n">HAYSTACK</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">30</span><span class="p">]</span>
+<span class="n">NEEDLES</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">31</span><span class="p">]</span>
+
+<span class="n">ROW_FMT</span> <span class="o">=</span> <span class="s">'{0:2d} {1:2d}	{2}{0:&lt;2d}'</span>
+<span class="k">for</span> <span class="n">needle</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">NEEDLES</span><span class="p">):</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">bisect</span><span class="p">(</span><span class="n">HAYSTACK</span><span class="p">,</span><span class="n">needle</span><span class="p">)</span>
+   	<span class="n">offset</span> <span class="o">=</span> <span class="n">position</span> <span class="o">*</span> <span class="s">'	|'</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ROW_FMT</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">needle</span><span class="p">,</span><span class="n">position</span><span class="p">,</span><span class="n">offset</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h5 id="333-用bisectinsort向有序表插入值">3.3.3 用bisect.insort向有序表插入值</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#insort可以保持有序序列的顺序
+</span><span class="kn">import</span> <span class="nn">bisect</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">SIZE</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1729</span><span class="p">)</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">SIZE</span><span class="p">):</span>	
+    <span class="n">new_item</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">SIZE</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="n">my_lsit</span><span class="p">,</span><span class="n">new_item</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="si">%2</span><span class="s">d -&gt;'</span> <span class="o">%</span> <span class="n">new_item</span><span class="p">,</span><span class="n">my_lsit</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="34拼接">3.4拼接</h4>
+
+<h5 id="341字符串拼接">3.4.1字符串拼接</h5>
+
+<blockquote>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#直接通过加号（+）操作符连接
+</span><span class="n">website</span> <span class="n">w</span> <span class="o">=</span> <span class="s">'python'</span> <span class="o">+</span> <span class="s">'tab'</span> <span class="o">+</span> <span class="s">'.com'</span>
+
+<span class="c1">#join方法
+</span><span class="n">listStr</span> <span class="o">=</span> <span class="p">[</span><span class="s">'python'</span><span class="p">,</span> <span class="s">'tab'</span><span class="p">,</span> <span class="s">'.com'</span><span class="p">]</span> 
+<span class="n">website</span> <span class="o">=</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">listStr</span><span class="p">)</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h5 id="342-列表拼接">3.4.2 列表拼接</h5>
+
+<blockquote>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">123</span><span class="p">,</span> <span class="s">'xyz'</span><span class="p">,</span> <span class="s">'zara'</span><span class="p">,</span> <span class="s">'abc'</span><span class="p">]</span>
+<span class="n">aList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2009</span><span class="p">)</span>
+<span class="n">aList</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">2010</span><span class="p">])</span>
+<span class="s">"Updated List : {}"</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">aList</span><span class="p">)</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<h3 id="4把函数当作对象">4.把函数当作对象</h3>
+
+<h4 id="41闭包">4.1闭包</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#计算移动平均值
+</span><span class="k">def</span> <span class="nf">make_averager</span><span class="p">():</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+  	
+    <span class="k">def</span> <span class="nf">averager</span><span class="p">(</span><span class="n">new_value</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">count</span><span class="p">,</span> <span class="n">total</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">new_value</span>
+        <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span> 
+    <span class="k">return</span> <span class="n">averager</span>
+<span class="c1">#test
+</span><span class="n">ave</span> <span class="o">=</span> <span class="n">make_averager</span><span class="p">()</span>
+<span class="n">ave</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ave</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="42装饰器">4.2装饰器</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#一个简单的装饰器，支持处理关键字参数
+</span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">DEFAULT_FMT</span> <span class="o">=</span> <span class="s">'[{elasped:0.8f}s] {name} {name}({args}) -&gt; {result}'</span>
+
+<span class="k">def</span> <span class="nf">clock</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">DEFAULT_FMT</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">clocked</span><span class="p">(</span><span class="o">*</span><span class="n">_args</span><span class="p">):</span>
+            <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">_result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">_args</span><span class="p">)</span>
+            <span class="n">elasped</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="s">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">_args</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">_result</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">()))</span>
+            <span class="k">return</span> <span class="n">_result</span>
+        <span class="k">return</span> <span class="n">clocked</span>
+    <span class="k">return</span> <span class="n">decorate</span>
+
+<span class="o">@</span><span class="n">clock</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">snooze</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+   <span class="n">snooze</span><span class="p">(</span><span class="mf">.123</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="43单分派泛函数">4.3单分派泛函数</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#functools.singledspatch装饰器可以把整体方案拆分为多个模块，使用@singledspatch装饰的普通函数会变为泛函数：根据第一个参数的类型，以不同的方式执行相同的操作的一组函数
+</span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">singledspatch</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">abc</span>
+<span class="k">from</span> <span class="n">numbers</span>
+<span class="k">from</span> <span class="n">html</span>
+
+<span class="o">@</span><span class="n">singledspatch</span>
+<span class="k">def</span> <span class="nf">htmlize</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s">'&lt;pre&gt;{}&lt;/pre&gt;'</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+<span class="o">@</span><span class="n">htmlize</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="s">'&lt;br&gt;</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">'&lt;p&gt;{0}&lt;/p&gt;'</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+<span class="o">@</span><span class="n">htmlize</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'&lt;pre&gt;{0} (0x{0:x})&lt;/pre&gt;'</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="o">@</span><span class="n">htmlize</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">tuple</span><span class="p">)</span>
+<span class="o">@</span><span class="n">htmlize</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+    <span class="n">inner</span> <span class="o">=</span> <span class="s">'&lt;/li&gt;</span><span class="se">\n</span><span class="s">&lt;li&gt;'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">htmlize</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">'&lt;ul&gt;</span><span class="se">\n</span><span class="s">&lt;li&gt;'</span> <span class="o">+</span> <span class="n">inner</span> <span class="o">+</span> <span class="s">'&lt;/li&gt;</span><span class="se">\n</span><span class="s">&lt;/ul&gt;</span><span class="err">
+</span></code></pre></div></div>
+
+<h4 id="44参数化装饰器">4.4参数化装饰器</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#为了便于启用或禁用register执行的函数注册功能，我们为它提供了一个可选的active参数，设为False时，不注册被装饰的函数
+</span><span class="n">registry</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'running register(active=</span><span class="si">%</span><span class="s">s) -&gt; decorator(</span><span class="si">%</span><span class="s">s)'</span>
+             <span class="o">%</span> <span class="p">(</span><span class="n">active</span><span class="p">,</span><span class="n">func</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">active</span><span class="p">:</span>
+            <span class="n">registry</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">registry</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="o">@</span><span class="n">register</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">f1</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'running f1'</span><span class="p">)</span>
+   
+<span class="o">@</span><span class="n">register</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'running f2'</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">f3</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'runing f3'</span><span class="p">)</span>
+
+<span class="c1">#test
+</span><span class="n">registry</span>
+<span class="c1">#为了接受新参数，新的register装饰器必须作为函数调用
+</span><span class="n">register</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">)(</span><span class="n">f3</span><span class="p">)</span>
+<span class="n">registry</span>
+    
+<span class="n">register</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">)(</span><span class="n">f2</span><span class="p">)</span>
+<span class="n">registry</span>
+</code></pre></div></div>
+
+<h3 id="5自定义一个实现序列接口的类">5.自定义一个实现序列接口的类</h3>
+
+<blockquote>
+  <p>自定义的类实现了以下功能：</p>
+
+  <ul>
+    <li>基本的序列协议——__len__和__getitem__</li>
+    <li>正确表述拥有很多元素的实例</li>
+    <li>适当的切片支持，用于生成新的vector实例</li>
+    <li>综合各个元素的值计算散列值</li>
+    <li>自定义的格式语言扩展</li>
+  </ul>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#实现鸭子模型
+</span><span class="kn">from</span> <span class="nn">array</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">class</span> <span class="nc">Vector2d</span><span class="p">:</span>
+    
+    <span class="n">typecode</span> <span class="o">=</span> <span class="s">'d'</span>
+    
+<span class="c1">#     def __init__(self,x,y):
+#         self.x = float(x)
+#         self.y = float(y)
+#为了实现类可散列的特性，需要将类变量设成不可变类型也就是加上只读特性（1、设为私有，2、getter方法），最后实现可散列特性
+#增加__hash__()
+</span>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x</span>
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y</span>
+    
+    <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">^</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="k">return</span> <span class="s">'{}({!r},{!r})'</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span><span class="o">*</span><span class="bp">self</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">([</span><span class="nb">ord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typecode</span><span class="p">)])</span><span class="o">+</span><span class="nb">bytes</span><span class="p">(</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typecode</span><span class="p">,</span><span class="bp">self</span><span class="p">)))</span>
+    
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__abs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c1">#添加备选构造方法
+</span>    <span class="o">@</span><span class="nb">classmethod</span>
+    <span class="k">def</span> <span class="nf">frombytes</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span><span class="n">octets</span><span class="p">):</span>
+        <span class="n">typecode</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">octets</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">memv</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">octets</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">typecode</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="o">*</span><span class="n">memv</span><span class="p">)</span>
+    
+    
+    
+    <span class="k">def</span> <span class="nf">ang</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1">#实现format方法
+#     def __format__(self,fmt_spec=''):
+#         components  = (format(c,fmt_spec)for c in self)
+#         return '({},{})'.format(*components)
+</span>    <span class="c1">#对format方法拓展极坐标的表示方法
+</span>    <span class="k">def</span> <span class="nf">__format__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fmt_spec</span><span class="o">=</span><span class="s">''</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fmt_spec</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">'p'</span><span class="p">):</span>
+            <span class="n">fmt_spec</span> <span class="o">=</span> <span class="n">fmt_spec</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">ang</span><span class="p">())</span>
+            <span class="n">outer_fmt</span> <span class="o">=</span> <span class="s">'&lt;{},{}&gt;'</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="n">outer_fmt</span> <span class="o">=</span> <span class="s">'({},{})'</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">fmt_spec</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">outer_fmt</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="o">*</span><span class="n">components</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="5可迭代的对象迭代器和生成器">5.可迭代的对象、迭代器和生成器</h3>
+
+<blockquote>
+  <p>迭代是数据处理的基石。扫描内存中方不下的数据集时，我们要找一种惰性获取数据项的方式，即按需一次获取一个数据项。这就是迭代器模式。</p>
+</blockquote>
+
+<h4 id="51可迭代对象">5.1可迭代对象</h4>
+
+<h5 id="511序列可以迭代的原因">5.1.1序列可以迭代的原因</h5>
+
+<p>解释器需要迭代对象x时，会自动调用iter(x),内置的iter函数有以下作用：</p>
+
+<blockquote>
+  <ul>
+    <li>检查对象是否实现了__iter__方法，如果实现了就调用它，获取一个迭代器。</li>
+    <li>如果没有实现__iter__方法，但是实现了__getitem__方法，python会创建一个迭代器，尝试按顺序（从索引0开始）获取元素</li>
+    <li>如果尝试失败，python抛出TypeError异常，通常会提示”C object is not iterable“，其中C是目标迭代对象</li>
+  </ul>
+</blockquote>
+
+<h4 id="52--迭代器">5.2  迭代器</h4>
+
+<h5 id="521迭代器的接口">5.2.1迭代器的接口</h5>
+
+<blockquote>
+  <p>标准的迭代器接口有两个方法:</p>
+
+  <ul>
+    <li>__next__:返回下一个可用的元素，如果没有元素了，抛出StopIteration</li>
+    <li>__iter__：返回self，以便在应该使用可迭代对象的地方使用迭代器，例如在for循环中</li>
+  </ul>
+</blockquote>
+
+<h5 id="522-一个经典的迭代器">5.2.2 一个经典的迭代器</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#可迭代对象和迭代器一定不能在一个对象中同时实现,一下为典型的迭代器
+</span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">reprlib</span>
+
+<span class="n">RE_WORD</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">w+'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Sentence</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">words</span> <span class="o">=</span> <span class="n">RE_WORD</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SentenceIterator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">'Sentence(</span><span class="si">%</span><span class="s">s)'</span> <span class="o">%</span> <span class="n">reprlib</span><span class="o">.</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    
+<span class="c1">#实现迭代器
+</span><span class="k">class</span> <span class="nc">SentenceIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">words</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">words</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">words</span> <span class="o">=</span> <span class="n">words</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">words</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">except</span> <span class="nb">IndexError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">StopIteration</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">word</span>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></div>
+
+<h5 id="523为什么不能把迭代对象同时变成迭代器添加__next__方法">5.2.3为什么不能把迭代对象同时变成迭代器（添加__next__()方法）</h5>
+
+<blockquote>
+  <p>《设计模式：可复用面向对象软件的基础》一书认为：</p>
+
+  <p>迭代器模式可以用来：</p>
+
+  <ul>
+    <li>访问一个聚合对象的内容而无需暴露它的内部表示</li>
+    <li>支持对聚合对象的多种遍历</li>
+    <li>为遍历不同的聚合结构提供统一的接口（即支持多态迭代）</li>
+  </ul>
+
+  <p>为了”支持多种遍历“，必须能从同一个可迭代的实例中获取多个独立的迭代器，而且各个迭代器要能维护自身的内部状态，因此这一模式正确的实现方式是，每次调用iter（my_iterable）都新建一个独立的迭代器，这就是为什么可迭代对象一定不能是自身的迭代器。也就是说，可迭代的对象必须实现 __iter__方法，但不能实现__next__方法</p>
+</blockquote>
+
+<h5 id="524-用生成器函数代替迭代器">5.2.4 用生成器函数代替迭代器</h5>
+
+<blockquote>
+  <p>只要python函数的定义体中有yield关键字，该函数就是生成器函数。调用生成器函数时，会返回一个生成器对象，也就是说，生成器函数就是生成器工厂。</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#使用生成器yield代替SentenceIterator类
+</span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">reprlib</span>
+
+<span class="n">RE_WORD</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">w+'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Sentence</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">words</span> <span class="o">=</span> <span class="n">RE_WORD</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">words</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">word</span>
+        <span class="k">return</span> 
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">'Sentence(</span><span class="si">%</span><span class="s">s)'</span> <span class="o">%</span> <span class="n">reprlib</span><span class="o">.</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="525-使用生成器表达式改进生成器函数并且惰性实现">5.2.5 使用生成器表达式改进生成器函数，并且惰性实现</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#使用生成器表达式简化生成器函数,并且对__iter__函数惰性实现
+</span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">reprlib</span>
+
+<span class="n">RE_WORD</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">w+'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Sentence</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">()</span> <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">RE_WORD</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">'Sentence(</span><span class="si">%</span><span class="s">s)'</span> <span class="o">%</span> <span class="n">reprlib</span><span class="o">.</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="53-标准库中的生成器函数">5.3 标准库中的生成器函数</h4>
+
+<h5 id="531-过滤功能">5.3.1 过滤功能</h5>
+
+<blockquote>
+  <p>从输入的可迭代对象中产出元素的子集，而且不修改元素本身</p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>itertools</td>
+      <td>compress(it, selector_it)</td>
+      <td>并行处理两个可迭代的对象;如果selector_it中的元素是真值，产出it中对应的元素</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>dropwhile(predicate,it)</td>
+      <td>处理it，跳过predictate的计算结果为真值的元素，然后产出剩下的各个元素（从第一个False值之后不再进一步检查）</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>filter(predicate,it)</td>
+      <td>把it中的各个元素传给predicate，如果predicate(item)返回真值，那么产出对应的元素，如果predicate是None，那么只产出对应的元素</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>filterfalse(predicate,it)</td>
+      <td>与filter函数的作用类似，不过predicate的逻辑是相反的;predicate返回假值时产出对应的元素</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>islice(it, stop)或isclice(it,start,stop,step=1)</td>
+      <td>产出it的切片，作用类似于s[:stop]或s[start:stop:step]，不过it可以是任何可迭代的对象，而且这个函数实现的是惰性操作</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>takewhile(predicate, it)</td>
+      <td>predicate返回真值时产出对应的元素，然后立即停止，不再继续检查</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="532用于映射的生成器函数">5.3.2用于映射的生成器函数</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>itertools</td>
+      <td>accumulate(it, [func])</td>
+      <td>产出累计的总和;如果提供了func，那么把前两个元素传给它，然后把计算结果和下一个元素传给它，一次类推，最后产出结果</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>enumerate(iterable,start =0)</td>
+      <td>产出由两个元素组成的元祖，结构是(index, item)，其中index从startt开始计数，item则从iterable中获取</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>map(func,it1,[it2,…,itN])</td>
+      <td>把it中的各个元素传给func，产出结果;如果传入N个可迭代的对象，那么func必须能接受N个参数，而且要并行处理各个可迭代对象</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>starmap(func, it)</td>
+      <td>把it中的各个元素传给func，产出结果;输入的可迭代对象应该产出可迭代的元素iit，然后func(*iit)这种形式调用func</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="533合并多个可迭代对象的生成器函数">5.3.3合并多个可迭代对象的生成器函数</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>itertools</td>
+      <td>chain(it1,…,itN)</td>
+      <td>先产出it1中的所有元素，然后产出it2中的所有元素，一次类推，无缝连接在一起</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>chain.from_iterable(it)</td>
+      <td>产出it生成的各个可迭代对象的元素，一个接一个，无缝连接在一起;it应该产出可迭代的元素，例如可迭代的对象列表</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>product(it1,…,itN,repeat=1)</td>
+      <td>计算笛卡尔积：从输入的各个可迭代对象中获取元素，合并成由N个元素组成的元祖，与嵌套的for循环效果一样;repeat指明重复处理多少次输入的可迭代对象</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>zip(it1,…,itN)</td>
+      <td>并行从输入的各个可迭代对象中获取元素，产出由N个元素组成的元祖，只要有一个可迭代的对象到头了，就默默地停止</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>zip_longest(it1,…,itN,fillvalue=None)</td>
+      <td>并行从输入的各个可迭代对象中获取元素，产出由N个元素组成的元祖，等到最长的可迭代对象到头后才停止，空缺的值使用fillvalue填充</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="534把输入的各个元素扩展成多个输出元素的生成器函数">5.3.4把输入的各个元素扩展成多个输出元素的生成器函数</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>itertools</td>
+      <td>combinations(it, out_len)</td>
+      <td>把it产出的out_len个元素组合在一起，然后产出</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>combinations_with_replacement(it, out_len)</td>
+      <td>把it产出的out_len个元素组合在一起，然后产出，包含相同的元素组合</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>count(start = 0, step =1)</td>
+      <td>从start开始不断产出数字，按step指定的步幅增加</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>cycle(it)</td>
+      <td>从it中产出各个元素，存储各个元素的副本，然后按顺序重复不断的产出各个元素</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>permutations(it, out_len=None)</td>
+      <td>把out_len个it产出的元素排列在一起，然后产出这些排列;out_len的默认值等于len(list(it))</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>repeat(item, [items])</td>
+      <td>重复不断产出指定的元素，除非提供times，指定次数</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="535-用于重新排列元素的生成器函数">5.3.5 用于重新排列元素的生成器函数</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>itertools</td>
+      <td>groupby(it, key=None)</td>
+      <td>产出由两个元素组成的元素，形式为(key, group)，其中key是分组标准，group是生成器，用于产出分组中的元素</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>reversed(seq)</td>
+      <td>从后向前，倒序产出seq中的元素，seq必须是序列，或者是实现了__reversed__特殊方法的对象</td>
+    </tr>
+    <tr>
+      <td>itertools</td>
+      <td>tee(it, n=2)</td>
+      <td>产出一个由n个生成器组成的元祖，每个生成器用于单独产出输入的可迭代对象中的元素</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="536可迭代的规约函数">5.3.6可迭代的规约函数</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>（内置）</td>
+      <td>all(it)</td>
+      <td>it中的所有元素都为真值时返回True，否则返回False，all([])返回True</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>any(it)</td>
+      <td>只要it中的元素为真值就返回True，否则返回False，any([])返回false</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>max(it, [key=,][default=])</td>
+      <td>返回it中最大的元素，*key是排序函数，与sorted函数中的一样，如果可迭代的对象为空，返回default</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>min(it, [key=,][default=])</td>
+      <td>返回it中最小的元素，*key是排序函数，与sorted函数中的一样，如果可迭代的对象为空，返回default</td>
+    </tr>
+    <tr>
+      <td>functools</td>
+      <td>reduce(func,it,[initial])</td>
+      <td>把前两个元素传给func，然后把计算结果和第三个元素传给func，以此类推，返回最后的结果，如果提供了initial，把它当作第一个元素传入</td>
+    </tr>
+    <tr>
+      <td>（内置）</td>
+      <td>sum(it,start=0)</td>
+      <td>it中的所有元素的总和，如果提供可选的start，会把它加上（计算浮点数的加法时，可以使用math.fsum函数提高精度）</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="6协程">6.协程</h3>
+
+<h4 id="61把生成器当作协程">6.1把生成器当作协程</h4>
+
+<p>​	python2.2引入yield关键字实现了的生成器函数，python2.5中为生成器对象添加了额外的方法和功能，其中最值得关注的是.send()方法。与__next__()方法一样，.send()方法致使生成器前进到下一个yield语句。不过.send()方法还允许使用生成器的客户把数据发给自己，即不管传给.send()方法什么参数，那个参数都会成为生成器函数定义体中对应的yield表达式的值。也就是说，.send()方法允许客户代码和生成器之间双向交换数据。而__next__()方法只允许客户从生成器中获取数据。</p>
+
+<p>​	这项重要的“改进”甚至改变了生成器的本性：像这样使用的话，生成器就变身成为协程，两者之间的需要注意一下几点：</p>
+
+<blockquote>
+  <ul>
+    <li>生成器用于生成供迭代的数据</li>
+    <li>协程是数据的消费者</li>
+    <li>为了避免脑袋炸裂，不能把两个概念混为一谈</li>
+    <li>协程与迭代无关</li>
+    <li>注意，虽然在协程中会使用yield产出值，但这与迭代无关</li>
+  </ul>
+</blockquote>
+
+<h4 id="62-yield关键词在协程中的作用">6.2 yield关键词在协程中的作用</h4>
+
+<p>​	python中，yield关键字有两种释义：产出和让步。对于python生成器中的yield来说，这两个含义都成立。yield item这行代码会产出一个值，提供给next(…)的调用方;此外，还会做出让步，暂停执行生成器，让调用方继续工作，知道需要使用另一个值时再调用next()。调用方会从生成器中拉取值。</p>
+
+<p>​	协程和生成器对yield关键字的使用方法不同，协程中yield通常出现在表达式的右边 （例如，datum = yield），可以产出值，也可以不产出——如果yield关键字后面没有表达式，那么生成器产出None。协程可能会从调用方接收数据，不过调用方把数据提供给协程使用的方法是.send(datum)方法，而不是next(…)函数。通常，调用方会把值推送给协程。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#使用协程实现记忆性计算平均值的函数
+</span><span class="k">def</span> <span class="nf">average</span><span class="p">():</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">average</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">''</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">term</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">average</span>
+        <span class="k">except</span> <span class="nb">ZeroDivisionError</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">'Please enter number'</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">term</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">average</span> <span class="o">=</span> <span class="n">total</span><span class="o">/</span><span class="n">count</span>
+</code></pre></div></div>
+
+<h4 id="63-yiled--from句法">6.3 yiled  from句法</h4>
+
+<h5 id="631-生成器中的yield-from语句">6.3.1 生成器中的yield from语句</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#yield from可以简化for循环中的yield表达式，例如：
+</span><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="s">'AB'</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">c</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span>
+<span class="c1">#可以改写为：
+</span><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+    <span class="k">yield</span> <span class="k">from</span> <span class="s">'AB'</span>
+    <span class="k">yield</span> <span class="k">from</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    
+    
+<span class="c1">#使用yield from链接可迭代的对象
+</span><span class="k">def</span> <span class="nf">chain</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="k">from</span> <span class="n">it</span>      
+</code></pre></div></div>
+
+<h5 id="632-协程中的-yield-from句法">6.3.2 协程中的 yield from句法</h5>
+
+<p>​	yield from：<strong>把职责委托给子生成器的句法</strong>，使用它可以把复杂的生成器重构成小型的嵌套生成器，省去了之前把生产器的工作委托给子生成器所需的大量样本代码。在协程中，yield from的主要功能是打开双向通道，把最外层的调用方与最内层的子生成器连接起来，这样二者可以直接发送和产出值，还可以直接传入异常，而不用在位于中间的协程中添加大量处理异常的样板代码。有了这个结构，协程可以通过以前不可能的方式委托职责。以下是在协程中使用yield from语句需要了解的新的术语：</p>
+
+<blockquote>
+  <ul>
+    <li>委派生成器
+      <ul>
+        <li>包含yield from<iterable>表达式的生成器函数，委派生成器在yield from表达式处暂停时，调用方可以直接把数据发给子生成器，子生成器再把产出的值发给调用法。子生成器返回之后，解释器会抛出StopIteration异常，并把返回值附加在异常对象上，此时委派生成器会恢复</iterable></li>
+      </ul>
+    </li>
+    <li>子生成器：
+      <ul>
+        <li>从yield from表达式中<iterable>部分获取的生成器。</iterable></li>
+      </ul>
+    </li>
+    <li>调用方
+      <ul>
+        <li>委派生成器的客户端代码</li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Result</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">'Result'</span><span class="p">,</span><span class="s">'count average'</span><span class="p">)</span>
+
+<span class="c1">#子生成器
+</span><span class="k">def</span> <span class="nf">averager</span><span class="p">():</span>
+
+    <span class="n">average</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="k">yield</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">item</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">average</span> <span class="o">=</span> <span class="n">total</span><span class="o">/</span><span class="n">count</span>
+    <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="n">average</span><span class="p">)</span>
+
+
+
+<span class="c1">#委派生成器
+</span><span class="sb">``</span><span class="err">`</span>
+<span class="n">grouper</span><span class="err">发送的每个值都会经</span><span class="k">yield</span> <span class="k">from</span><span class="err">处理，通过管道传给</span><span class="n">averager</span><span class="err">实例。</span><span class="n">grouper</span><span class="err">会在</span><span class="k">yield</span> <span class="k">from</span><span class="err">表达式处暂停，等待</span><span class="n">averager</span><span class="err">实例处理客户端发来的值。</span><span class="n">averager</span><span class="err">实例运行完毕后，返回的值绑定到</span><span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="err">上。</span><span class="k">while</span><span class="err">循环会不断创建</span><span class="n">averager</span><span class="err">实例，处理更多的值</span>
+<span class="sb">``</span><span class="err">`</span>
+<span class="k">def</span> <span class="nf">grouper</span><span class="p">(</span><span class="n">results</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="k">yield</span> <span class="k">from</span> <span class="n">averager</span><span class="p">()</span>
+
+<span class="c1">#调用方
+</span><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">values</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">grouper</span><span class="p">(</span><span class="n">results</span><span class="p">,</span><span class="n">key</span><span class="p">)</span>
+        <span class="nb">next</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">group</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">group</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">group</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">';'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'{:2} {:5} averaging {:.2f}{}'</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">count</span><span class="p">,</span><span class="n">group</span><span class="p">,</span><span class="n">result</span><span class="o">.</span><span class="n">average</span><span class="p">,</span><span class="n">unit</span>
+        <span class="p">))</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'girls;kg'</span><span class="p">:</span>
+        <span class="p">[</span><span class="mf">40.9</span><span class="p">,</span><span class="mf">38.5</span><span class="p">,</span><span class="mf">44.3</span><span class="p">,</span><span class="mf">42.2</span><span class="p">,</span><span class="mf">45.2</span><span class="p">,</span><span class="mf">41.7</span><span class="p">,</span><span class="mf">44.5</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mf">40.6</span><span class="p">,</span><span class="mf">44.5</span><span class="p">],</span>
+    <span class="s">'girls;m'</span><span class="p">:</span>
+        <span class="p">[</span><span class="mf">1.6</span><span class="p">,</span><span class="mf">1.51</span><span class="p">,</span><span class="mf">1.4</span><span class="p">,</span><span class="mf">1.3</span><span class="p">,</span><span class="mf">1.41</span><span class="p">,</span><span class="mf">1.39</span><span class="p">,</span><span class="mf">1.33</span><span class="p">,</span><span class="mf">1.46</span><span class="p">,</span><span class="mf">1.45</span><span class="p">,</span><span class="mf">1.43</span><span class="p">],</span>
+    <span class="s">'boys;kg'</span><span class="p">:</span>
+        <span class="p">[</span><span class="mf">39.0</span><span class="p">,</span><span class="mf">40.8</span><span class="p">,</span><span class="mf">43.2</span><span class="p">,</span><span class="mf">40.8</span><span class="p">,</span><span class="mf">43.1</span><span class="p">,</span><span class="mf">38.6</span><span class="p">,</span><span class="mf">41.4</span><span class="p">,</span><span class="mf">40.6</span><span class="p">,</span><span class="mf">36.3</span><span class="p">],</span>
+    <span class="s">'boys;m'</span><span class="p">:</span>
+        <span class="p">[</span><span class="mf">1.38</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.32</span><span class="p">,</span><span class="mf">1.25</span><span class="p">,</span><span class="mf">1.37</span><span class="p">,</span><span class="mf">1.48</span><span class="p">,</span><span class="mf">1.25</span><span class="p">,</span><span class="mf">1.49</span><span class="p">,</span><span class="mf">1.46</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="64-协程中异常的处理">6.4 协程中异常的处理</h4>
+
+<blockquote>
+  <p>协程中未处理的异常会向上冒泡，传给next函数或者send方法的调用法（即触发协程的对象），终止协程的一种方式是：发送某个哨符值，让协程退出。内置的None常量经常用作哨符值。从python2.5开始，客户代码可以在生成器对象上调用两个方法，显式地把异常发给协程。</p>
+
+  <ul>
+    <li>geneator.throw(exc_type[, exc_value[, trackback]])
+      <ul>
+        <li>致使生成器在暂停的yield表达式处抛出指定的异常。如果生成器处理了抛出的异常，代码会向前执行到下一个yield表达式，而产出的值会成为调用generator.throw方法得到的返回值。如果生成器没有处理抛出的异常，异常会向上冒泡，传到调用方的上下文中</li>
+      </ul>
+    </li>
+    <li>generator.close()
+      <ul>
+        <li>致使生成器在暂停的yield表达式处抛出GeneratorExit异常。如果生成器没有处理这个异常，或者抛出了StopIteration异常（通常指运行到结尾），调用方不会不错。如果收到GeneratorExit，生成器一定不能产出值，否则解释器抛出RuntimeError异常。生成器抛出的其他异常会向上冒泡，传给调用方。另外如果无法处理传入的异常，协程会停止，即状态变成‘GEN_CLOSED’。</li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<h5 id="641-yield-from句法结构对异常的处理">6.4.1 yield from句法结构对异常的处理</h5>
+
+<p>​	yield from结构会在内部自动捕获stopIteration异常。这种处理方式与for循环处理StopIteration异常的方式一样：循环机制使用使用易于理解的方式处理异常。对于yield from结构来说，解释器不仅会捕获StopIteration异常，还会把value属性的值变为yield from表达式的值。具体来说：</p>
+
+<blockquote>
+  <ul>
+    <li>子生成器产出的值都直接传给委派生成器的调用方（即客户端代码）</li>
+    <li>使用send()方法发给委派生成器的值都直接传给子生成器。如果发送的值是None，那么会调用子生成器的__next__()方法。如果发送的值不是None，那么会调用子生成器的send()方法。如果调用的方法抛出StopIteration异常，那么委派生成器恢复运行。任何其他异常都会向上冒泡，传给委派生成器。</li>
+    <li>生成器退出时，生成器（或子生产器）中的return expr表达式会触发StopIteration(expr)异常抛出</li>
+    <li>yield from表达式的只是子生成器终止时传给StopIteration异常的第一个参数</li>
+  </ul>
+</blockquote>
+
+<p>yield from结构的另外两个特性与异常和终止有关</p>
+
+<blockquote>
+  <ul>
+    <li>传入委派生成器的异常，除了GeneratorExit之外都传给子生成器的throw()方法。如果调用throw()方法时抛出StopIteration异常，委派生成器恢复运行。StopIteration之外的异常会向上冒泡，传给委派生成器。</li>
+    <li>如果把GeneratorExit异常传入委派生成器，或者在委派生成器上调用close()方法，那么在子生成器上调用close()方法，如果它有的话。如果调用close()方法导致异常抛出，那么异常也会向上冒泡，传给委派生成器;否则，委派生成器会抛出GeneratorExit异常</li>
+  </ul>
+</blockquote>
+
+<h4 id="参考文献">参考文献</h4>
+
+<p>https://blog.csdn.net/Airuio/article/details/80417569</p>
+
+<p>[流畅的python.Luciano Ramalho著.安道 吴珂译][https://github.com/fluentpython/example-code]</p>

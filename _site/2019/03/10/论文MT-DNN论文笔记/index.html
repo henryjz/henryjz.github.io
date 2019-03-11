@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>论文《MT-DNN》笔记</title>
+    <meta name="description" content="论文《Multi-Task Deep Neural Networks for Natural Language Understanding》笔记  论文地址：微软MT-DNN论文《Multi-Task Deep Neural Networks for Natural Language Understanding》...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">
+    <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9f8941ee9d9cbc5007bd89d1d30eb03f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">henryzhou</a>
+        <small>Make robot converse with human naturally</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tag/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collection/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>论文《MT-DNN》笔记</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-03-10
+            </div>
+
+            <div class="label-card">
+                <i class="fa fa-user"></i>Henryzhou
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a-->
+        <a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a>&nbsp;
+    
+        <!--a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a-->
+        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>&nbsp;
+    
+        <!--a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a-->
+        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <h2 id="论文multi-task-deep-neural-networks-for-natural-language-understanding笔记">论文《Multi-Task Deep Neural Networks for Natural Language Understanding》笔记</h2>
+
+<blockquote>
+  <p>论文地址：<a href="https://arxiv.org/pdf/1901.11504.pdf">微软MT-DNN论文《Multi-Task Deep Neural Networks for Natural Language Understanding》</a></p>
+</blockquote>
+
+<h4 id="mt-dnn简单介绍">MT-DNN简单介绍</h4>
+
+<p>​	谷歌的<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a>在各个NLP任务（GLUE、SQuAD、命名实体识别、SWAG)上的表现都很好，但是BERT在词向量的预训练的第二阶段只使用了单个任务进行模型fine-tune，我们自然而然地会问：Fine-tune阶段使用多任务同时对网络参数进行微调效果会不会更好？。</p>
+
+<p>​	微软研究院在2019年发布的论文《Multi-Task Deep Neural Networks for Natural Language Understanding》就做了这方面的实验。论文提出了一个假设：在单一领域的数据集上使用单一的任务训练模型限制了模型的泛化。MT-DNN提供的思路是：利用多任务之间的约束来避免单一任务上的过拟合问题，从而提高模型的泛化能力。文章中使用的多任务是相似的，作者任务机器能够像人一样在相似的任务中获取到相关的经验，比如会滑雪的人就能比较容易的学会滑冰，对机器来说也就是能够使用更少的训练数据是模型获得相同的效果。</p>
+
+<h4 id="实验结果">实验结果</h4>
+
+<p>​	<strong>(1)</strong>MT-DNN在8/9的GLUE<a href="Gerneral Lanuage Understanding Evaluation，是评估模型自然语言理解能力的最权威的指标">1</a>任务中取得了SOAT成绩，其中未达到SOAT成绩的原因是数据集存在问题。这８个数据集（任务）可以归纳分为以下四种类别：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>任务</th>
+      <th>数据集</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single sentence classification</td>
+      <td>CoLA：情感分类<br />SST-2：判断句子是否符合语法要求</td>
+    </tr>
+    <tr>
+      <td>Text similarity score</td>
+      <td>STS-B：两句话的相似性</td>
+    </tr>
+    <tr>
+      <td>Pairwise Text classification</td>
+      <td>RET、MNLI：判断两句话的关系(emtaiment, controdictional, neutral)<br />QQP, MRPC：判断那两句话是否具有相同的语义</td>
+    </tr>
+    <tr>
+      <td>Relevence ranking</td>
+      <td>QNLI：判断问答句子对的相关性</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>​	<strong>(2)</strong>通过这种多任务训练得到的模型能够很好的适用于其他未见过的相似任务，即使只有很少的带标注的数据。因为MT-DNN底层使用的是BERT(Base)的网络，所以这种相似任务之间的适用性的提高可以确定由多任务的fine-tune带来的。实验表明即使只使用原始数据集的0.1%、1%样本，同样能够获得不错的准确率。下面是MT-DNN模型和BERT两个模型在SNLI数据集上的表现：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模型</th>
+      <th>0.1%</th>
+      <th>1％</th>
+      <th>10%</th>
+      <th>100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BERT</td>
+      <td>51%</td>
+      <td>82%</td>
+      <td>90%</td>
+      <td>94%</td>
+    </tr>
+    <tr>
+      <td>MT-DNN</td>
+      <td>82%</td>
+      <td>88%</td>
+      <td>91%</td>
+      <td>96%</td>
+    </tr>
+  </tbody>
+</table>
+
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Bash学习笔记
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+                    
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+                    
+                
+                    
+                
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundler安装jekyll</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+
+    var disqus_config = function() {
+        this.page.url = 'http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://localhost:4000/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement('script');
+
+        s.src = '//henry.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             本站记录我NLP之旅的沿途风景！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/henryzhou1113" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>         
+        </p>
+        <p>
+本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次 -->
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>

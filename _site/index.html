@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>henryzhou</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://localhost:4000/">
+    <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9f8941ee9d9cbc5007bd89d1d30eb03f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">henryzhou</a>
+        <small>Make robot converse with human naturally</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a class="active" href="/">
+                        
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tag/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collection/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Welcome to Henry's Blog!</h1>
+        <small>这里记录着我的NLP学习之路</small>
+        <hr>
+        <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-10
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a>&nbsp;
+    
+        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>&nbsp;
+    
+        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h2 id="论文multi-task-deep-neural-networks-for-natural-language-understanding笔记">论文《Multi-Task Deep Neural Networks for Natural Language Understanding》笔记</h2>
+
+<blockquote>
+  <p>论文地址：<a href="https://arxiv.org/pdf/1901.11504.pdf">微软MT-DNN论文《Multi-Task Deep Neural Networks for Natural Language Understanding》</a></p>
+</blockquote>
+
+<h4 id="mt-dnn简单介绍">MT-DNN简单介绍</h4>
+
+<p>​	谷歌的<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a>在各个NLP任务（GLUE、SQuAD、命名实体识别、SWAG)上的表现都很好，但是BERT在词向量的预训练的第二阶段只使用了单个任务进行模型fine-tune，我们自然而然地会问：Fine-tune阶段使用多任务同时对网络参数进行微调效果会不会更好？。</p>
+
+<p>​	微软研究院在2019年发布的论文《Multi-Task Deep Neural Networks for Natural Language Understanding》就做了这方面的实验。论文提出了一个假设：在单一领域的数据集上使用单一的任务训练模型限制了模型的泛化。MT-DNN提供的思路是：利用多任务之间的约束来避免单一任务上的过拟合问题，从而提高模型的泛化能力。文章中使用的多任务是相似的，作者任务机器能够像人一样在相似的任务中获取到相关的经验，比如会滑雪的人就能比较容易的学会滑冰，对机器来说也就是能够使用更少的训练数据是模型获得相同的效果。</p>
+
+<h4 id="实验结果">实验结果</h4>
+
+<p>​	<strong>(1)</strong>MT-DNN在8/9的GLUE<a href="Gerneral Lanuage Understanding Evaluation，是评估模型自然语言理解能力的最权威的指标">1</a>任务中取得了SOAT成绩，其中未达到SOAT成绩的原因是数据集存在问题。这８个数据集（任务）可以归纳分为以下四种类别：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>任务</th>
+      <th>数据集</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single sentence classification</td>
+      <td>CoLA：情感分类<br />SST-2：判断句子是否符合语法要求</td>
+    </tr>
+    <tr>
+      <td>Text similarity score</td>
+      <td>STS-B：两句话的相似性</td>
+    </tr>
+    <tr>
+      <td>Pairwise Text classification</td>
+      <td>RET、MNLI：判断两句话的关系(emtaiment, controdictional, neutral)<br />QQP, MRPC：判断那两句话是否具有相同的语义</td>
+    </tr>
+    <tr>
+      <td>Relevence ranking</td>
+      <td>QNLI：判断问答句子对的相关性</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>​	<strong>(2)</strong>通过这种多任务训练得到的模型能够很好的适用于其他未见过的相似任务，即使只有很少的带标注的数据。因为MT-DNN底层使用的是BERT(Base)的网络，所以这种相似任务之间的适用性的提高可以确定由多任务的fine-tune带来的。实验表明即使只使用原始数据集的0.1%、1%样本，同样能够获得不错的准确率。下面是MT-DNN模型和BERT两个模型在SNLI数据集上的表现：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模型</th>
+      <th>0.1%</th>
+      <th>1％</th>
+      <th>10%</th>
+      <th>100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BERT</td>
+      <td>51%</td>
+      <td>82%</td>
+      <td>90%</td>
+      <td>94%</td>
+    </tr>
+    <tr>
+      <td>MT-DNN</td>
+      <td>82%</td>
+      <td>88%</td>
+      <td>91%</td>
+      <td>96%</td>
+    </tr>
+  </tbody>
+</table>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundler安装jekyll</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-19
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <ul>
+  <li><strong>新建一个空目录，作为blog的根目录。</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir blog
+cd ./blog
+</code></pre></div></div>
+
+<ul>
+  <li><strong>创建Gemfile，内容简单复制以下代码就行,命名为Gemfile</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source  'https://rubygems.org'
+gem 'github-pages',group: :jekyll_plugins
+</code></pre></div></div>
+
+<ul>
+  <li><strong>安装ruby和ruby-dev</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install ruby ruby-dev
+</code></pre></div></div>
+
+<ul>
+  <li><strong>通过ruby的安装器gem安装bundler</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install bundler
+</code></pre></div></div>
+
+<ul>
+  <li><strong>通过bundler批量安装jekyll组件</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
+</code></pre></div></div>
+
+<p>到nokogiri时终止了安装，搜索网上的问题解决办法后，发现是一些第三方依赖库没有安装，linux下在终端中输入以下命令，在手动安装nokogiri,成功！</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libz-dev libiconv-hook1 libiconv-hook-dev
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install nokogiri -v '1.8.4'
+</code></pre></div></div>
+
+<ul>
+  <li><strong>回过头来根据Gemfile安装jekyll</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
+</code></pre></div></div>
+
+<ul>
+  <li>试试能不能启动jekyll,成功！在浏览器中网址栏输入localhost:4000,验证jekyll的运行情况</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec jekyll serve
+</code></pre></div></div>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#python" title="Tag: python" rel="tag">python</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>[TOC]</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#DL" title="Tag: DL" rel="tag">DL</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <ul>
+  <li>人工智能早期，计算机能够迅速解决那些对人类智力来说非常困难的问题。而人工智能的真正挑战在于解决那些对人来说很容易执行，但很难形式化描述的任务，如识别人们所说的话或图像中的脸。</li>
+  <li>深度学习讨论的是一种让计算机从经验中学习，并根据层次化的概念来__理解世界__的解决方案，而每个概念则通过某些相对简单的概念之间的关系来定义</li>
+  <li>人类擅长对事物抽象因而能够认识世界，计算机则只能做一些形式化的数据处理，人工智能要做的就是通过形式化的数据处理__从另一条路径__达到认识世界的目的</li>
+  <li>深度学习
+    <ul>
+      <li>计算机难以理解原始感官输入数据的含义，如表示为像素值集合的图像。将一组像素映射到对象标识的函数非常复杂。</li>
+      <li>深度学习将所需的复杂映射分解为一系列嵌套的简单映射（每个模型的不同层描述）
+        <ul>
+          <li>可见层：包含我们能观察到的变量</li>
+          <li>隐藏层：它们的值不再数据中给出，所以称为隐藏层。模型必须确定那些概念有利于解释观察数据中关系</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>课程组织
+    <ul>
+      <li>介绍基本的数学工具和机器学习的概念</li>
+      <li>介绍最成熟的深度学习算法</li>
+      <li>讨论某些具有展望性的想法，他们被广泛的认为是深度学习未来的研究重点</li>
+    </ul>
+  </li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="硕士班研究所新生手册观点收获">硕士班研究所新生手册(观点收获)</h1>
+
+<p>Issued by and valid in the PPSC Lab.Directed by Prof.MH.Perng</p>
+
+<h3 id="论文的要求">论文的要求</h3>
+
+<ul>
+  <li>论文的主要内容，是叙述一套方法在一个特定场合中的应用</li>
+  <li>这套方法必须要有所创新或突破，并因而对学术界有所贡献。因此，他或者是解决既有问题的新方法，或者是既有方法的新应用，或者是以一个新的方法开启一整片新的应用领域。</li>
+  <li>提出足够的证据来让读者信服说：针对这个应用场合，你所提出的方法确实比文献中一切方法有更优越之处</li>
+  <li>清楚的指出这个方法在应用上的限制，并且提出充分证据来说服读者，任何应用场合，只要能满足你所提出来的假设（前提）条件，你的方法一定适用，而且你所描述的有点就一定存在</li>
+  <li>清楚指出这个方法的限制和可能的缺点</li>
+  <li>清楚地交代这个方法的应用程序以及所有仿真或实验结果的过程，使得这个专业领域内的任何读者，都有办法根据你的描述，在他的实验室中复制出你的研究成果。</li>
+  <li>你对这个方法中每一个步骤都必须要提供充分的理由说明“为什么非如此不可”。</li>
+  <li>论文必须在适当的位置清楚注明所有和你研究之题目相关的文献，而且是和你所研究的问题相关的学术文献（尤其是学术期刊论文），你都有必要全部找出来（如果漏掉就是你的过失），仔细读过。假如在学位论文口试时，有口试委员指出有一篇既有文献，在你所讨论的问题中处理的比你的方法还好，这就构成你论文无法及格的充分理由</li>
+  <li>所谓对学术界的贡献指的是：把你的所有研究成果扣除学术界已经发表的所有成果（不管你实际有没有参考过，没有参考过也算是你的重大过失），剩下的就是你的贡献。假如这个贡献太少，也构成你的论文无法及格的充分理由。</li>
+</ul>
+
+<h3 id="完成硕士论文所需要的能力">完成硕士论文所需要的能力</h3>
+
+<ul>
+  <li>数据检索的能力
+    <ul>
+      <li>有能力利用数据检索系统（教育部[博硕士论文检索系统]、Compendex和SCI这三套论文数据索引系统），查处所有相关的论文，而无任何遗漏</li>
+      <li>关键词很重要，假如你用的关键词太一般化，通常找到的集合会太大，除了所有相关文献之外还加上好几十倍的不相关的文献</li>
+    </ul>
+  </li>
+  <li>资料筛选能力：在你找到的百来篇和你的研究子题直接且密切相关的论文中，你如何只读论文的题目、摘要、简介和结论，而还没有完全看懂内文，就准确的判断这篇论文中是否值得你进一步参考的内容，以便快速的把需要仔细读完的论文从数百篇为二三十篇。</li>
+  <li>期刊论文的阅读能力：硕士毕业生和大学毕业生的最大区别就是：学士只需要吸收系统的能力（也就是读别人整理、组织好的知识，典型的就是课本），但硕士则学习过自己从无组织的知识中检索、筛选、组织知识的能力</li>
+  <li>期刊论文的分析能力
+    <ul>
+      <li>一个严格训练过的合格硕士，他做事的时候应该是不需要有人在背后替他做检证，他自己就应该要有能力分析自己的优缺点，主动向上级或者平行单位要求支持。其实，至少要能够完成这个能力，才勉强可以说你是有“独立自主的判断能力。</li>
+    </ul>
+  </li>
+  <li>创新的能力
+    <ul>
+      <li>大学毕业生的主要能力是吸收既有知识，但硕士毕业生却应该要有能力创造知识</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="为什么要坚持培养阅读与分析期刊论文的能力">为什么要坚持培养阅读与分析期刊论文的能力</h3>
+
+<ul>
+  <li>对于那些之想学现成技术而不想研究方法的学生，十年后可能会因为不会读期刊论文而面临提前退休</li>
+  <li>技术的创新不是完全靠天才，只要学会分析期刊论文的优缺点和一套技术创新的方法，几乎就可以轻易的组合出你所需要的绝大部分创意。</li>
+</ul>
+
+<h3 id="期刊论文的分析技巧和程序">期刊论文的分析技巧和程序</h3>
+
+<ul>
+  <li>Abstract
+    <ul>
+      <li>说明这篇论文的主要贡献、方法特色与主要内容，需要培养只看Abstract和Inroduction便可以判断出这篇论文和你研究的有没有直接关系的能力，从而决定要不要把它读完。</li>
+    </ul>
+  </li>
+  <li>Introduction
+    <ul>
+      <li>功能是介绍问题的背景和起源，交代前人在这个题目上已经有过的主要贡献和遗留的问题</li>
+    </ul>
+  </li>
+  <li>main body
+    <ul>
+      <li>这篇论文的假设及其成立的难度以判断其参考价值</li>
+      <li>在这些假设下，这篇论文的主要好处</li>
+      <li>这些好处主要表现在那些公式的那些项目的简化上，从中可以评估出这个方法使用上的方便程度或者计算效率</li>
+      <li>不需要完全弄懂一片论文所有的恒等式推导过程或者把整篇论文细细读完，只需要把确定会用到的部分完全搞懂就好，不确定或者不会用到的地方，只需要了解他的主要点子就够了。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="论文阅读的补充说明">论文阅读的补充说明</h3>
+
+<ul>
+  <li>硕士生开始读论文的时候容易犯的毛病：
+    <ul>
+      <li>老是想逐行读懂，有一行读不懂就受不了</li>
+      <li>不敢发挥自己的想象，读论文像在读教科书，论文没写的就不会，自己去猜测或想象的时候，老怕弄错作者的意思</li>
+    </ul>
+  </li>
+  <li>每次读论文要呆着问题去阅读，只图你要回答的问题。因此要有选择的阅读，由粗而细，一定是一整批一起读懂到某个层次，而不是逐篇逐篇的一次读懂</li>
+</ul>
+
+<h3 id="论文报告的要求与技巧">论文报告的要求与技巧</h3>
+
+<ul>
+  <li>第一页列出论文的题目、作者、论文出处与年份</li>
+  <li>每一页幻灯片只能讲一个观念</li>
+  <li>说明这篇论文所研究的问题的重点，以及这个问题可能和工业界的哪些应用有关</li>
+  <li>清楚交代这篇论文的主要假设、主要公式与主要应用方式（以及应用上可能的解题流程）</li>
+  <li>说明这篇论文的范例（simulation examples and/or experiments)，预测这个方法在不同场合可能会有的准确度或者好用的程度</li>
+  <li>你个人的分析、评价与批评，包括：
+    <ul>
+      <li>这篇论文的最主要创意是什么？</li>
+      <li>这些创意在应用上有什么好处？</li>
+      <li>这些创意和应用上的好处是哪些条件下才能成立？</li>
+      <li>这篇论文最主要的缺点或局限是什么？</li>
+      <li>这些缺点或局限在应用上有什么坏处？</li>
+      <li>这些缺点和应用上的坏处是因为哪些因素而引入的？</li>
+      <li>你建议学长学弟的时候参考这篇论文的哪些部分（点子）</li>
+    </ul>
+  </li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#notes" title="Tag: notes" rel="tag">notes</a>&nbsp;
+    
+        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h1 id="vim的使用">Vim的使用</h1>
+
+<ul>
+  <li>3种模式
+    <ul>
+      <li>一般模式：移动光标、删除字符或者整行，复制粘帖数据</li>
+      <li>编辑模式：按下“i,I,o,O,a,A,r,R”可以进入编辑模式，按下Esc可以推出编辑模式</li>
+      <li>命令行模式：输入”:,/,?”可以进入命令行模式，进行数据查找、大量替换字符、保存离开等功能</li>
+    </ul>
+  </li>
+  <li>一般模式下移动光标的方法
+    <ul>
+      <li>左右：h，l，使用组合键5h即可多列跳跃</li>
+      <li>上下：k，j，使用组合键5j即可多行跳跃</li>
+      <li>行首（行尾）：0（$）</li>
+      <li>文件首（尾）：gg（G）</li>
+      <li>向下（上）翻页：ctrl+f（b）</li>
+    </ul>
+  </li>
+  <li>一般模式下查找与替换
+    <ul>
+      <li>/word：向下寻找名称为word 的字符串</li>
+      <li>n：查找下一个</li>
+      <li>N：查找上一个</li>
+      <li>:n1,n2s/Word1/Word2/g：将n1和n2行之间的Word1替换为Word2</li>
+      <li>:1,$s/Word1/Word2/g：将第一行和最后一行之间的Word1替换为Word2</li>
+      <li>:1,$s/Word1/Word2/gc：将第一行和最后一行之间的Word1替换为Word2，并且逐个确认</li>
+    </ul>
+  </li>
+  <li>一般模式下删除
+    <ul>
+      <li>x,X:在一行字中，x为向后删除一个字符（相当于Del键），X为向前删除一个字符（相当于Backspace键），可使用组合键nx（X)连续删除n个字符</li>
+      <li>dd：删除光标所在一整行，可使用ndd删除光标所在行开始的n行</li>
+      <li>d1G：删除光标所在到第一行的所有数据</li>
+      <li>dG：删除从光标所在到最后一行的所有数据</li>
+      <li>d$：删除从光标所在处到该行最后一个数据</li>
+      <li>d0：删除从光标所在处到该行第一个数据</li>
+    </ul>
+  </li>
+  <li>一般模式下复制
+    <ul>
+      <li>yy：复制光标所在行的数据</li>
+      <li>nyy：复制光标所在向下n行</li>
+      <li>y1G：复制光标所在行到第一行的数据</li>
+      <li>yG：复制光标所在行到最后一行的数据</li>
+      <li>y0：复制光标所在字符到该行行首的所有数据</li>
+      <li>y$：复制光标所在字符到该行行尾的所有数据</li>
+      <li>p,P：p为将以复制的数据在光标下一行粘帖，P则为粘帖在光标上一行</li>
+    </ul>
+  </li>
+  <li>一般模式下其他操作
+    <ul>
+      <li>J：将光标所在行与下一行的数据结合成一行</li>
+      <li>u：撤销前一个操作</li>
+      <li>ctrl+r：重做前一个操作</li>
+      <li>.：小数点为重复前一个操作</li>
+      <li>ZZ：保存并且退出</li>
+    </ul>
+  </li>
+  <li>编辑模式
+    <ul>
+      <li>i,I：i为从目前光标所在处开始插入，I为在当前所在行第一个非空格符处开始插入</li>
+      <li>a,A：a为从当前光标所在的下一个字符处开始插入，A为从光标所在行的最后一格字符处开始插入</li>
+      <li>o,O：o为当前所在的下一行处插入新的一行，O为目前光标所在的上一行插入新的一行</li>
+      <li>r,R：r只会替换光标所在字符，R会一直替换知道Esc</li>
+      <li>Esc：退出编辑模式，进入一般模式</li>
+    </ul>
+  </li>
+  <li>命令行模式
+    <ul>
+      <li>:w：将编辑的数据写入硬盘文件中</li>
+      <li>:w!：若文件为只读，强制写入文件，至于能不能写入与文件权限有关</li>
+      <li>:q：离开vim</li>
+      <li>:q!：若修改过文件，又不想保存，使用！强制离开</li>
+      <li>:wq：保存后离开，“:wq!”强制保存后离开</li>
+      <li>:set nu：显示行号</li>
+      <li>:set nonu：取消行号显示</li>
+    </ul>
+  </li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+        </ul>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          
+            <span class="previous disable"><i class="fa fa-angle-double-left"></i></span>
+            <span class="previous disable"><i class="fa fa-angle-left"></i></span>
+          
+          <span class="page_number ">1/2</span>
+          
+            <a href="/page2" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page2" class="next"><i class="fa fa-angle-double-right"></i></a>
+          
+        </div>
+    </div>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记</a></li>
+                    
+                        <li><a href="/2018/07/19/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundler安装jekyll</a></li>
+                    
+                        <li><a href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a></li>
+                    
+                        <li><a href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a></li>
+                    
+                        <li><a href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a></li>
+                    
+                        <li><a href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a></li>
+                    
+                        <li><a href="/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Bash学习笔记</a></li>
+                    
+                        <li><a href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a></li>
+                    
+                        <li><a href="/2018/07/11/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">markdown语法</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#notes" class="categories-list-item" cate="notes">
+                            <span class="name">
+                                notes
+                            </span>
+                            <span class="badge">9</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#linux" class="categories-list-item" cate="linux">
+                            <span class="name">
+                                linux
+                            </span>
+                            <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#markdown" style="font-size: 9pt; color: #999;">markdown</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#notes" style="font-size: 18pt; color: #000;">notes</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#linux" style="font-size: 12pt; color: #666;">linux</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#paper" style="font-size: 12pt; color: #666;">paper</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#DL" style="font-size: 9pt; color: #999;">DL</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#python" style="font-size: 9pt; color: #999;">python</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#nlp" style="font-size: 9pt; color: #999;">nlp</a>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="/js/scroll.min.js " charset="utf-8"></script> -->
+<!-- <script src="/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             本站记录我NLP之旅的沿途风景！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/henryzhou1113" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>         
+        </p>
+        <p>
+本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次 -->
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>
