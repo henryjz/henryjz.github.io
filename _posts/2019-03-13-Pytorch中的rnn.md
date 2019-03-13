@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Pytorch中的RNN"
+title:  "pytorch中rnn的使用"
 date: 2019-03-13 21:35:10 +0800
 categories: reproduction
-tags: pytorch nlp
+tags: pytorch
 author: Henryzhou
 ---
 
-
+> 转载自：https://github.com/zergtant/pytorch-handbook/blob/master/chapter2/2.5-rnn.ipynb
 
 ```python
 import torch
