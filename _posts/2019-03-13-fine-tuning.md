@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "使用pytorch进行fine-tune"
-date: 2019-03-13 21:35:10 +0800
+date: 2019-03-13 20:35:10 +0800
 categories: reproduction
 tags: pytorch
 author: Henryzhou

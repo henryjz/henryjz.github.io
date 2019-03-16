@@ -129,6 +129,79 @@
             
               <li>
                 <h2>
+                  <a class="post-link" href="/2019/03/13/fine-tuning/">使用pytorch进行fine-tune</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-13
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#reproduction" title="Category: reproduction" rel="category">reproduction</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">torch</span><span class="p">,</span><span class="n">os</span><span class="p">,</span><span class="n">torchvision</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedShuffleSplit</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">__version__</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/13/fine-tuning/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
                   <a class="post-link" href="/2019/03/12/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90torch.nn/">深入解析torch.nn</a>
                 </h2>
                 <div class="label">
@@ -1659,140 +1732,6 @@ cond(no)-&gt;op
                 <hr>
               </li>
             
-              <li>
-                <h2>
-                  <a class="post-link" href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2019-03-10
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>&nbsp;
-    
-        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <h2 id="论文multi-task-deep-neural-networks-for-natural-language-understanding笔记">论文《Multi-Task Deep Neural Networks for Natural Language Understanding》笔记</h2>
-
-<blockquote>
-  <p>论文地址：<a href="https://arxiv.org/pdf/1901.11504.pdf">微软MT-DNN论文《Multi-Task Deep Neural Networks for Natural Language Understanding》</a></p>
-</blockquote>
-
-<h4 id="mt-dnn简单介绍">MT-DNN简单介绍</h4>
-
-<p>​	谷歌的<a href="https://arxiv.org/pdf/1810.04805.pdf">BERT</a>在各个NLP任务（GLUE、SQuAD、命名实体识别、SWAG)上的表现都很好，但是BERT在词向量的预训练的第二阶段只使用了单个任务进行模型fine-tune，我们自然而然地会问：Fine-tune阶段使用多任务同时对网络参数进行微调效果会不会更好？。</p>
-
-<p>​	微软研究院在2019年发布的论文《Multi-Task Deep Neural Networks for Natural Language Understanding》就做了这方面的实验。论文提出了一个假设：在单一领域的数据集上使用单一的任务训练模型限制了模型的泛化。MT-DNN提供的思路是：利用多任务之间的约束来避免单一任务上的过拟合问题，从而提高模型的泛化能力。文章中使用的多任务是相似的，作者任务机器能够像人一样在相似的任务中获取到相关的经验，比如会滑雪的人就能比较容易的学会滑冰，对机器来说也就是能够使用更少的训练数据是模型获得相同的效果。</p>
-
-<h4 id="实验结果">实验结果</h4>
-
-<p>​	<strong>(1)</strong>MT-DNN在8/9的GLUE<a href="Gerneral Lanuage Understanding Evaluation，是评估模型自然语言理解能力的最权威的指标">1</a>任务中取得了SOAT成绩，其中未达到SOAT成绩的原因是数据集存在问题。这８个数据集（任务）可以归纳分为以下四种类别：</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>任务</th>
-      <th>数据集</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Single sentence classification</td>
-      <td>CoLA：情感分类<br />SST-2：判断句子是否符合语法要求</td>
-    </tr>
-    <tr>
-      <td>Text similarity score</td>
-      <td>STS-B：两句话的相似性</td>
-    </tr>
-    <tr>
-      <td>Pairwise Text classification</td>
-      <td>RET、MNLI：判断两句话的关系(emtaiment, controdictional, neutral)<br />QQP, MRPC：判断那两句话是否具有相同的语义</td>
-    </tr>
-    <tr>
-      <td>Relevence ranking</td>
-      <td>QNLI：判断问答句子对的相关性</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>​	<strong>(2)</strong>通过这种多任务训练得到的模型能够很好的适用于其他未见过的相似任务，即使只有很少的带标注的数据。因为MT-DNN底层使用的是BERT(Base)的网络，所以这种相似任务之间的适用性的提高可以确定由多任务的fine-tune带来的。实验表明即使只使用原始数据集的0.1%、1%样本，同样能够获得不错的准确率。下面是MT-DNN模型和BERT两个模型在SNLI数据集上的表现：</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>模型</th>
-      <th>0.1%</th>
-      <th>1％</th>
-      <th>10%</th>
-      <th>100%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>BERT</td>
-      <td>51%</td>
-      <td>82%</td>
-      <td>90%</td>
-      <td>94%</td>
-    </tr>
-    <tr>
-      <td>MT-DNN</td>
-      <td>82%</td>
-      <td>88%</td>
-      <td>91%</td>
-      <td>96%</td>
-    </tr>
-  </tbody>
-</table>
-
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
         </ul>
 
 
@@ -1820,6 +1759,8 @@ cond(no)-&gt;op
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2019/03/13/fine-tuning/">使用pytorch进行fine-tune</a></li>
+                    
                         <li><a href="/2019/03/12/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90torch.nn/">深入解析torch.nn</a></li>
                     
                         <li><a href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">爬虫环境安装</a></li>
@@ -1837,8 +1778,6 @@ cond(no)-&gt;op
                         <li><a href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">最近阅读文章小抄</a></li>
                     
                         <li><a href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/">Transformer在NLP词向量预训练中的应用</a></li>
-                    
-                        <li><a href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a></li>
                     
                 </ul>
             </div>
@@ -1865,7 +1804,7 @@ cond(no)-&gt;op
                             <span class="name">
                                 reproduction
                             </span>
-                            <span class="badge">1</span>
+                            <span class="badge">2</span>
                         </a>
                     </li>
                     
@@ -1940,7 +1879,7 @@ cond(no)-&gt;op
                       
                       
                       
-                      <a href="/tag/#pytorch" style="font-size: 12pt; color: #666;">pytorch</a>
+                      <a href="/tag/#pytorch" style="font-size: 15pt; color: #333;">pytorch</a>
                     
                       
                       
