@@ -114,6 +114,10 @@
                 
                     
                 
+                    
+                
+                    
+                
             </ul>
         </nav>
     </div>
@@ -129,11 +133,11 @@
             
               <li>
                 <h2>
-                  <a class="post-link" href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/">如何阅读论文</a>
+                  <a class="post-link" href="/2019/03/13/fine-tuning/">使用pytorch进行fine-tune</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-16
+                        <i class="fa fa-calendar"></i>2019-03-13
                     </div>
                     <div class="label-card">
                         <i class="fa fa-user"></i>Henryzhou
@@ -152,7 +156,7 @@
   <i class="fa fa-th-list"></i>
   
     
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+        <a href="/category/#reproduction" title="Category: reproduction" rel="category">reproduction</a>
     
   
 
@@ -169,7 +173,7 @@
   <i class="fa fa-tags"></i>
   
     
-        <a href="/tag/#paper" title="Tag: paper" rel="tag">paper</a>
+        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>
     
   
 
@@ -178,124 +182,35 @@
                     </div>
                 </div>
                 <div class="excerpt">
-                    <h1 id="硕士班研究所新生手册观点收获">硕士班研究所新生手册(观点收获)</h1>
+                    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">torch</span><span class="p">,</span><span class="n">os</span><span class="p">,</span><span class="n">torchvision</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedShuffleSplit</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">__version__</span>
+</code></pre></div></div>
 
-<p>Issued by and valid in the PPSC Lab.Directed by Prof.MH.Perng</p>
-
-<h3 id="论文的要求">论文的要求</h3>
-
-<ul>
-  <li>论文的主要内容，是叙述一套方法在一个特定场合中的应用</li>
-  <li>这套方法必须要有所创新或突破，并因而对学术界有所贡献。因此，他或者是解决既有问题的新方法，或者是既有方法的新应用，或者是以一个新的方法开启一整片新的应用领域。</li>
-  <li>提出足够的证据来让读者信服说：针对这个应用场合，你所提出的方法确实比文献中一切方法有更优越之处</li>
-  <li>清楚的指出这个方法在应用上的限制，并且提出充分证据来说服读者，任何应用场合，只要能满足你所提出来的假设（前提）条件，你的方法一定适用，而且你所描述的有点就一定存在</li>
-  <li>清楚指出这个方法的限制和可能的缺点</li>
-  <li>清楚地交代这个方法的应用程序以及所有仿真或实验结果的过程，使得这个专业领域内的任何读者，都有办法根据你的描述，在他的实验室中复制出你的研究成果。</li>
-  <li>你对这个方法中每一个步骤都必须要提供充分的理由说明“为什么非如此不可”。</li>
-  <li>论文必须在适当的位置清楚注明所有和你研究之题目相关的文献，而且是和你所研究的问题相关的学术文献（尤其是学术期刊论文），你都有必要全部找出来（如果漏掉就是你的过失），仔细读过。假如在学位论文口试时，有口试委员指出有一篇既有文献，在你所讨论的问题中处理的比你的方法还好，这就构成你论文无法及格的充分理由</li>
-  <li>所谓对学术界的贡献指的是：把你的所有研究成果扣除学术界已经发表的所有成果（不管你实际有没有参考过，没有参考过也算是你的重大过失），剩下的就是你的贡献。假如这个贡献太少，也构成你的论文无法及格的充分理由。</li>
-</ul>
-
-<h3 id="完成硕士论文所需要的能力">完成硕士论文所需要的能力</h3>
-
-<ul>
-  <li>数据检索的能力
-    <ul>
-      <li>有能力利用数据检索系统（教育部[博硕士论文检索系统]、Compendex和SCI这三套论文数据索引系统），查处所有相关的论文，而无任何遗漏</li>
-      <li>关键词很重要，假如你用的关键词太一般化，通常找到的集合会太大，除了所有相关文献之外还加上好几十倍的不相关的文献</li>
-    </ul>
-  </li>
-  <li>资料筛选能力：在你找到的百来篇和你的研究子题直接且密切相关的论文中，你如何只读论文的题目、摘要、简介和结论，而还没有完全看懂内文，就准确的判断这篇论文中是否值得你进一步参考的内容，以便快速的把需要仔细读完的论文从数百篇为二三十篇。</li>
-  <li>期刊论文的阅读能力：硕士毕业生和大学毕业生的最大区别就是：学士只需要吸收系统的能力（也就是读别人整理、组织好的知识，典型的就是课本），但硕士则学习过自己从无组织的知识中检索、筛选、组织知识的能力</li>
-  <li>期刊论文的分析能力
-    <ul>
-      <li>一个严格训练过的合格硕士，他做事的时候应该是不需要有人在背后替他做检证，他自己就应该要有能力分析自己的优缺点，主动向上级或者平行单位要求支持。其实，至少要能够完成这个能力，才勉强可以说你是有“独立自主的判断能力。</li>
-    </ul>
-  </li>
-  <li>创新的能力
-    <ul>
-      <li>大学毕业生的主要能力是吸收既有知识，但硕士毕业生却应该要有能力创造知识</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="为什么要坚持培养阅读与分析期刊论文的能力">为什么要坚持培养阅读与分析期刊论文的能力</h3>
-
-<ul>
-  <li>对于那些之想学现成技术而不想研究方法的学生，十年后可能会因为不会读期刊论文而面临提前退休</li>
-  <li>技术的创新不是完全靠天才，只要学会分析期刊论文的优缺点和一套技术创新的方法，几乎就可以轻易的组合出你所需要的绝大部分创意。</li>
-</ul>
-
-<h3 id="期刊论文的分析技巧和程序">期刊论文的分析技巧和程序</h3>
-
-<ul>
-  <li>Abstract
-    <ul>
-      <li>说明这篇论文的主要贡献、方法特色与主要内容，需要培养只看Abstract和Inroduction便可以判断出这篇论文和你研究的有没有直接关系的能力，从而决定要不要把它读完。</li>
-    </ul>
-  </li>
-  <li>Introduction
-    <ul>
-      <li>功能是介绍问题的背景和起源，交代前人在这个题目上已经有过的主要贡献和遗留的问题</li>
-    </ul>
-  </li>
-  <li>main body
-    <ul>
-      <li>这篇论文的假设及其成立的难度以判断其参考价值</li>
-      <li>在这些假设下，这篇论文的主要好处</li>
-      <li>这些好处主要表现在那些公式的那些项目的简化上，从中可以评估出这个方法使用上的方便程度或者计算效率</li>
-      <li>不需要完全弄懂一片论文所有的恒等式推导过程或者把整篇论文细细读完，只需要把确定会用到的部分完全搞懂就好，不确定或者不会用到的地方，只需要了解他的主要点子就够了。</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="论文阅读的补充说明">论文阅读的补充说明</h3>
-
-<ul>
-  <li>硕士生开始读论文的时候容易犯的毛病：
-    <ul>
-      <li>老是想逐行读懂，有一行读不懂就受不了</li>
-      <li>不敢发挥自己的想象，读论文像在读教科书，论文没写的就不会，自己去猜测或想象的时候，老怕弄错作者的意思</li>
-    </ul>
-  </li>
-  <li>每次读论文要呆着问题去阅读，只图你要回答的问题。因此要有选择的阅读，由粗而细，一定是一整批一起读懂到某个层次，而不是逐篇逐篇的一次读懂</li>
-</ul>
-
-<h3 id="论文报告的要求与技巧">论文报告的要求与技巧</h3>
-
-<ul>
-  <li>第一页列出论文的题目、作者、论文出处与年份</li>
-  <li>每一页幻灯片只能讲一个观念</li>
-  <li>说明这篇论文所研究的问题的重点，以及这个问题可能和工业界的哪些应用有关</li>
-  <li>清楚交代这篇论文的主要假设、主要公式与主要应用方式（以及应用上可能的解题流程）</li>
-  <li>说明这篇论文的范例（simulation examples and/or experiments)，预测这个方法在不同场合可能会有的准确度或者好用的程度</li>
-  <li>你个人的分析、评价与批评，包括：
-    <ul>
-      <li>这篇论文的最主要创意是什么？</li>
-      <li>这些创意在应用上有什么好处？</li>
-      <li>这些创意和应用上的好处是哪些条件下才能成立？</li>
-      <li>这篇论文最主要的缺点或局限是什么？</li>
-      <li>这些缺点或局限在应用上有什么坏处？</li>
-      <li>这些缺点和应用上的坏处是因为哪些因素而引入的？</li>
-      <li>你建议学长学弟的时候参考这篇论文的哪些部分（点子）</li>
-    </ul>
-  </li>
-</ul>
 
                 </div>
                 <div class="read-all">
-                    <a  href="/2018/07/16/%E7%A1%95%E5%A3%AB%E7%8F%AD%E7%A0%94%E7%A9%B6%E7%94%9F%E6%96%B0%E7%94%9F%E6%89%8B%E5%86%8C-%E8%A7%82%E7%82%B9%E6%94%B6%E8%8E%B7/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                    <a  href="/2019/03/13/fine-tuning/"><i class="fa fa-newspaper-o"></i>Read All</a>
                 </div>
                 <hr>
               </li>
             
               <li>
                 <h2>
-                  <a class="post-link" href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/">Vim的使用</a>
+                  <a class="post-link" href="/2019/03/12/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90torch.nn/">深入解析torch.nn</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-16
+                        <i class="fa fa-calendar"></i>2019-03-12
                     </div>
                     <div class="label-card">
                         <i class="fa fa-user"></i>Henryzhou
@@ -314,7 +229,7 @@
   <i class="fa fa-th-list"></i>
   
     
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+        <a href="/category/#reproduction" title="Category: reproduction" rel="category">reproduction</a>
     
   
 
@@ -331,7 +246,7 @@
   <i class="fa fa-tags"></i>
   
     
-        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
+        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>
     
   
 
@@ -340,101 +255,856 @@
                     </div>
                 </div>
                 <div class="excerpt">
-                    <h1 id="vim的使用">Vim的使用</h1>
+                    <blockquote>
+  <p>转载自：https://blog.csdn.net/weixin_36811328/article/details/87905208</p>
+</blockquote>
+
+<p>原文地址：<a href="https://pytorch.org/tutorials/beginner/nn_tutorial.html#sphx-glr-download-beginner-nn-tutorial-py">WHAT IS TORCH.NN REALLY?</a>
+本人英语学渣，如有错误请及时指出以便更正，使用的源码可点击原文地址进行下载。</p>
+
+<hr />
+
+<p>pytorch提供了许多优雅的类和模块帮助我们构建与训练网络，比如 <code class="highlighter-rouge">torch.nn</code>, <code class="highlighter-rouge">torch.optim</code>,<code class="highlighter-rouge">Dataset</code>等。为了充分利用这些模块的功能，灵活操作它们解决各种不同的问题，我们需要更好地理解当我们调用这些模块时它们到底干了些什么，为此，我们首先不调用这些模块实现<strong>MNIST</strong>手写字识别，仅使用最基本的 pytorch 张量函数。然后，我们逐渐增加 <code class="highlighter-rouge">torch.nn</code>, <code class="highlighter-rouge">torch.optim</code>, <code class="highlighter-rouge">Dataset</code>, or <code class="highlighter-rouge">DataLoader</code>,具体地展示每个模块具体干了些什么，展示这些模块是怎样使代码变得更加优雅灵活。
+<strong>此教程适用范围：熟悉pytorch的张量操作</strong></p>
+
+<h1 id="加载-mnist-数据集">加载 MNIST 数据集</h1>
+
+<p>我们使用经典的 <code class="highlighter-rouge">MNIST</code> 数据集，一个包含了0-9数字的二值图像库。</p>
+
+<p>还会用到 <code class="highlighter-rouge">pathlib</code> 库用于目录操作，一个python3自带的标准库。使用 <code class="highlighter-rouge">requests</code> 下载数据集。当用到一个模块时才会进行导入，而不会一开始全部导入，以便更好地理解每个步骤。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'data'</span><span class="p">)</span>
+<span class="n">PATH</span> <span class="o">=</span> <span class="n">DATA_PATH</span> <span class="o">/</span> <span class="s">"mnist"</span>
+
+<span class="n">PATH</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">exit_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s">"http://deeplearning.net/data/mnist/"</span>
+<span class="n">FILENAME</span> <span class="o">=</span> <span class="s">"mnist.pkl.gz"</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">PATH</span> <span class="o">/</span> <span class="n">FILENAME</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+	<span class="n">content</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span> <span class="o">+</span> <span class="n">FILENAME</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+	<span class="p">(</span><span class="n">PATH</span> <span class="o">/</span> <span class="n">FILENAME</span><span class="p">)</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="s">"wb"</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+<span class="mi">1234567891011121314</span>
+</code></pre></div></div>
+
+<p>该数据集采用numpy数组格式，并使用pickle存储，pickle是一种特定于python的格式，用于序列化数据。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+
+<span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="nb">open</span><span class="p">((</span><span class="n">PATH</span> <span class="o">/</span> <span class="n">FILENAME</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">(),</span><span class="s">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+	<span class="p">((</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">),(</span><span class="n">x_valid</span><span class="p">,</span><span class="n">y_valid</span><span class="p">),</span><span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s">"latin-1"</span><span class="p">)</span>
+<span class="mi">12345</span>
+</code></pre></div></div>
+
+<p>每张训练图片分辨率为 28x28， 被存储为 784(=28x28) 的一行。我们输出看一下数据，首先需要转换回 28x28的图像。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">form</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="nn">pyplot</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">pyplot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">)),</span><span class="n">cmap</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="mi">12345</span>
+</code></pre></div></div>
+
+<p><img src="https://img-blog.csdnimg.cn/20190224165051244.png" alt="img" /></p>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(50000,784)
+1
+</code></pre></div></div>
+
+<p>PyTorch使用 torch.tensor ，所以我们需要对numpy类型数据进行转换</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">x_valid</span><span class="p">,</span><span class="n">y_valid</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
+	<span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">x_valid</span><span class="p">,</span><span class="n">y_valid</span><span class="p">)</span>
+	<span class="p">)</span>
+<span class="n">n</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">x_train</span><span class="p">,</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">y_train</span><span class="o">.</span><span class="nb">min</span><span class="p">(),</span><span class="n">y_train</span><span class="o">.</span><span class="nb">max</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="nb">min</span><span class="p">(),</span><span class="n">y_train</span><span class="o">.</span><span class="nb">max</span><span class="p">())</span>
+<span class="mi">123456789</span>
+</code></pre></div></div>
+
+<h1 id="从头创建神经网络不使用torchnn">从头创建神经网络（不使用torch.nn）</h1>
+
+<p>让我们仅仅使用 pytorch 中的张量操作来创建模型，假设你已经熟悉神经网络的基础知识（不熟悉请参考<a href="https://course.fast.ai/">corse.fast.ai</a> ）</p>
+
+<p>pytorch提供了很多创建张量的操作，我们将用这些方法来初始化权值weights和偏置 bais来创建一个线性模型。这些只是常规张量，有一个非常特别的补充：我们告诉PyTorch这些张量需要支持求导(requires_grad=True)。这样PyTorch将记录在张量上完成的所有操作，以便它可以在反向传播过程中自动计算梯度！</p>
+
+<p>对于权值weights，我们再初始化<strong>之后</strong>再设置 <code class="highlighter-rouge">requires_grad</code>,因为我们不想这一步包含在梯度的计算中（注：pytorch中以 <code class="highlighter-rouge">_</code> 结尾的操作都是在原变量中(in-place)执行的）</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">780</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">784</span><span class="p">)</span>
+<span class="n">weights</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">()</span>
+<span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="mi">12345</span>
+</code></pre></div></div>
+
+<p>多亏了pytorch的自动求导功能，我们可以使用python的所有标准函数来构建模型。 我们这儿利用矩阵乘法，加法来构建线性模型。我们编写 <code class="highlighter-rouge">log_softmax</code>函数作为激活函数。 虽然pytorch提供了大量写好的损失函数，激活函数，你依然可以自由地编写自己的函数替代它们。 pytorch 甚至支持创建自己的 GPU函数或者CPU矢量函数。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">xb</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">log_softmax</span><span class="p">(</span><span class="n">xb</span> <span class="o">@</span> <span class="n">weights</span> <span class="o">+</span> <span class="n">bias</span><span class="p">)</span>           <span class="c1"># python的广播机制
+</span><span class="mi">12345</span>
+</code></pre></div></div>
+
+<p>上面的 <code class="highlighter-rouge">@</code> 符号表示向量的点乘，接下来我们会调用一批数据（batch，64张图片）输入此模型。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bs</span> <span class="o">=</span> <span class="mi">64</span> 					<span class="c1"># batch size
+</span><span class="n">xb</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">bs</span><span class="p">]</span>    		<span class="c1"># a mini-batch from x
+</span><span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>   		<span class="c1"># predictions
+</span><span class="k">print</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">preds</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="mi">1234</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor([-2.4513, -2.5024, -2.0599, -3.1052, -3.2918, -2.2665, -1.9007, -2.2588,
+        -2.0149, -2.0287], grad_fn=&lt;SelectBackward&gt;) torch.Size([64, 10])
+12
+</code></pre></div></div>
+
+<p>正如我们看到的，<code class="highlighter-rouge">preds</code> 张量不仅包含了一组张量，还包含了求导函数。反向传播的时候会用到此函数。让我们使用标准的python语句接着来实现 negative log likelihood loss 损失函数（译者加：也被称为交叉熵损失函数）：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">nll</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">target</span><span class="p">):</span>
+	<span class="k">return</span> <span class="o">-</span><span class="nb">input</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">loss_func</span> <span class="o">=</span> <span class="n">nll</span>
+<span class="mi">1234</span>
+</code></pre></div></div>
+
+<p>现在用我们的损失函数来检查我们随机初始化的模型，待会就能看到再反向传播之后是否会改善模型性能。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yb</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">bs</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span><span class="n">yb</span><span class="p">))</span>
+<span class="mi">12</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(2.3620, grad_fn=&lt;NegBackward&gt;)
+1
+</code></pre></div></div>
+
+<p>接下来定义一个计算准确度的函数</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="n">yb</span><span class="p">)</span><span class="err">：</span>
+	<span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>           <span class="c1"># 得到最大值的索引
+</span>	<span class="k">return</span> <span class="p">(</span><span class="n">preds</span> <span class="o">==</span> <span class="n">yb</span><span class="p">)</span><span class="o">.</span><span class="nb">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="mi">123</span>
+</code></pre></div></div>
+
+<p>检查模型的准确度：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">accuracy</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">yb</span><span class="p">))</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(0.0938)
+1
+</code></pre></div></div>
+
+<p>现在我们开始循环训练模型，每一步我们执行以下操作：</p>
 
 <ul>
-  <li>3种模式
+  <li>选择一批数据（a batch）</li>
+  <li>使用模型进行预测</li>
+  <li>计算损失函数</li>
+  <li>反向传播更新参数 weights 和 bias</li>
+</ul>
+
+<p>我们现在使用 <code class="highlighter-rouge">torch.no_grad()</code> 更新参数，以避免参数更新过程被记录入求导函数中。</p>
+
+<p>然后我们清零导数，以便开始下一轮循环，否则导数会在原来的基础上累加，而非替代原来的数</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">IPython.core.debugger</span> <span class="kn">import</span> <span class="n">set_trace</span>
+
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># learning rate
+</span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># how many epochs to train for
+</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">bs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1">#         set_trace()
+</span>        <span class="n">start_i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">bs</span>
+        <span class="n">end_i</span> <span class="o">=</span> <span class="n">start_i</span> <span class="o">+</span> <span class="n">bs</span>
+        <span class="n">xb</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+        <span class="n">yb</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">weights</span> <span class="o">-=</span> <span class="n">weights</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+            <span class="n">bias</span> <span class="o">-=</span> <span class="n">bias</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+            <span class="n">weights</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+            <span class="n">bias</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+<span class="mi">123456789101112131415161718192021</span>
+</code></pre></div></div>
+
+<p>目前为止，我们从头创建一个迷你版的神经网络</p>
+
+<p>让我们来检查一下损失和准确率，并于迭代更新参数之前进行比较，我们期望得到更小的损失于更高的准确率。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">),</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">))</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(0.0822, grad_fn=&lt;NegBackward&gt;) tensor(1.)
+1
+</code></pre></div></div>
+
+<h1 id="使用-torchnnfunctional-简化代码">使用 torch.nn.functional 简化代码</h1>
+
+<p>现在我们使用<code class="highlighter-rouge">torch.nn.functional</code>重构之前的代码，这样会使代码变得更加简洁与灵活，更易理解。</p>
+
+<p>首先最简单的一步是，用 <code class="highlighter-rouge">torch.nn.functional</code>( 为了方便后面统一称作F) 中带有的损失函数来代替我们自己编写的函数，使得代码变得更简短。这些函数都包包含于模块 <code class="highlighter-rouge">torch.nn</code>里面，除了大量的损失函数与激活函数，里面还包含了大量用于构建网络的函数。</p>
+
+<p>如果我们的网络中使用 negative log likelihood loss 作为损失函数， log softmax activation 作为激活函数 （即我们上面实现的损失函数与激活函数）。在pytorch中我们直接使用函数 <code class="highlighter-rouge">F.cross_entropy</code> 便可实现上面两个函数的功能。所以我们可以用此函数代替上面实现的激活函数与损失函数。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+
+<span class="n">loss_func</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
+
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">xb</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">xb</span> <span class="o">@</span> <span class="n">weights</span> <span class="o">+</span> <span class="n">bias</span>
+<span class="mi">123456</span>
+</code></pre></div></div>
+
+<p>让我测试一下是否和上面自己实现的函数效果一致：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(0.0822, grad_fn=&lt;NllLossBackward&gt;) tensor(1.)
+1
+</code></pre></div></div>
+
+<h1 id="引入-nnmodule-重构代码">引入 nn.Module 重构代码</h1>
+
+<p>接下来我们引入 <code class="highlighter-rouge">nn.Module</code>和<code class="highlighter-rouge">nn.Parameter</code> 改进代码。我们创建 <code class="highlighter-rouge">nn.Module</code>的子类。这个例子中我们创建一个包含权重，偏置，以及包含前向传播的类。<code class="highlighter-rouge">nn.Module</code>含有许多的属性与方法可供调用 （比如： <code class="highlighter-rouge">.parameters</code> <code class="highlighter-rouge">.zero_grad()</code>）</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+
+<span class="k">class</span> <span class="nc">Mnist_Logistic</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="n">sefl</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">784</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">xb</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">xb</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>
+<span class="mi">12345678910</span>
+</code></pre></div></div>
+
+<p>接下来实例化我们的模型：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">Mnist_Logistic</span><span class="p">()</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>现在我们可以和之前一样使用损失函数了。注意：<code class="highlighter-rouge">nn.Module</code> 对象可以像函数一样调用，但实际上是自动调用了对象内部的函数 <code class="highlighter-rouge">forward</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span><span class="n">yb</span><span class="p">))</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(2.2082, grad_fn=&lt;NllLossBackward&gt;)
+1
+</code></pre></div></div>
+
+<p>在之前，我们必须进行如下得操作对权重，偏置进行更新，梯度清零：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+	<span class="n">weights</span> <span class="o">-=</span> <span class="n">weights</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+	<span class="n">bias</span> <span class="o">-=</span> <span class="n">bias</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+	<span class="n">weights</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+	<span class="n">bias</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+<span class="mi">12345</span>
+</code></pre></div></div>
+
+<p>现在我们可以充分利用 <code class="highlighter-rouge">nn.Module</code> 的方法属性更简单地完成这些操作，如下所示：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+	<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span> <span class="n">p</span> <span class="o">-=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+	<span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="mi">123</span>
+</code></pre></div></div>
+
+<p>现在我们将整个训练过程写进函数 <code class="highlighter-rouge">fit</code>中。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fit</span><span class="p">():</span>
+	<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoches</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">bs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+			<span class="n">start_i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">bs</span>
+			<span class="n">end_i</span> <span class="o">=</span> <span class="n">start_i</span> <span class="o">+</span> <span class="n">bs</span>
+			<span class="n">xb</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+			<span class="n">yb</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+			<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+			<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="n">yb</span><span class="p">)</span>
+		
+			<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+			<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+				<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span> <span class="n">p</span> <span class="o">-=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+				<span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="n">fit</span><span class="p">()</span>
+<span class="mi">123456789101112131415</span>
+</code></pre></div></div>
+
+<p>让我们再一次确认损失情况：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span><span class="n">yb</span><span class="p">))</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(0.0812, grad_fn=&lt;NllLossBackward&gt;)
+1
+</code></pre></div></div>
+
+<h1 id="引入-nnlinear-重构代码">引入 nn.Linear 重构代码</h1>
+
+<p>比起手动定义 权重 与 偏置，并且使用 <code class="highlighter-rouge">self.weights</code>和 <code class="highlighter-rouge">self.bias</code> 来计算 <code class="highlighter-rouge">xb @ self.weights + self.bias</code>的方式，我们可以使用pytorch中的 <code class="highlighter-rouge">nn.Linear</code>来定义线性层，他自动为我们实现以上权重参数的定义以及计算的过程。除了线性模型之外，pytorch还有一系列的其它网络层供我们使用，大大简化了我们的编程过程。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Mnist_Logistic</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">xb</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+<span class="mi">1234567</span>
+</code></pre></div></div>
+
+<p>同上面一样实例化模型，计算损失</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">Mnist_Logistic</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span><span class="n">yb</span><span class="p">))</span>
+<span class="mi">12</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(2.2731, grad_fn=&lt;NllLossBackward&gt;)
+1
+</code></pre></div></div>
+
+<p>训练，并查看训练之后的损失</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fit</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">))</span>
+<span class="mi">123</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(0.0820, grad_fn=&lt;NllLossBackward&gt;)
+1
+</code></pre></div></div>
+
+<h1 id="引入-optim-重构代码">引入 optim 重构代码</h1>
+
+<p>接下来使用<code class="highlighter-rouge">torch.optim</code>改进训练过程，而不用手动更新参数</p>
+
+<p>之前的手动优化过程如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+	<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span> <span class="n">p</span> <span class="o">-=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
+	<span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="mi">123</span>
+</code></pre></div></div>
+
+<p>使用如下代码替代手动的参数更新：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="c1"># optim.zero_grad() resets the gradient to 0 and we need to call it 
+# before computing the gradient for the next minibatch.
+</span><span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span> 
+<span class="mi">1234</span>
+</code></pre></div></div>
+
+<p>结合之前的完整跟新代码如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
+
+<span class="k">def</span> <span class="nf">get_model</span><span class="p">():</span>
+	<span class="n">model</span> <span class="o">=</span> <span class="n">Mnist_Logistic</span><span class="p">()</span>
+	<span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span><span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span><span class="n">yb</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoches</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="n">bs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+		<span class="n">start_i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span><span class="n">bs</span>
+		<span class="n">end_i</span> <span class="o">=</span> <span class="n">start_i</span> <span class="o">+</span> <span class="n">bs</span>
+		<span class="n">xb</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+		<span class="n">yb</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+		<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+		<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="n">yb</span><span class="p">)</span>
+
+		<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+		<span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+		<span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span><span class="n">yb</span><span class="p">))</span>
+<span class="mi">1234567891011121314151617181920212223</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(2.3785, grad_fn=&lt;NllLossBackward&gt;)
+tensor(0.0802, grad_fn=&lt;NllLossBackward&gt;)
+12
+</code></pre></div></div>
+
+<h1 id="引入-dataset-处理数据">引入 Dataset 处理数据</h1>
+
+<p>pytorch定义了 Dataset 类，其中主要包含了 <code class="highlighter-rouge">__len__</code> 函数与 <code class="highlighter-rouge">__getitem__</code>函数。<a href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html">此教程</a>以创建 <code class="highlighter-rouge">FacialLandmarkDataset</code> 为例详细地介绍了Dataset类的使用。</p>
+
+<p>pytorch的 <code class="highlighter-rouge">TensorDataset</code> 是一个包含张量的数据集。通过定义长度索引等方式，使我们更好地利用索引，切片等方法迭代数据。这会让我们很容易地在一行代码中获取我们地数据。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">form</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span> <span class="kn">import</span> <span class="nn">TensorDataset</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">x_train</code> <code class="highlighter-rouge">y_train</code>可以被组合进一个<code class="highlighter-rouge">TensorDataset</code>中，这会使得迭代切片更加简单。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>之前我们获取数据的方法如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xb</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+<span class="n">yb</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span>
+<span class="mi">12</span>
+</code></pre></div></div>
+
+<p>现在我们可以使用更简单的方法：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xb</span><span class="p">,</span><span class="n">yb</span> <span class="o">=</span> <span class="n">train_ds</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">bs</span> <span class="p">:</span> <span class="n">i</span><span class="o">*</span><span class="n">bs</span> <span class="o">+</span><span class="n">bs</span><span class="p">]</span>
+<span class="mi">1</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">bs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="o">=</span> <span class="n">train_ds</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">bs</span><span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="n">bs</span> <span class="o">+</span> <span class="n">bs</span><span class="p">]</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">))</span>
+<span class="mi">12345678910111213</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(0.0817, grad_fn=&lt;NllLossBackward&gt;)
+1
+</code></pre></div></div>
+
+<h1 id="引入dataloader加载数据">引入DataLoader加载数据</h1>
+
+<p><code class="highlighter-rouge">DataLoader</code> 用于批量加载数据，你可以用他来加载任何来自 <code class="highlighter-rouge">Dataset</code>的数据，它使得数据的批量加载十分容易。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">train_dl</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">bs</span><span class="p">)</span>
+<span class="mi">1234</span>
+</code></pre></div></div>
+
+<p>之前我们读取数据的方式：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="n">bs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">xb</span><span class="p">,</span><span class="n">yb</span> <span class="o">=</span> <span class="n">train_ds</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">bs</span> <span class="p">:</span> <span class="n">i</span><span class="o">*</span><span class="n">bs</span><span class="o">+</span><span class="n">bs</span><span class="p">]</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+<span class="mi">123</span>
+</code></pre></div></div>
+
+<p>现在使用dataloader加载数据：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">xb</span><span class="p">,</span><span class="n">yb</span> <span class="ow">in</span> <span class="n">train_dl</span><span class="p">:</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+<span class="mi">12</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">train_dl</span><span class="p">:</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">))</span>
+<span class="mi">123456789101112</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensor(0.0817, grad_fn=&lt;NllLossBackward&gt;)
+1
+</code></pre></div></div>
+
+<p>目前为止训练模型部分我们就已经完成了，通过使用<code class="highlighter-rouge">nn.Module</code>, <code class="highlighter-rouge">nn.Parameter</code>, <code class="highlighter-rouge">DataLoader</code>, 我们的训练模型以及得到了很大的改进。接下来让我们开始模型的测试部分。</p>
+
+<h1 id="添加测试集">添加测试集</h1>
+
+<p>在前一部分，我们尝试了使用训练集训练网络。实际工作中，我们还会使用测试集来观察训练的模型是否过拟合。</p>
+
+<p>打乱数据的分布有助于减小每一批(batch)数据间的关联，有利于模型的泛化。但对于测试集来说，是否打乱数据对结果并没有影响，反而会花费多余的时间，所以我们没有必要打乱测试集的数据。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">train_dl</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">bs</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">valid_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">x_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">)</span>
+<span class="n">valid_dl</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">valid_ds</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="n">bs</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="mi">12345</span>
+</code></pre></div></div>
+
+<p>在每训练完一轮数据（epoch）后我们输出测试得到的损失值。
+(注：如下代码中，我们调用<code class="highlighter-rouge">model.train()</code>和<code class="highlighter-rouge">model.eval</code>表示进入训练模式与测试模式，以保证模型运行的准确性)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">,</span><span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoches</span><span class="p">):</span>
+	<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+	<span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">train_dl</span><span class="p">:</span>
+		<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+		<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+		
+		<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+		<span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+		<span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+	<span class="n">model</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
+	<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+		<span class="n">valid_loss</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span> <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">valid_dl</span><span class="p">)</span>
+
+	<span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">valid_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_dl</span><span class="p">))</span>
+<span class="mi">1234567891011121314151617</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 tensor(0.3456)
+1 tensor(0.2988)
+12
+</code></pre></div></div>
+
+<h1 id="创建-fit-和-get_data-优化代码">创建 fit() 和 get_data() 优化代码</h1>
+
+<p>我们再继续做一点改进。因为我们再计算训练损失和验证损失时执行了两次相同的操作，所以我们用一个计算每一个batch损失的函数封装这部分代码。</p>
+
+<p>我们为训练集添加优化器，并执行反向传播。对于训练集我们不添加优化器，当然也不会执行反向传播。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">loss_batch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">xb</span> <span class="p">,</span> <span class="n">yb</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span><span class="n">yb</span><span class="p">)</span>
+
+	<span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+		<span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+		<span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+	
+	<span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+<span class="mi">123456789</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">fit</code>执行每一个epoch过程中训练和验证的必要操作</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span> 
+
+<span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+		<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+		<span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">train_dl</span><span class="p">:</span>
+			<span class="n">loss_batch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">,</span> <span class="n">opt</span><span class="p">)</span>
+		
+		<span class="n">model</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
+		<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+			<span class="n">losses</span><span class="p">,</span> <span class="n">nums</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
+				<span class="o">*</span><span class="p">[</span><span class="n">loss_batch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span> <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">valid_dl</span><span class="p">]</span>
+			<span class="p">)</span>
+		<span class="n">val_loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">losses</span><span class="p">,</span> <span class="n">nums</span><span class="p">))</span><span class="o">.</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span>
+
+		<span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">)</span>
+<span class="mi">12345678910111213141516</span>
+</code></pre></div></div>
+
+<p>现在，获取数据加载模型进行训练的整个过程只需要三行代码便能实现了</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span><span class="p">,</span> <span class="n">bs</span><span class="p">)</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
+<span class="n">fit</span><span class="p">(</span><span class="n">epoches</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">)</span>
+<span class="mi">123</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 0.2961075816631317
+1 0.28558296990394594
+12
+</code></pre></div></div>
+
+<p>我们可以用这简单的三行代码训练各种模型。下面让我们看看怎么用它训练一个卷积神经网络。</p>
+
+<h1 id="使用卷积神经网络">使用卷积神经网络</h1>
+
+<p>现在我们用三个卷积层来构造我们的卷积网络。因为之前的实现的函数都没有假定模型形式，这儿我们依然可以使用它们而不需要任何修改。</p>
+
+<p>我们pytorch预定义的<code class="highlighter-rouge">Conv2d</code>类来构建我们的卷积层。我们模型有三层，每一层卷积之后都跟一个 ReLU，然后跟一个平均池化层。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Mnist_CNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xb</span><span class="p">):</span>
+		<span class="n">xb</span> <span class="o">=</span> <span class="n">xb</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span>
+		<span class="n">xb</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">xb</span><span class="p">))</span>
+		<span class="n">xb</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">xb</span><span class="p">))</span>
+		<span class="n">xb</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">xb</span><span class="p">))</span>
+		<span class="n">xb</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">avg_pool2d</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">xb</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">xb</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="mi">12345678910111213141516</span>
+</code></pre></div></div>
+
+<p>动量momentum是随机梯度下降的一个参数，它考虑到了之前的梯度值使得训练更快。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">Mnist_CNN</span><span class="p">()</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="n">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">)</span>
+<span class="mi">1234</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 0.3829730714321136
+1 0.2258522843360901
+12
+</code></pre></div></div>
+
+<h1 id="使用-nnsequential-搭建网络">使用 nn.Sequential 搭建网络</h1>
+
+<p><code class="highlighter-rouge">torch.nn</code>还有另外一个方便的类可以简化我们的代码：<code class="highlighter-rouge">Sequential</code>, 一个<code class="highlighter-rouge">Sequential</code>对象</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Lambda</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+
+	<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="mi">12345678910</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">Sequential</code>是一种简化代码的好方法。 一个<code class="highlighter-rouge">Sequential</code>对象按顺序执行包含在内的每一个module，使用它可以很方便地建立一个网络。</p>
+
+<p>为了更好地使用<code class="highlighter-rouge">Sequential</code>模块，我们需要自定义 pytorch中没实现地module。例如pytorch中没有自带 改变张量形状地层，我们创建 <code class="highlighter-rouge">Lambda</code>层，以便在<code class="highlighter-rouge">Sequential</code>中调用。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">Lambda</span><span class="p">(</span><span class="n">preprocess</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+    <span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
+<span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="n">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">)</span>
+<span class="mi">123456789101112131415</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 0.32739396529197695
+1 0.25574398956298827
+12
+</code></pre></div></div>
+
+<h1 id="简易的dataloader">简易的DataLoader</h1>
+
+<p>我们的网络以及足够精简了，但是只能适用于MNIST数据集，因为</p>
+
+<ul>
+  <li>网络默认输入为 28x28 的张量</li>
+  <li>网络默认最后一个卷积层大小为 4x4 （因为我们的池化层大小为4x4）</li>
+</ul>
+
+<p>现在我们去除这两个假设，使得网络可以适用于所有的二维图像。首先我们移除最初的 <code class="highlighter-rouge">Lambda</code>层，用数据预处理层替代。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">y</span>
+
+<span class="k">class</span> <span class="nc">WrappedDataLoader</span><span class="p">:</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dl</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">dl</span> <span class="o">=</span> <span class="n">dl</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+
+	<span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dl</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">batches</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dl</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+			<span class="k">yield</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">b</span><span class="p">))</span>
+
+<span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span><span class="p">,</span> <span class="n">bs</span><span class="p">)</span>
+<span class="n">train_dl</span> <span class="o">=</span> <span class="n">WrappedDataLoader</span><span class="p">(</span><span class="n">train_dl</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">)</span>
+<span class="n">valid_dl</span> <span class="o">=</span> <span class="n">WrappedDataLoader</span><span class="p">(</span><span class="n">valid_dl</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">)</span>
+<span class="mi">12345678910111213141516171819</span>
+</code></pre></div></div>
+
+<p>然后，我们使用<code class="highlighter-rouge">nn.AdaptiveAvgPool2d</code>代替<code class="highlighter-rouge">nn.AvgPool2d</code>。它允许我们自定义输出张量的维度，而于输入的张量无关。这样我们的网络便可以适用于各种size的网络。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+	<span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernal_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+	<span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+	<span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+	<span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+	<span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
+	<span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="mi">123456789101112</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 0.32888883714675904
+1 0.31000419993400574
+12
+</code></pre></div></div>
+
+<h1 id="使用gpu">使用GPU</h1>
+
+<p>如果你的电脑有支持CUDA的GPU（你可以很方便地以 0.5美元/小时 的价格租到支持的云服务器），便可以使用GPU加速训练过程。首先检测设备是否正常支持GPU:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">())</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ture
+1
+</code></pre></div></div>
+
+<p>接着创建一个设备对象：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dev</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span>
+	<span class="s">"cuda"</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cpu"</span><span class="p">)</span>
+<span class="mi">12</span>
+</code></pre></div></div>
+
+<p>更新 <code class="highlighter-rouge">preprocess(x,y)</code>把数据移到GPU:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dev</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span><span class="p">,</span> <span class="n">bs</span><span class="p">)</span>
+<span class="n">train_dl</span> <span class="o">=</span> <span class="n">WrappedDataLoader</span><span class="p">(</span><span class="n">train_dl</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">)</span>
+<span class="n">valid_dl</span> <span class="o">=</span> <span class="n">WrappedDataLoader</span><span class="p">(</span><span class="n">valid_dl</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">)</span>
+<span class="mi">123456</span>
+</code></pre></div></div>
+
+<p>最后移动网络模型到GPU：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span><span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="mi">12</span>
+</code></pre></div></div>
+
+<p>进行训练，能发现速度快了很多：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">)</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>out:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 0.21190375366210937
+1 0.18018000435829162
+12
+</code></pre></div></div>
+
+<h1 id="总结">总结</h1>
+
+<p>我们现在得到了一个通用的数据加载和模型训练方法，我们可以在pytorch种用这种方法训练大多的模型。想知道训练一个模型有多简单，回顾一下本次的代码便可以了。</p>
+
+<p>当然，除此之外本篇内容还有很多需求没有讲到，比如数据增强，超参调试，数据监控(monitoring training),迁移学习等。这些特点都以与本篇教程相似的设计方法包含于 fastai库中。</p>
+
+<p>本篇教程开头我们承诺将会通过例程解释 <code class="highlighter-rouge">torch.nn</code> <code class="highlighter-rouge">torch.optim</code> <code class="highlighter-rouge">Dataset</code> <code class="highlighter-rouge">DataLoader</code>等模块，下面我们就这些模型进行总结。</p>
+
+<ul>
+  <li>torch.nn
     <ul>
-      <li>一般模式：移动光标、删除字符或者整行，复制粘帖数据</li>
-      <li>编辑模式：按下“i,I,o,O,a,A,r,R”可以进入编辑模式，按下Esc可以推出编辑模式</li>
-      <li>命令行模式：输入”:,/,?”可以进入命令行模式，进行数据查找、大量替换字符、保存离开等功能</li>
+      <li>Module: 创建一个可以像函数一样调用地对象，包含了网络的各种状态，可以使用<code class="highlighter-rouge">parameter</code>方便地获取模型地参数，并有清零梯度，循环更新参数等功能。</li>
+      <li>Parameter: 将模型中需要更新的参数全部打包，方便反向传播过程中进行更新。有 <code class="highlighter-rouge">requires_grad</code>属性的参数才会被更新。</li>
+      <li>functional：通常导入为<code class="highlighter-rouge">F</code>，包含了许多激活函数，损失函数等。</li>
     </ul>
   </li>
-  <li>一般模式下移动光标的方法
-    <ul>
-      <li>左右：h，l，使用组合键5h即可多列跳跃</li>
-      <li>上下：k，j，使用组合键5j即可多行跳跃</li>
-      <li>行首（行尾）：0（$）</li>
-      <li>文件首（尾）：gg（G）</li>
-      <li>向下（上）翻页：ctrl+f（b）</li>
-    </ul>
-  </li>
-  <li>一般模式下查找与替换
-    <ul>
-      <li>/word：向下寻找名称为word 的字符串</li>
-      <li>n：查找下一个</li>
-      <li>N：查找上一个</li>
-      <li>:n1,n2s/Word1/Word2/g：将n1和n2行之间的Word1替换为Word2</li>
-      <li>:1,$s/Word1/Word2/g：将第一行和最后一行之间的Word1替换为Word2</li>
-      <li>:1,$s/Word1/Word2/gc：将第一行和最后一行之间的Word1替换为Word2，并且逐个确认</li>
-    </ul>
-  </li>
-  <li>一般模式下删除
-    <ul>
-      <li>x,X:在一行字中，x为向后删除一个字符（相当于Del键），X为向前删除一个字符（相当于Backspace键），可使用组合键nx（X)连续删除n个字符</li>
-      <li>dd：删除光标所在一整行，可使用ndd删除光标所在行开始的n行</li>
-      <li>d1G：删除光标所在到第一行的所有数据</li>
-      <li>dG：删除从光标所在到最后一行的所有数据</li>
-      <li>d$：删除从光标所在处到该行最后一个数据</li>
-      <li>d0：删除从光标所在处到该行第一个数据</li>
-    </ul>
-  </li>
-  <li>一般模式下复制
-    <ul>
-      <li>yy：复制光标所在行的数据</li>
-      <li>nyy：复制光标所在向下n行</li>
-      <li>y1G：复制光标所在行到第一行的数据</li>
-      <li>yG：复制光标所在行到最后一行的数据</li>
-      <li>y0：复制光标所在字符到该行行首的所有数据</li>
-      <li>y$：复制光标所在字符到该行行尾的所有数据</li>
-      <li>p,P：p为将以复制的数据在光标下一行粘帖，P则为粘帖在光标上一行</li>
-    </ul>
-  </li>
-  <li>一般模式下其他操作
-    <ul>
-      <li>J：将光标所在行与下一行的数据结合成一行</li>
-      <li>u：撤销前一个操作</li>
-      <li>ctrl+r：重做前一个操作</li>
-      <li>.：小数点为重复前一个操作</li>
-      <li>ZZ：保存并且退出</li>
-    </ul>
-  </li>
-  <li>编辑模式
-    <ul>
-      <li>i,I：i为从目前光标所在处开始插入，I为在当前所在行第一个非空格符处开始插入</li>
-      <li>a,A：a为从当前光标所在的下一个字符处开始插入，A为从光标所在行的最后一格字符处开始插入</li>
-      <li>o,O：o为当前所在的下一行处插入新的一行，O为目前光标所在的上一行插入新的一行</li>
-      <li>r,R：r只会替换光标所在字符，R会一直替换知道Esc</li>
-      <li>Esc：退出编辑模式，进入一般模式</li>
-    </ul>
-  </li>
-  <li>命令行模式
-    <ul>
-      <li>:w：将编辑的数据写入硬盘文件中</li>
-      <li>:w!：若文件为只读，强制写入文件，至于能不能写入与文件权限有关</li>
-      <li>:q：离开vim</li>
-      <li>:q!：若修改过文件，又不想保存，使用！强制离开</li>
-      <li>:wq：保存后离开，“:wq!”强制保存后离开</li>
-      <li>:set nu：显示行号</li>
-      <li>:set nonu：取消行号显示</li>
-    </ul>
-  </li>
+  <li>torch.optim: 包含了很多诸如<code class="highlighter-rouge">SGD</code>一样的优化器，用来在反向传播中跟新参数</li>
+  <li>Dataset: 一个带有 <code class="highlighter-rouge">__len__</code> <code class="highlighter-rouge">__getitem__</code>等函数的抽象接口。里面包含了 <code class="highlighter-rouge">TensorDataset</code>等类。</li>
+  <li>DataLoader: 输入任意的 <code class="highlighter-rouge">Dataset</code> 并按批(batch)迭代输出数据。</li>
 </ul>
 
                 </div>
                 <div class="read-all">
-                    <a  href="/2018/07/16/linux%E5%85%A5%E9%97%A8%E4%B9%8Bvim%E5%AD%A6%E4%B9%A0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                    <a  href="/2019/03/12/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90torch.nn/"><i class="fa fa-newspaper-o"></i>Read All</a>
                 </div>
                 <hr>
               </li>
             
               <li>
                 <h2>
-                  <a class="post-link" href="/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Bash学习笔记</a>
+                  <a class="post-link" href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">爬虫环境安装</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-16
+                        <i class="fa fa-calendar"></i>2019-03-11
                     </div>
                     <div class="label-card">
                         <i class="fa fa-user"></i>Henryzhou
@@ -470,7 +1140,7 @@
   <i class="fa fa-tags"></i>
   
     
-        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
+        <a href="/tag/#spider" title="Tag: spider" rel="tag">spider</a>
     
   
 
@@ -479,152 +1149,161 @@
                     </div>
                 </div>
                 <div class="excerpt">
-                    <h1 id="bash学习">Bash学习</h1>
+                    <h4 id="spider-note">spider Note</h4>
+
+<h5 id="python环境安装">python环境安装</h5>
 
 <ul>
-  <li>history命令会列出记录的所有bash命令
-    <ul>
-      <li>!number：执行.bash_history文件中第n条命令</li>
-      <li>!!：执行上一条命令</li>
-      <li>!command：执行以command开头的最近的一条命令</li>
-    </ul>
+  <li>python3.7</li>
+</ul>
+
+<h5 id="请求库的安装">请求库的安装</h5>
+
+<ul>
+  <li>
+    <p>请求库requests的安装：<code class="highlighter-rouge">conda install requests -n spider</code></p>
   </li>
-  <li>bash下组合按键
-    <ul>
-      <li>ctrl+C：终止目前的命令</li>
-      <li>ctrl+D：输入结束（EOF)</li>
-      <li>ctrl+Z：暂停目前的命令</li>
-    </ul>
+  <li>
+    <p>自动化测试工具Senlenium的安装：<code class="highlighter-rouge">conda install selenium -n spider</code></p>
   </li>
-  <li>通配符
-    <ul>
-      <li>*：代表0到无穷多个任意字符</li>
-      <li>?：代表一定有一个任意字符</li>
-      <li>[]：代表一定有一个在中括号内的字符（非任意字符），例如[abcd]，代表一定有一个字符，可能是a,b,c,d这四个中任意一个</li>
-      <li>[-]：若有减号在中括号内，代表在编码顺序内的所有顺序，例如[0-9]代表0到9之间的所有数字</li>
-      <li>[^]：若中括号内的第一个字符为指数符号^，那表示原向选择，例如[ ^abc]代表一定有一个字符，只要是非a,b,c的其他字符就接受的意思</li>
-    </ul>
+  <li>
+    <p>senlenium驱动chrome浏览器工具chromedriver添加到PATH中：</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">在</span><span class="o">~/.</span><span class="n">bashrc</span><span class="err">最后添加：</span><span class="n">PATH</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">henry</span><span class="o">/</span><span class="n">opt</span><span class="p">:</span><span class="err">$</span><span class="n">PATH</span>
+<span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</code></pre></div>    </div>
   </li>
-  <li>bash其他符号
-    <ul>
-      <li>#：注释符号，后面内容不执行</li>
-      <li>\：转移符号</li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td>：管道符号，分隔两个管道命令的界定</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-      <li>～：用户的主文件夹</li>
-      <li>;：连续命令执行分隔符</li>
-      <li>$：变量前导符</li>
-      <li>&amp;：作业控制，将命令变成背景下工作</li>
-      <li>！：逻辑运算符非</li>
-      <li>/：目录符号</li>
-      <li>&gt;,»：数据流重定向，分别是“替换”和“累加”,1&gt;表示输出正确信息，2&gt;表示输出错误信息，同时输出则为2&gt;&amp;1</li>
-      <li>&lt;,«：数据流重定向，输入导向</li>
-      <li>``：两个反单引号中间为先执行命令，也可使用$()</li>
-    </ul>
+  <li>
+    <p>使用phantomJS实现后台的浏览器控制</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">下载</span><span class="n">phantomJS</span><span class="err">，并且将其路径添加到系统变量中</span>
+</code></pre></div>    </div>
   </li>
-  <li>数据管理命令
-    <ul>
-      <li>cut：对于比较规整的信息，cut可以截取每一行特定部分的字符</li>
-      <li>grep：对输出结果进行查询筛选</li>
-      <li>sort：对输入内容进行排序</li>
-      <li>uniq：对输入去重的操作</li>
-      <li>wc：对输入进行统计计数</li>
-      <li>tee：同时将数据屏幕输出和保存到文件</li>
-      <li>xargs：将输入通过空格符或者断行符分开作为参数</li>
-      <li>-的用途：有些命令需要用到文件名作为参数，可以用-代指srdout和stdin输出的文件名</li>
-    </ul>
-  </li>
-  <li>正则表达式
-    <ul>
-      <li>字符集
-        <ul>
-          <li>[:alnum:]：代表英文大小写字符及数字，即0-9,A-Z，a-z</li>
-          <li>[:alpha:]：代表任何英文大小写字符，即A-Z,a-z</li>
-          <li>[:blank:]：代表空格键与[Tab]按键</li>
-          <li>[:cntrl:]：代表键盘上面的控制按键，即包括CR，LF，Tab，Del等</li>
-          <li>[:digit:]：代表数字字符，即0-9</li>
-          <li>[:graph:]：除了空格符（空格键与[Tab]按键）外的其他所有按键</li>
-          <li>[:lower:]：代表小写字符，即a-z</li>
-          <li>[:print:]：代表任何可以被打印出来的字符</li>
-          <li>[:punct:]：代表标点符号</li>
-          <li>[:upper:]：代表大写字符，即A-Z</li>
-          <li>[:space:]：任何会产生空白的字符，包括空格键[Tab]CR等</li>
-          <li>[:xdigit:]：代表十六进制的数字类型，因此包括0-9,A-F,a-f等</li>
-        </ul>
-      </li>
-      <li>基础字符表达式与应用
-        <ul>
-          <li>.：代表一定有一个任意字符</li>
-          <li>*：代表重复前一个0到无穷次</li>
-          <li>^word：待查找的字符串在行首</li>
-          <li>word$：待查找的字符串在行尾</li>
-          <li>[list]：从字符集合的RE字符里面找出想要选取的字符</li>
-          <li>[^list]：从字符集合的RE字符里面中找出不要的字符串或范围</li>
-          <li>[n1-n2]：从字符集合的RE字符里面找出想要选取的字符范围</li>
-          <li>[^$]：指定空白行</li>
-          <li>\{n1,n2\}：连续n到m个的前一个RE字符，若为\{n}则是连续n个的前一个RE字符，若为\{n,}则是连续n个以上的前一个RE字符</li>
-        </ul>
-      </li>
-      <li>扩展的正则表达式
-        <ul>
-          <li>+：重复一个或者一个以上的前一个RE字符</li>
-          <li>?：零个或者一个的前一个RE字符</li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>：用或（or）的方法找出数个字符串</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
-          <li>()：找出”组“字符串</li>
-          <li>()+：多个重复组的判别</li>
-        </ul>
-      </li>
-      <li>sed命令
-        <ul>
-          <li>作用：sed本身是一个管道命令，可以分析stdin，还可以将数据进行替换、删除、新增、选取特定行的功能</li>
-          <li>语法：sed [n1] [n2] function;function选项如下所示</li>
-          <li>a:新增，a后面可以接字符串，而这些字符串会在新的一行中出现</li>
-          <li>c：替换，c的后面可以接字符串，这些字符串可以替换n1,n2之间的行</li>
-          <li>d：删除，因为是删除，所以d后面通常不接任何参数</li>
-          <li>i：插入，i的后面可以接字符串，而这些字符串会在新的一行出现</li>
-          <li>p：打印，也就是将某一个选择的数据打印出来，通常p会与sed -n一起运行</li>
-          <li>s：替换，可以直接进行替换的工作，通常这个s的动作可以搭配正则表达式，例如1,20s/word1/word2/g,即将1到20行中word1替换成word2</li>
-        </ul>
-      </li>
-      <li>文件比较工具
-        <ul>
-          <li>diff [-bBi] from-file to-file：比较from-file和to-file的差别，注意不要用diff命令去比较不相干的文件，这样没有比较的结果</li>
-          <li>cmp [-s] file1 file2：比较file1和file2，返回第一个发现的不同点字节处和行数</li>
-        </ul>
-      </li>
-    </ul>
+  <li>
+    <p>安装异步web请求库aiohttp</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">aiohttp</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
   </li>
 </ul>
 
+<h5 id="解析库的安装">解析库的安装</h5>
+
+<ul>
+  <li>
+    <p>lxml的安装，支持HTML、XML的解析，支持XPath解析方式</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">lxml</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>beautifulsoup4的安装，其依赖lxml</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">beautifulsoup4</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>pyquery的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">pyquery</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装验证码识别工具tesseract</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">tesseract</span><span class="o">-</span><span class="n">ocr</span> <span class="n">libtesseract</span><span class="o">-</span><span class="n">dev</span> <span class="n">libleptonica</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">spider</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">tesserocr</span> <span class="n">pillow</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="数据库的安装">数据库的安装</h5>
+
+<ul>
+  <li>
+    <p>mysql的安装</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span>
+<span class="c1">#mysql启动、关闭、重启命令
+#sudo service mysql start
+#sudo service mysql stop
+#sudo service mysql restart
+</span></code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql5</span><span class="mf">.7</span><span class="err">以上不会有密码设置过程，需要手动配置</span>
+<span class="err">$</span> <span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">debian</span><span class="o">-</span><span class="n">sys</span><span class="o">-</span><span class="n">maint</span> <span class="o">-</span><span class="n">p</span>
+<span class="c1">#密码在/etc/mysql/debian.cnf文件中可查看(V3XKquzHqnW18GWc)，在mysql命令行中执行下列语句
+</span>  
+<span class="n">show</span> <span class="n">databases</span><span class="err">；</span>
+<span class="n">use</span> <span class="n">mysql</span><span class="p">;</span>
+<span class="n">update</span> <span class="n">user</span> <span class="nb">set</span> <span class="n">authentication_string</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">(</span><span class="s">"zhou"</span><span class="p">)</span> <span class="n">where</span> <span class="n">user</span><span class="o">=</span><span class="s">'root'</span><span class="p">;</span>
+<span class="n">update</span> <span class="n">user</span> <span class="nb">set</span> <span class="n">plugin</span><span class="o">=</span><span class="s">"mysql_native_password"</span><span class="p">;</span>
+<span class="n">flush</span> <span class="n">privileges</span><span class="p">;</span>
+<span class="n">quit</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#完全卸载mysql的方法
+</span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">purge</span> <span class="n">mysql</span><span class="o">-*</span>
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">autoremove</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装redis</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">redis</span><span class="o">-</span><span class="n">server</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="存储库的安装">存储库的安装</h5>
+
+<ul>
+  <li>
+    <p>安装pymysql存储库以使用python和mysql交互</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">pymysql</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装redis_py</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">redis</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="web库的安装">Web库的安装</h5>
+
+<ul>
+  <li>
+    <p>安装Flask web库来搭建一些API接口，供爬虫使用，后面会利用Flask+Redis维护动态代理池和Cookies池</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span> <span class="n">install</span> <span class="n">tornado</span> <span class="o">-</span><span class="n">n</span> <span class="n">spider</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装tornado，后面会使用tornado+redis来搭建一个ADSL拨号代理池</p>
+  </li>
+</ul>
+
+
                 </div>
                 <div class="read-all">
-                    <a  href="/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                    <a  href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><i class="fa fa-newspaper-o"></i>Read All</a>
                 </div>
                 <hr>
               </li>
             
               <li>
                 <h2>
-                  <a class="post-link" href="/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">通过bundle安装jekyll</a>
+                  <a class="post-link" href="/2019/03/11/markdown_Guide/">Markdown_Guide</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-15
+                        <i class="fa fa-calendar"></i>2019-03-11
                     </div>
                     <div class="label-card">
                         <i class="fa fa-user"></i>Henryzhou
@@ -660,7 +1339,7 @@
   <i class="fa fa-tags"></i>
   
     
-        <a href="/tag/#jekyll" title="Tag: jekyll" rel="tag">jekyll</a>
+        <a href="/tag/#markdown" title="Tag: markdown" rel="tag">markdown</a>
     
   
 
@@ -669,79 +1348,231 @@
                     </div>
                 </div>
                 <div class="excerpt">
-                    <ul>
-  <li><strong>新建一个空目录，作为blog的根目录。</strong></li>
-</ul>
+                    <h1 id="欢迎使用markdown编辑器写博客">欢迎使用Markdown编辑器写博客</h1>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir blog
-cd ./blog
-</code></pre></div></div>
+<p>本Markdown编辑器使用<a href="https://github.com/benweet/stackedit">StackEdit</a>修改而来，用它写博客，将会带来全新的体验哦：</p>
 
 <ul>
-  <li><strong>创建Gemfile，内容简单复制以下代码就行,命名为Gemfile</strong></li>
+  <li><strong>Markdown和扩展Markdown简洁的语法</strong></li>
+  <li><strong>代码块高亮</strong></li>
+  <li><strong>图片链接和图片上传</strong></li>
+  <li><strong><em>LaTex</em>数学公式</strong></li>
+  <li><strong>UML序列图和流程图</strong></li>
+  <li><strong>离线写博客</strong></li>
+  <li><strong>导入导出Markdown文件</strong></li>
+  <li><strong>丰富的快捷键</strong></li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source  'https://rubygems.org'
-gem 'github-pages',group: :jekyll_plugins
-</code></pre></div></div>
+<hr />
+
+<h2 id="快捷键">快捷键</h2>
 
 <ul>
-  <li><strong>安装ruby和ruby-dev</strong></li>
+  <li>加粗    <code class="highlighter-rouge">Ctrl + B</code></li>
+  <li>斜体    <code class="highlighter-rouge">Ctrl + I</code></li>
+  <li>引用    <code class="highlighter-rouge">Ctrl + Q</code></li>
+  <li>插入链接    <code class="highlighter-rouge">Ctrl + L</code></li>
+  <li>插入代码    <code class="highlighter-rouge">Ctrl + K</code></li>
+  <li>插入图片    <code class="highlighter-rouge">Ctrl + G</code></li>
+  <li>提升标题    <code class="highlighter-rouge">Ctrl + H</code></li>
+  <li>有序列表    <code class="highlighter-rouge">Ctrl + O</code></li>
+  <li>无序列表    <code class="highlighter-rouge">Ctrl + U</code></li>
+  <li>横线    <code class="highlighter-rouge">Ctrl + R</code></li>
+  <li>撤销    <code class="highlighter-rouge">Ctrl + Z</code></li>
+  <li>重做    <code class="highlighter-rouge">Ctrl + Y</code></li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install ruby ruby-dev
+<h2 id="markdown及扩展">Markdown及扩展</h2>
+
+<blockquote>
+  <p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank"> [ 维基百科 ]</a></p>
+</blockquote>
+
+<p>使用简单的符号标识不同的标题，将某些文字标记为<strong>粗体</strong>或者<em>斜体</em>，创建一个<a href="http://www.csdn.net">链接</a>等，详细语法参考帮助？。</p>
+
+<p>本编辑器支持 <strong>Markdown Extra</strong> , 　扩展了很多好用的功能。具体请参考<a href="https://github.com/jmcmanus/pagedown-extra" title="Pagedown Extra">Github</a>.</p>
+
+<h3 id="表格">表格</h3>
+
+<p><strong>Markdown　Extra</strong>　表格语法：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>项目</th>
+      <th>价格</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Computer</td>
+      <td>$1600</td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td>$12</td>
+    </tr>
+    <tr>
+      <td>Pipe</td>
+      <td>$1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>可以使用冒号来定义对齐方式：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">项目</th>
+      <th style="text-align: right">价格</th>
+      <th style="text-align: center">数量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Computer</td>
+      <td style="text-align: right">1600 元</td>
+      <td style="text-align: center">5</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Phone</td>
+      <td style="text-align: right">12 元</td>
+      <td style="text-align: center">12</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Pipe</td>
+      <td style="text-align: right">1 元</td>
+      <td style="text-align: center">234</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>###定义列表</p>
+
+<dl>
+  <dt><strong>Markdown　Extra</strong>　定义列表语法：</dt>
+  <dt>项目１</dt>
+  <dt>项目２</dt>
+  <dd>定义 A</dd>
+  <dd>定义 B</dd>
+  <dt>项目３</dt>
+  <dd>定义 C</dd>
+  <dd>
+    <p>定义 D</p>
+
+    <blockquote>
+      <p>定义D内容</p>
+    </blockquote>
+  </dd>
+</dl>
+
+<h3 id="代码块">代码块</h3>
+<p>代码块语法遵循标准markdown代码，例如：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">requires_authorization</span>
+<span class="k">def</span> <span class="nf">somefunc</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">param2</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="s">'''A docstring'''</span>
+    <span class="k">if</span> <span class="n">param1</span> <span class="o">&gt;</span> <span class="n">param2</span><span class="p">:</span> <span class="c1"># interesting
+</span>        <span class="k">print</span> <span class="s">'Greater'</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">param2</span> <span class="o">-</span> <span class="n">param1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span>
+<span class="k">class</span> <span class="nc">SomeClass</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">message</span> <span class="o">=</span> <span class="s">'''interpreter
+... prompt'''</span>
 </code></pre></div></div>
+
+<p>###脚注
+生成一个脚注[^footnote].
+[^footnote]: 这里是 <strong>脚注</strong> 的 <em>内容</em>.</p>
+
+<h3 id="目录">目录</h3>
+<p>用 <code class="highlighter-rouge">[TOC]</code>来生成目录：</p>
+
+<p>[TOC]</p>
+
+<h3 id="数学公式">数学公式</h3>
+<p>使用MathJax渲染<em>LaTex</em> 数学公式，详见<a href="http://math.stackexchange.com/">math.stackexchange.com</a>.</p>
 
 <ul>
-  <li><strong>通过ruby的安装器gem安装bundler</strong></li>
+  <li>行内公式，数学公式为：$\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$。</li>
+  <li>块级公式：</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install bundler
-</code></pre></div></div>
+<script type="math/tex; mode=display">x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}</script>
+
+<p>更多LaTex语法请参考 <a href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference">这儿</a>.</p>
+
+<h3 id="uml-图">UML 图:</h3>
+
+<p>可以渲染序列图：</p>
+
+<pre><code class="language-sequence">张三-&gt;李四: 嘿，小四儿, 写博客了没?
+Note right of 李四: 李四愣了一下，说：
+李四--&gt;张三: 忙得吐血，哪有时间写。
+</code></pre>
+
+<p>或者流程图：</p>
+
+<pre><code class="language-flow">st=&gt;start: 开始
+e=&gt;end: 结束
+op=&gt;operation: 我的操作
+cond=&gt;condition: 确认？
+
+st-&gt;op-&gt;cond
+cond(yes)-&gt;e
+cond(no)-&gt;op
+</code></pre>
 
 <ul>
-  <li><strong>通过bundler批量安装jekyll组件</strong></li>
+  <li>关于 <strong>序列图</strong> 语法，参考 <a href="http://bramp.github.io/js-sequence-diagrams/">这儿</a>,</li>
+  <li>关于 <strong>流程图</strong> 语法，参考 <a href="http://adrai.github.io/flowchart.js/">这儿</a>.</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
-</code></pre></div></div>
+<h2 id="离线写博客">离线写博客</h2>
 
-<p>到nokogiri时终止了安装，搜索网上的问题解决办法后，发现是一些第三方依赖库没有安装，linux下在终端中输入以下命令，在手动安装nokogiri,成功！</p>
+<p>即使用户在没有网络的情况下，也可以通过本编辑器离线写博客（直接在曾经使用过的浏览器中输入<a href="http://write.blog.csdn.net/mdeditor">write.blog.csdn.net/mdeditor</a>即可。<strong>Markdown编辑器</strong>使用浏览器离线存储将内容保存在本地。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libz-dev libiconv-hook1 libiconv-hook-dev
-</code></pre></div></div>
+<p>用户写博客的过程中，内容实时保存在浏览器缓存中，在用户关闭浏览器或者其它异常情况下，内容不会丢失。用户再次打开浏览器时，会显示上次用户正在编辑的没有发表的内容。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install nokogiri -v '1.8.4'
-</code></pre></div></div>
+<p>博客发表后，本地缓存将被删除。　</p>
 
-<ul>
-  <li><strong>回过头来根据Gemfile安装jekyll</strong></li>
-</ul>
+<p>用户可以选择 <i class="icon-disk"></i> 把正在写的博客保存到服务器草稿箱，即使换浏览器或者清除缓存，内容也不会丢失。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
-</code></pre></div></div>
+<blockquote>
+  <p><strong>注意：</strong>虽然浏览器存储大部分时候都比较可靠，但为了您的数据安全，在联网后，<strong>请务必及时发表或者保存到服务器草稿箱</strong>。</p>
+</blockquote>
 
-<ul>
-  <li>试试能不能启动jekyll,成功！在浏览器中网址栏输入localhost:4000,验证jekyll的运行情况</li>
-</ul>
+<h2 id="浏览器兼容">浏览器兼容</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec jekyll serve
-</code></pre></div></div>
+<ol>
+  <li>目前，本编辑器对Chrome浏览器支持最为完整。建议大家使用较新版本的Chrome。</li>
+  <li>IE９以下不支持</li>
+  <li>IE９，１０，１１存在以下问题
+    <ol>
+      <li>不支持离线功能</li>
+      <li>IE9不支持文件导入导出</li>
+      <li>IE10不支持拖拽文件导入</li>
+    </ol>
+  </li>
+</ol>
+
+<hr />
+
 
                 </div>
                 <div class="read-all">
-                    <a  href="/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                    <a  href="/2019/03/11/markdown_Guide/"><i class="fa fa-newspaper-o"></i>Read All</a>
                 </div>
                 <hr>
               </li>
             
               <li>
                 <h2>
-                  <a class="post-link" href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a>
+                  <a class="post-link" href="/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">Pytorch环境搭建</a>
                 </h2>
                 <div class="label">
                     <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-15
+                        <i class="fa fa-calendar"></i>2019-03-11
                     </div>
                     <div class="label-card">
                         <i class="fa fa-user"></i>Henryzhou
@@ -777,7 +1608,7 @@ gem 'github-pages',group: :jekyll_plugins
   <i class="fa fa-tags"></i>
   
     
-        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
+        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>
     
   
 
@@ -786,271 +1617,121 @@ gem 'github-pages',group: :jekyll_plugins
                     </div>
                 </div>
                 <div class="excerpt">
-                    <h1 id="鸟哥的linux私房菜">鸟哥的Linux私房菜</h1>
+                    <p><strong>Pytorch 环境搭建</strong></p>
 
-<h2 id="一linux文件目录与磁盘格式">一、Linux文件、目录与磁盘格式</h2>
+<p>PyTorch 的安装十分简单，根据 PyTorch 官网，对系统选择和安装方式等灵活选择即可。 这里以 anaconda 为例，简单的说一下步骤和要点。 国内安装 anaconda 建议使用清华或者中科大 [http://mirrors.ustc.edu.cn/help/anaconda.html] 镜像，快的不是一点半点。</p>
 
-<h3 id="11学习资源">1.1学习资源</h3>
-
-<ul>
-  <li>推荐的网站
-    <ul>
-      <li>Study-Area:http://www.study-area.org</li>
-      <li>鸟哥的私房菜馆：http://linux.vbird.org</li>
-      <li>卧龙大师的网络技术文件：http://linux.tnc.edu.cn.tw/techdoc/</li>
-      <li>中国linux团队：http://www.linux.org.cn/</li>
-      <li>狼主的网络实验室：http://netlab.kh.edu.cn/inde.htm</li>
-      <li>吴仁志的文件集：http://www.cses.tcc.edu.cn/~chihwu/</li>
-      <li>国人CLE计划：<a href="http://cle.linux.org.tw/">http://cle.linux.org.tw/</a></li>
-      <li>自由软件技术交流网： <a href="http://freesf.tnc.edu.tw/index.php">http://freesf.tnc.edu.tw/index.php</a></li>
-      <li>B2D: <a href="http://b2d.tnc.edu.tw/">http://b2d.tnc.edu.tw/</a></li>
-      <li>KNOPPIX：<a href="http://www.knoppix.net/">http://www.knoppix.net/</a></li>
-      <li>中文 KNOPPIX: <a href="http://knoppix.tnc.edu.tw/">http://knoppix.tnc.edu.tw/</a></li>
-      <li>FHS: <a href="http://www.pathname.com/fhs/">http://www.pathname.com/fhs/</a></li>
-      <li>LSB: <a href="http://www.linuxbase.org/">http://www.linuxbase.org/</a></li>
-      <li>计算机基础 (http://www.study-area.org/compu/compu.htm)</li>
-      <li>网络基础 (http://www.study-area.org/network/network.htm)</li>
-      <li><a href="http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php">http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php</a>About Internet</li>
-      <li>大南国小（林克敏主任文件集） http://freebsd.lab.mlc.edu.tw/</li>
-      <li>张毓麟先生的小文章 http://www.se.ntou.edu.tw/~ylchang/MyDocuments/index.html</li>
-      <li>台湾 Linux 社群  http://www.linux.org.tw/</li>
-    </ul>
-  </li>
-  <li>常用的FAQ网站
-    <ul>
-      <li>Linux 自己的文件数据： /usr/share/doc (在你的 PC 中)</li>
-      <li>CLDP 中文文件计划 <a href="http://www.linux.org.tw/CLDP/">http://www.linux.org.tw/CLDP/</a></li>
-      <li>Unix 的一般常见问题  <a href="http://www.csie.nctu.edu.tw/document/unixfaq/">http://www.csie.nctu.edu.tw/document/unixfaq/</a></li>
-      <li>The LinuxDocumentation Project：<a href="http://www.tldp.org/">http://www.tldp.org/</a></li>
-      <li>『提问的智慧<a href="http://phorum.vbird.org/viewtopic.php?t=96%E3%80%8F">http://phorum.vbird.org/viewtopic.php?t=96』</a></li>
-      <li>李果正先生之 GNU/Linux 初学者之旅： http://info.sayya.org/~edt1023/linux_entry.html</li>
-      <li>鸟哥备份：http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_3.php</li>
-      <li>信息人的有效学习(洪朝贵教授网页)：http://www.cyut.edu.tw/~ckhung/published/018learn.shtml</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="12安装">1.2安装</h2>
-
-<ul>
-  <li>分区
-    <ul>
-      <li>按照顺序：/boot、/、/usr、/var、/tmp</li>
-      <li>/home</li>
-      <li>Swap</li>
-    </ul>
-  </li>
-  <li>引导程序
-    <ul>
-      <li>引导程序grup最好安装地点选择整块磁盘的文件名</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="13系统终端使用">1.3系统终端使用</h2>
-
-<ul>
-  <li>命令行模式：
-    <ul>
-      <li>x-window提供的终端：terminal</li>
-      <li>ctrl+alt+[F1]~[F6]：进入tty1~tty6的操作界面环境，推出crtl+alt+F7</li>
-      <li>linux下区分大小写</li>
-      <li>使用过的命令保存在.bash_history文件中</li>
-      <li>ctrl+c命令能使当前终端运行的程序停止</li>
-      <li>ctrl+d命代表键盘输入结束，可以用来代替exit，也就是退出的功能</li>
-    </ul>
-  </li>
-  <li>man命令
-    <ul>
-      <li>man [数字] 命令：可以查到相应命令的手册，数字代表不同用户环境下该命令的用法</li>
-      <li>man -f 命令：寻找命令相关的手册</li>
-      <li>man -k 关键字：寻找关键字相关命令的手册</li>
-      <li>具体某一个软件手册可以到/usr/share/doc下去寻找对应的文件夹</li>
-    </ul>
-  </li>
-  <li>正确的关机方法
-    <ul>
-      <li>who：查看当前在线的用户</li>
-      <li>netstat -a：查看网络的联机状态</li>
-      <li>ps -aux：查看后台</li>
-      <li>sync：将数据同步写入硬盘</li>
-      <li>正确的关机命令：shundown</li>
-      <li>重启：reboot</li>
-    </ul>
-  </li>
-  <li>重启x-window：ctrl+alt+backspace</li>
-  <li>修改文件的权限
-    <ul>
-      <li>用户类别：u:user	;g:group	;o:others</li>
-      <li>权限类别：r:read ;w:write ;x:execute</li>
-      <li>操作类别：+：增加；-：减少；=：设置</li>
-      <li>chgrp 用户组 文件：修改文件的用户组</li>
-      <li>chown 所有者:用户组 文件：修改文件的所有者和用户组</li>
-      <li>chmod xyz 文件：xyz为数字，r：4;w：2;x：1;x=7=4+2+1表示rwx三种权限都有，以此类推</li>
-      <li>chmod u=rwx,go=rx 文件;u：user;g：group;o：others</li>
-      <li>chmod  u+w 文件：user增加对文件写权限</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="14目录结构">1.4目录结构</h2>
-
-<ul>
-  <li>FHS定义的目录规范
-    <ul>
-      <li>/（root，根目录）：与开机系统有关</li>
-      <li>/usr（UNIX software resource）：与软件安装/执行有关</li>
-      <li>/var（variable）：与系统运行过程有关</li>
-    </ul>
-  </li>
-  <li>/目录内容
-    <ul>
-      <li>/bin：放置单用户维护模式下还能被操作的命令</li>
-      <li>/boot：放置开机会使用到的文件，包括Linux内核文件以及开机菜单的开机所需要的配置文件等</li>
-      <li>/dev：放置设备与接口设备文件</li>
-      <li>/etc：放置系统的配置文件</li>
-      <li>/home：系统默认的用户主文件夹</li>
-      <li>/lib：放置开机时会使用的函数库</li>
-      <li>/media：放置可删除的设备</li>
-      <li>/mnt：用于暂时挂载某些额外的设备</li>
-      <li>/opt：给第三方软件放置的目录。不过在以前的linux 系统中，我们还是习惯放置在usr/local目录下</li>
-      <li>/root：系统管理员（root）的主文件夹，在进入单用户维护模式而仅挂载根目录时，我们能够访问到</li>
-      <li>/sbin：放置系统开机过程中需要的系统执行文件</li>
-      <li>/srv：可视为service的缩写，是一些网络服务启动后所需要取用的数据目录</li>
-      <li>/tmp：让用户或者正在执行的程序暂时放置文件爱你的地方</li>
-      <li>/proc：该目录本身是一个虚拟文件系统，他放置的内容都是在内存中，因此目录本身不占用内存空间</li>
-      <li>/sys：同上，也是一个虚拟文件系统，包括目前已加载的内核模块和内核检验到的硬件设备信息，同样不占用内存</li>
-      <li>/etc、/bin、/dev、/lib、/sbin这五个目录不能/目录分开，因为开机是只用根目录会被挂载，而以上目录与系统启动有着重要关系，必须在开机时能够访问到</li>
-    </ul>
-  </li>
-  <li>/usr目录内容
-    <ul>
-      <li>/usr一放置的数据属于可分享的与不可变动的，是UNIX Software Resource的缩写</li>
-      <li>/usr/X11R6/：X Window系统重要数据所放置的目录</li>
-      <li>/usr/bin：绝大部分用户可使用命令都放在这里。注意它与/bin的不同之处（是否与开机过程有关）</li>
-      <li>/usr/include/：放置C/C++等语言的头文件和包含文件，当我们以tarball方式安装软件时会使用到这里的许多包含文件</li>
-      <li>/usr/lib：包含各应用软件的函数库、目标文件以及不被一般用户惯用的执行文件或脚本</li>
-      <li>/usr/local：放置系统管理员自行安装自己下载的软件（非distribution默认提供者）</li>
-      <li>/usr/sbin：非系统正常运行所需要的系统命令，最常见的就是某些网络服务器软件的服务命令（daemon）</li>
-      <li>/usr/src：一般源码建议放置在这里。至于内核源码建议放置在/usr/src/linux/目录下</li>
-    </ul>
-  </li>
-  <li>/var目录内容
-    <ul>
-      <li>/var系统运行后开始暂用硬盘容量，包括缓存（cache）、登录文件（logfile）以及某些软件运行所产生的文件（lock file，run file），或者例如MYSQL数据库的文件</li>
-      <li>/var/cache/：应用程序本身运行过程中会产生的暂存文件</li>
-      <li>/var/lib/：程序执行过程中，需要使用到的数据文件位置，软件有各自的目录</li>
-      <li>/var/lock/：存放某些设备或者文件资源的使用锁文件</li>
-      <li>/var/log：登录文件放置的目录</li>
-      <li>/var/mail/：放置个人电子邮件信箱的目录，不过这个目录也被放置到val/spool/mail/目录中，通常这两个目录互为链接文件</li>
-      <li>/var/run/：某些程序或者服务启动后，会将他们的PID放置这个目录下</li>
-      <li>/var/spool/：存放程序使用的数据的队列</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="141目录与路径">1.4.1目录与路径</h3>
-
-<ul>
-  <li>常见处理目录和文件的命令
-    <ul>
-      <li>cd：切换目录，重要：-表示前一个工作目录</li>
-      <li>pwd：现实当前目录</li>
-      <li>mkdir：新建一个新的目录</li>
-      <li>rmdir：删除一个空的目录</li>
-      <li>cp：复制文件或目录</li>
-      <li>dd：命令十分强大，可以用于备份，设置制作启动盘</li>
-      <li>rm：删除文件或目录</li>
-      <li>mv：移动文件或目录</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="15文件操作">1.5文件操作</h3>
-
-<ul>
-  <li>文件创建或者查看
-    <ul>
-      <li>cat：由第一行开始显示文件内容</li>
-      <li>tac：从最后一行开始显示，可以看出tac是cat的倒写</li>
-      <li>nl：显示的时候顺便输出行号</li>
-      <li>more：一页一页地显示文件内容</li>
-      <li>less：与more相似，但是比more更好的是，它可以往前翻页</li>
-      <li>head：只看头几行</li>
-      <li>tail：只看结尾几行</li>
-      <li>od：以二进制的方式读取文件内容</li>
-      <li>touch：创建文件</li>
-      <li>file：查看文件类型</li>
-    </ul>
-  </li>
-  <li>文件的查询
-    <ul>
-      <li>which ：寻找“执行文件”的位置</li>
-      <li>type：判断“执行文件”的类型</li>
-      <li>whereis：查找文件的绝对地址</li>
-      <li>locate：查找文件的绝对地址</li>
-      <li>find：可以查询时间、用户、类型、权限、大小相关的文件，功能强大，但是需要扫描磁盘，一次速度略慢</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="16磁盘管理">1.6磁盘管理</h3>
-
-<ul>
-  <li>磁盘管理常用命令
-    <ul>
-      <li>df：查看磁盘占用情况</li>
-      <li>fdisk：磁盘分区</li>
-      <li>mkfs：磁盘格式化</li>
-      <li>fsck、badblocks：磁盘检验，通常只有身为root且你的文件系统有问题的时候才使用这个命令</li>
-      <li>mount：磁盘挂载</li>
-      <li>unmount：磁盘卸载</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="17常见的压缩命令">1.7常见的压缩命令</h3>
-
-<ul>
-  <li>常见的压缩格式：
-    <ul>
-      <li>.Z：compress程序压缩的命令</li>
-      <li>.gz：gzip程序压缩的文件</li>
-      <li>.bz2：bzip2程序压缩的文件</li>
-      <li>.tar：tar程序打包的数据，并没有压缩过</li>
-      <li>.tar.gz：tar程序打包的文件，其中经过gzip的压缩</li>
-      <li>.tar.bz2：tar程序打包的文件，其中经过bzip2的压缩</li>
-    </ul>
-  </li>
-  <li>压缩与解压缩命令
-    <ul>
-      <li>gzip：压缩并且删除源文件</li>
-      <li>gzip -d：解压缩并且删除源文件</li>
-      <li>zcat：查看压缩文件内容</li>
-      <li>bzip2：为取代gzip而开发的压缩命令，效果比gzip更好，-k选项能够保留源文件</li>
-      <li>bzip2 -d：解压缩</li>
-      <li>bzcat：查看压缩文件的内容</li>
-      <li>tar -jcv -f filename.tar.bz2 要被压缩的文件：通过bzip2的支持进行压缩，排除特定文件可用–exclude=file</li>
-      <li>tar -zcv -f filename.tar.gz 要被压缩的文件：通过gzip的支持进行压缩</li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td>tar -jtv -f 文件路径：查阅tar文件中的数据内容（可查看文件名），后面加上</td>
-              <td>grep ’string‘可以查看tar包中符合搜索项的文件</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-      <li>tar -jxv -f 文件路径：解压缩bzip2压缩的tar文件，后面加上带解开文件名即可解压缩指定文件</li>
-      <li>tar -zxv -f 文件路径：解压缩gzip压缩的tar文件，后面同上</li>
-    </ul>
-  </li>
-</ul>
 
                 </div>
                 <div class="read-all">
-                    <a  href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                    <a  href="/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-11
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#spider" title="Tag: spider" rel="tag">spider</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <h5 id="gpt10">GPT1.0</h5>
+
+<p>简述如下：GPT 1.0采取预训练+FineTuning两个阶段，它采取Transformer作为特征抽取器。预训练阶段采用“单向语言模型”作为训练任务，把语言知识编码到Transformer里。第二阶段，在第一阶段训练好的模型基础上，通过Finetuning来做具体的NLP任务。</p>
+
+<p>从大框架上来说，Bert基本就是GPT 1.0的结构，除了预训练阶段采取的是“双向语言模型”之外，它们并没什么本质差异，其它的技术差异都是细枝末节，不影响大局，基本可忽略。</p>
+
+<h5 id="gpt20">GPT2.0</h5>
+
+<p>GPT2.0大框架其实还是GPT 1.0的框架，但是把第二阶段的Finetuning做有监督地下游NLP任务，换成了无监督地做下游任务。本质上，GPT2.0选择了这么一条路来强化Bert或者是强化GPT 1.0的第一个预训练阶段：就是说首先把Transformer模型参数扩容，常规的Transformer Big包含24个叠加的Block，GPT2.0将Transformer层数增加到48层，参数规模15亿。真正的目的是：GPT 2.0准备用更多的训练数据来做预训练，更大的模型，更多的参数，意味着更高的模型容量，所以先扩容，免得Transformer楼层不够多的房间（模型容量）容纳不下过多的住户（就是NLP知识）。</p>
+
+<p>GPT2.0的语料：GPT2.0找了800万互联网网页作为语言模型的训练数据，它们被称为WebText，互联网网页的优点是覆盖的主题范围非常广，这样训练出来的语言模型，通用性好，覆盖几乎任何领域的内容，这意味着它可以用于任意领域的下游任务，有点像图像领域的Imagenet的意思。GPT 2.0论文其实更强调训练数据的通用性强这点。当然，除了量大通用性强外，数据质量也很重要，高质量的数据必然包含更好的语言及人类知识，所以GPT 2.0还做了数据质量筛选，过滤出高质量的网页内容来。</p>
+
+<p>GPT 2.0用这些网页做“单向语言模型”，GPT 2.0没有像Bert或者1.0版本一样，拿这个第一阶段的预训练模型有监督地去做第二阶段的Finetuning任务，而是选择了无监督地去做下游任务。另外论文中提到的对Transformer结构的微调，以及BPE输入方式，我相信都是不太关键的改动，应该不影响大局。</p>
+
+<p><strong>问题一：为什么GPT 2.0第二阶段不通过Finetuning去有监督地做下游任务呢？</strong>无监督地去做很多第二阶段的任务，只是GPT作者想说明在第一阶段Transformer学到了很多通用的包含各个领域的知识，第二部分各种实验是对这点的例证，如此而已。这是为何说第二阶段其实不重要，因为它不是论文的中心思想，而是说明中心思想的例子。</p>
+
+<p><strong>问题二：在预训练阶段，为什么GPT 2.0仍然固执地用单向语言模型，而不是双向语言模型呢？</strong>Bert在论文的实验部分已经证明了：Bert的效果比GPT好主要归因于这个双向语言模型。也许GPT 作者只想强调他们想做语言模型这个事情，毕竟生成内容后续单词这种模式，单向语言模型更方便，这估计是真正原因。</p>
+
+<p><strong>问题三：GPT 2.0 既然第二阶段是无监督的任务，而它不做Finetuning，那么你训练好一个语言模型，它当然会根据输入的一句话，给你蹦出后面可能紧跟那个单词，这是标准的语言模型过程，这个正常。但是如果这时候让它去做一个文本摘要任务，它怎么知道它现在在做什么事情呢，根据输入，应该输出什么东西呢？</strong>其实GPT 2.0在做下游无监督任务的时候，给定输入（对于不同类型的输入，加入一些引导字符，引导GPT正确地预测目标，比如如果做摘要，在输入时候加入“TL：DR”引导字符串），它的输出跟语言模型的输出是一样的，就是蹦出一个单词。那么问题来了：对于比如摘要任务，我们期待的输出结果是一句话或者几句话，你给我一个单词，有点太小气，那该怎么办？很简单，继续一个字一个字往出蹦，按照这些字从系统里蹦出来的时间顺序连起来，就是你想要的摘要结果，这种所有任务采取相同的往出蹦字的输出模式也是有点意思的。就是说，GPT2.0给出了一种新颖的生成式任务的做法，就是一个字一个字往出蹦，然后拼接出输出内容作为翻译结果或者摘要结果。传统的NLP网络的输出模式一般需要有个序列的产生结构的，而GPT 2.0完全是语言模型的产生结果方式：一个字一个字往出蹦，没有输出的序列结构。</p>
+
+<h5 id="归纳">归纳</h5>
+
+<p>我们可以从两个不同的角度来理解GPT 2.0。</p>
+
+<p><strong>一个角度是把它看作采取类似Elmo/GPT/Bert的两阶段模型解决NLP任务的一种后续改进策略</strong>，这种策略可以用来持续优化第一阶段的预训练过程。通过现在的Transformer架构，采用更高质量的数据，采用更宽泛的数据（Web数据量大了估计包含任何你能想到的领域），采用更大量的数据（WebText，800万网页），Transformer采用更复杂的模型（最大的GPT2.0模型是Transformer的两倍层深），那么在Transformer里能学会更多更好的NLP的通用知识。如果我们第二阶段仍然采取Finetuning，对下游任务的提升效果是可以很乐观地期待的。</p>
+
+<p><strong>另外一个角度也可以把GPT 2.0看成一个效果特别好的语言模型</strong>，可以用它来做语言生成类任务，比如摘要，QA这种，再比如给个故事的开头，让它给你写完后面的情节，目前看它的效果出奇的好。</p>
+
+<h5 id="bert的另外一种改进模式">Bert的另外一种改进模式</h5>
+
+<p>GPT2.0给出的思路是优化Bert的第一个预训练阶段，方向是扩充数据数量，提升数据质量，增强通用性，追求的是通过做大来做强。</p>
+
+<p>另一个思路：机器学习里面还有有监督学习，NLP任务里也有不少有监督任务是有训练数据的，这些数据能用来改善Bert第二阶段学习各种知识的Transformer。这种做法一个典型的模型是最近微软推出的MT-DNN，核心思想：结构上底层就是标准的Bert Transformer，第一阶段采用Bert的预训练模型不动，在Finetuning阶段，在上层针对不同任务构造不同优化目标，所有不同上层任务共享底层Transformer参数，这样就强迫Transformer通过预训练做很多NLP任务，来学会新的知识，并编码到Transformer的参数中。</p>
+
+<h5 id="nlp主流模型进化">NLP主流模型进化</h5>
+
+<ul>
+  <li>采取Bert的两阶段模式</li>
+  <li>特征抽取器采用Transformer</li>
+  <li>Bert两阶段模式中，第一个预训练阶段的两种改进方向：
+    <ul>
+      <li><strong>一种是强调通用性好以及规模大</strong>。加入越来越多高质量的各种类型的无监督数据，GPT 2.0指出了个明路，就是净化的高质量网页</li>
+      <li><strong>第二种是通过多任务训练</strong>，加入各种新型的NLP任务数据，它的好处是有监督，能够有针对性的把任务相关的知识编码到网络参数里，所以明显的好处是学习目标明确，学习效率高；而对应的缺点是NLP的具体有监督任务，往往训练数据量少，于是包含的知识点少；而且有点偏科，学到的知识通用性不强。</li>
+    </ul>
+  </li>
+  <li>GPT2.0<strong>采取超深层Transformer+更大量的网页数据去做更好的语言模型</strong>，并进而做各种生成式任务是很有研究应用前景。</li>
+</ul>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/"><i class="fa fa-newspaper-o"></i>Read All</a>
                 </div>
                 <hr>
               </li>
@@ -1065,10 +1746,10 @@ gem 'github-pages',group: :jekyll_plugins
             <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
             <a href="/page2" class="previous"><i class="fa fa-angle-left"></i></a>
           
-          <span class="page_number ">3/3</span>
+          <span class="page_number ">3/5</span>
           
-            <span class="next disable"><i class="fa fa-angle-right"></i></span>
-            <span class="next disable"><i class="fa fa-angle-double-right"></i></span>
+            <a href="/page4" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page5" class="next"><i class="fa fa-angle-double-right"></i></a>
           
         </div>
     </div>
@@ -1082,25 +1763,25 @@ gem 'github-pages',group: :jekyll_plugins
                 </div>
                 <ul class="content-ul" recent>
                     
-                        <li><a href="/2019/03/13/fine-tuning/">使用pytorch进行fine-tune</a></li>
+                        <li><a href="/2019/03/21/Pretraining-Based-Natural-Language-Generation-for-Text-Summarization/">《Pretraining-Based Natural Language Generation for Text Summarization》论文解读</a></li>
                     
-                        <li><a href="/2019/03/12/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90torch.nn/">深入解析torch.nn</a></li>
+                        <li><a href="/2019/03/20/%E6%96%87%E6%91%98/">文摘</a></li>
                     
-                        <li><a href="/2019/03/11/spider%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">爬虫环境安装</a></li>
+                        <li><a href="/2019/03/16/%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA/">chat-bot</a></li>
                     
-                        <li><a href="/2019/03/11/markdown_Guide/">Markdown_Guide</a></li>
+                        <li><a href="/2019/03/13/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%9A%84%E6%98%AF%E4%B8%AA%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF/">自然语言处理的是个发展趋势</a></li>
                     
-                        <li><a href="/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">Pytorch环境搭建</a></li>
+                        <li><a href="/2019/03/13/%E5%8D%8E%E4%B8%BA%E6%9D%8E%E8%88%AA-NLP%E6%9C%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A04%E4%B8%AA%E5%81%9A%E7%9A%84%E5%BE%88%E5%A5%BD/">华为李航-NLP有个基本问题，深度学习4个做的很好</a></li>
                     
-                        <li><a href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a></li>
+                        <li><a href="/2019/03/13/%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90-Google-Tensor2Tensor-%E7%B3%BB%E7%BB%9F/">全面解析Tensor2Tensor系统</a></li>
                     
-                        <li><a href="/2019/03/10/%E8%AE%BA%E6%96%87MT-DNN%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文《MT-DNN》笔记</a></li>
+                        <li><a href="/2019/03/13/%E4%BD%BF%E7%94%A8pytorch%E8%AF%86%E5%88%ABmnist/">使用pytorch识别mnist</a></li>
                     
-                        <li><a href="/2019/03/06/%E4%BA%AC%E4%B8%9C-%E4%BD%95%E6%99%93%E4%B8%9C-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E4%B8%8E%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%A4%E4%BA%92%E5%89%8D%E8%A8%80%E6%8A%80%E6%9C%AF/">自然语言与多模态交互前沿技术</a></li>
+                        <li><a href="/2019/03/13/pytorch%E4%B8%ADcnn%E7%9A%84%E4%BD%BF%E7%94%A8/">pytorch中cnn的使用</a></li>
                     
-                        <li><a href="/2019/03/06/%E6%9C%80%E8%BF%91%E9%98%85%E8%AF%BB%E6%96%87%E7%AB%A0%E5%B0%8F%E6%8A%84/">最近阅读文章小抄</a></li>
+                        <li><a href="/2019/03/13/Word2Vec_Tutorial_part2/">Word2Vec Tutorial part2</a></li>
                     
-                        <li><a href="/2019/02/28/Transformer%E7%9A%84%E5%9C%A8NLP%E4%B8%AD%E5%BA%94%E7%94%A8/">Transformer在NLP词向量预训练中的应用</a></li>
+                        <li><a href="/2019/03/13/Word2Vec-Tutorial/">Word2Vec Tutorial</a></li>
                     
                 </ul>
             </div>
@@ -1118,7 +1799,7 @@ gem 'github-pages',group: :jekyll_plugins
                             <span class="name">
                                 notes
                             </span>
-                            <span class="badge">15</span>
+                            <span class="badge">17</span>
                         </a>
                     </li>
                     
@@ -1127,7 +1808,16 @@ gem 'github-pages',group: :jekyll_plugins
                             <span class="name">
                                 reproduction
                             </span>
-                            <span class="badge">2</span>
+                            <span class="badge">11</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#digest" class="categories-list-item" cate="digest">
+                            <span class="name">
+                                digest
+                            </span>
+                            <span class="badge">1</span>
                         </a>
                     </li>
                     
@@ -1153,7 +1843,7 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       
-                      <a href="/tag/#linux" style="font-size: 15pt; color: #333;">linux</a>
+                      <a href="/tag/#linux" style="font-size: 11pt; color: #777;">linux</a>
                     
                       
                       
@@ -1167,7 +1857,7 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       
-                      <a href="/tag/#paper" style="font-size: 12pt; color: #666;">paper</a>
+                      <a href="/tag/#paper" style="font-size: 11pt; color: #777;">paper</a>
                     
                       
                       
@@ -1195,14 +1885,14 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       
-                      <a href="/tag/#spider" style="font-size: 12pt; color: #666;">spider</a>
+                      <a href="/tag/#spider" style="font-size: 10pt; color: #888;">spider</a>
                     
                       
                       
                       
                       
                       
-                      <a href="/tag/#pytorch" style="font-size: 15pt; color: #333;">pytorch</a>
+                      <a href="/tag/#pytorch" style="font-size: 14pt; color: #444;">pytorch</a>
                     
                       
                       
@@ -1210,6 +1900,34 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       <a href="/tag/#markdown" style="font-size: 9pt; color: #999;">markdown</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#cnn" style="font-size: 9pt; color: #999;">cnn</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#cv" style="font-size: 9pt; color: #999;">cv</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#tensorflow" style="font-size: 9pt; color: #999;">tensorflow</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#life" style="font-size: 9pt; color: #999;">life</a>
                     
                 </div>
             </div>

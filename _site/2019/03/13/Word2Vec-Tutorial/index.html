@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Word2Vec Tutorial</title>
+    <meta name="description" content="  转载自：http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/Word2Vec Tutorial - The Skip-Gram Model19 Apr 2016UPDATE: I’m proud to announce...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
+    <link rel="stylesheet" href="/css/main.css ">
+    <link rel="canonical" href="http://localhost:4000/2019/03/13/Word2Vec-Tutorial/">
+    <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
+
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9f8941ee9d9cbc5007bd89d1d30eb03f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        <a href="/" class="brand">henryzhou</a>
+        <small>Make robot converse with human naturally</small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tag/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/collection/">
+                        
+                            <i class="fa fa-bookmark"></i>Collections
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/about/">
+                        
+                            <i class="fa fa-heart"></i>About
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" post>
+    <div class="left">
+        <h1>Word2Vec Tutorial</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>2019-03-13
+            </div>
+
+            <div class="label-card">
+                <i class="fa fa-user"></i>Henryzhou
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#reproduction" title="Category: reproduction" rel="category">reproduction</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a-->
+        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+        <blockquote>
+  <p>转载自：http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/</p>
+</blockquote>
+
+<h1 id="word2vec-tutorial---the-skip-gram-model">Word2Vec Tutorial - The Skip-Gram Model</h1>
+
+<p>19 Apr 2016</p>
+
+<p><strong>UPDATE:</strong> I’m proud to announce that I’ve published my first eBook, <em>The Inner Workings of word2vec</em>. It includes all of the material in this post series, but goes deeper with additional topics like CBOW and Hierarchical Softmax, as well as example code that demonstrates the algorithm details in action. I’m continuing to add more topics and code to the book–picking it up now entitles you to receive all future revisions. Thanks for your support!</p>
+
+<p>This tutorial covers the skip gram neural network architecture for Word2Vec. My intention with this tutorial was to skip over the usual introductory and abstract insights about Word2Vec, and get into more of the details. Specifically here I’m diving into the skip gram neural network model.</p>
+
+<h1 id="the-model">The Model</h1>
+
+<p>The skip-gram neural network model is actually surprisingly simple in its most basic form; I think it’s all of the little tweaks and enhancements that start to clutter the explanation.</p>
+
+<p>Let’s start with a high-level insight about where we’re going. Word2Vec uses a trick you may have seen elsewhere in machine learning. We’re going to train a simple neural network with a single hidden layer to perform a certain task, but then we’re not actually going to use that neural network for the task we trained it on! Instead, the goal is actually just to learn the weights of the hidden layer–we’ll see that these weights are actually the “word vectors” that we’re trying to learn.</p>
+
+<p>Another place you may have seen this trick is in unsupervised feature learning, where you train an auto-encoder to compress an input vector in the hidden layer, and decompress it back to the original in the output layer. After training it, you strip off the output layer (the decompression step) and just use the hidden layer–it’s a trick for learning good image features without having labeled training data.</p>
+
+<h1 id="the-fake-task">The Fake Task</h1>
+
+<p>So now we need to talk about this “fake” task that we’re going to build the neural network to perform, and then we’ll come back later to how this indirectly gives us those word vectors that we are really after.</p>
+
+<p>We’re going to train the neural network to do the following. Given a specific word in the middle of a sentence (the input word), look at the words nearby and pick one at random. The network is going to tell us the probability for every word in our vocabulary of being the “nearby word” that we chose.</p>
+
+<p>When I say “nearby”, there is actually a “window size” parameter to the algorithm. A typical window size might be 5, meaning 5 words behind and 5 words ahead (10 in total).</p>
+
+<p>The output probabilities are going to relate to how likely it is find each vocabulary word nearby our input word. For example, if you gave the trained network the input word “Soviet”, the output probabilities are going to be much higher for words like “Union” and “Russia” than for unrelated words like “watermelon” and “kangaroo”.</p>
+
+<p>We’ll train the neural network to do this by feeding it word pairs found in our training documents. The below example shows some of the training samples (word pairs) we would take from the sentence “The quick brown fox jumps over the lazy dog.” I’ve used a small window size of 2 just for the example. The word highlighted in blue is the input word.</p>
+
+<p><a href="http://mccormickml.com/assets/word2vec/training_data.png"><img src="http://mccormickml.com/assets/word2vec/training_data.png" alt="Training Data" /></a></p>
+
+<p>The network is going to learn the statistics from the number of times each pairing shows up. So, for example, the network is probably going to get many more training samples of (“Soviet”, “Union”) than it is of (“Soviet”, “Sasquatch”). When the training is finished, if you give it the word “Soviet” as input, then it will output a much higher probability for “Union” or “Russia” than it will for “Sasquatch”.</p>
+
+<h1 id="model-details">Model Details</h1>
+
+<p>So how is this all represented?</p>
+
+<p>First of all, you know you can’t feed a word just as a text string to a neural network, so we need a way to represent the words to the network. To do this, we first build a vocabulary of words from our training documents–let’s say we have a vocabulary of 10,000 unique words.</p>
+
+<p>We’re going to represent an input word like “ants” as a one-hot vector. This vector will have 10,000 components (one for every word in our vocabulary) and we’ll place a “1” in the position corresponding to the word “ants”, and 0s in all of the other positions.</p>
+
+<p>The output of the network is a single vector (also with 10,000 components) containing, for every word in our vocabulary, the probability that a randomly selected nearby word is that vocabulary word.</p>
+
+<p>Here’s the architecture of our neural network.</p>
+
+<p><a href="http://mccormickml.com/assets/word2vec/skip_gram_net_arch.png"><img src="http://mccormickml.com/assets/word2vec/skip_gram_net_arch.png" alt="Skip-gram Neural Network Architecture" /></a></p>
+
+<p>There is no activation function on the hidden layer neurons, but the output neurons use softmax. We’ll come back to this later.</p>
+
+<p>When <em>training</em> this network on word pairs, the input is a one-hot vector representing the input word and the training output <em>is also a one-hot vector</em>representing the output word. But when you evaluate the trained network on an input word, the output vector will actually be a probability distribution (i.e., a bunch of floating point values, <em>not</em> a one-hot vector).</p>
+
+<h1 id="the-hidden-layer">The Hidden Layer</h1>
+
+<p>For our example, we’re going to say that we’re learning word vectors with 300 features. So the hidden layer is going to be represented by a weight matrix with 10,000 rows (one for every word in our vocabulary) and 300 columns (one for every hidden neuron).</p>
+
+<p>300 features is what Google used in their published model trained on the Google news dataset (you can download it from <a href="https://code.google.com/archive/p/word2vec/">here</a>). The number of features is a “hyper parameter” that you would just have to tune to your application (that is, try different values and see what yields the best results).</p>
+
+<p>If you look at the <em>rows</em> of this weight matrix, these are actually what will be our word vectors!</p>
+
+<p><a href="http://mccormickml.com/assets/word2vec/word2vec_weight_matrix_lookup_table.png"><img src="http://mccormickml.com/assets/word2vec/word2vec_weight_matrix_lookup_table.png" alt="Hidden Layer Weight Matrix" /></a></p>
+
+<p>So the end goal of all of this is really just to learn this hidden layer weight matrix – the output layer we’ll just toss when we’re done!</p>
+
+<p>Let’s get back, though, to working through the definition of this model that we’re going to train.</p>
+
+<p>Now, you might be asking yourself–“That one-hot vector is almost all zeros… what’s the effect of that?” If you multiply a 1 x 10,000 one-hot vector by a 10,000 x 300 matrix, it will effectively just <em>select</em> the matrix row corresponding to the “1”. Here’s a small example to give you a visual.</p>
+
+<p><a href="http://mccormickml.com/assets/word2vec/matrix_mult_w_one_hot.png"><img src="http://mccormickml.com/assets/word2vec/matrix_mult_w_one_hot.png" alt="Effect of matrix multiplication with a one-hot vector" /></a></p>
+
+<p>This means that the hidden layer of this model is really just operating as a lookup table. The output of the hidden layer is just the “word vector” for the input word.</p>
+
+<h1 id="the-output-layer">The Output Layer</h1>
+
+<p>The <code class="highlighter-rouge">1 x 300</code> word vector for “ants” then gets fed to the output layer. The output layer is a softmax regression classifier. There’s an in-depth tutorial on Softmax Regression <a href="http://ufldl.stanford.edu/tutorial/supervised/SoftmaxRegression/">here</a>, but the gist of it is that each output neuron (one per word in our vocabulary!) will produce an output between 0 and 1, and the sum of all these output values will add up to 1.</p>
+
+<p>Specifically, each output neuron has a weight vector which it multiplies against the word vector from the hidden layer, then it applies the function <code class="highlighter-rouge">exp(x)</code> to the result. Finally, in order to get the outputs to sum up to 1, we divide this result by the sum of the results from <em>all</em> 10,000 output nodes.</p>
+
+<p>Here’s an illustration of calculating the output of the output neuron for the word “car”.</p>
+
+<p><a href="http://mccormickml.com/assets/word2vec/output_weights_function.png"><img src="http://mccormickml.com/assets/word2vec/output_weights_function.png" alt="Behavior of the output neuron" /></a></p>
+
+<p>Note that neural network does not know anything about the offset of the output word relative to the input word. It <em>does not</em> learn a different set of probabilities for the word before the input versus the word after. To understand the implication, let’s say that in our training corpus, <em>every single occurrence</em> of the word ‘York’ is preceded by the word ‘New’. That is, at least according to the training data, there is a 100% probability that ‘New’ will be in the vicinity of ‘York’. However, if we take the 10 words in the vicinity of ‘York’ and randomly pick one of them, the probability of it being ‘New’ <em>is not</em> 100%; you may have picked one of the other words in the vicinity.</p>
+
+<h1 id="intuition">Intuition</h1>
+
+<p>Ok, are you ready for an exciting bit of insight into this network?</p>
+
+<p>If two different words have very similar “contexts” (that is, what words are likely to appear around them), then our model needs to output very similar results for these two words. And one way for the network to output similar context predictions for these two words is if <em>the word vectors are similar</em>. So, if two words have similar contexts, then our network is motivated to learn similar word vectors for these two words! Ta da!</p>
+
+<p>And what does it mean for two words to have similar contexts? I think you could expect that synonyms like “intelligent” and “smart” would have very similar contexts. Or that words that are related, like “engine” and “transmission”, would probably have similar contexts as well.</p>
+
+<p>This can also handle stemming for you – the network will likely learn similar word vectors for the words “ant” and “ants” because these should have similar contexts.</p>
+
+<h1 id="next-up">Next Up</h1>
+
+<p>You may have noticed that the skip-gram neural network contains a huge number of weights… For our example with 300 features and a vocab of 10,000 words, that’s 3M weights in the hidden layer and output layer each! Training this on a large dataset would be prohibitive, so the word2vec authors introduced a number of tweaks to make training feasible. These are covered in <a href="http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/">part 2 of this tutorial</a>.</p>
+
+<p>Did you know that the word2vec model can also be applied to non-text data for recommender systems and ad targeting? Instead of learning vectors from a sequence of words, you can learn vectors from a sequence of user actions. Read more about this in my new post <a href="http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/">here</a>.</p>
+
+<h1 id="other-resources">Other Resources</h1>
+
+<p>I’ve also created a <a href="http://mccormickml.com/2016/04/27/word2vec-resources/">post</a> with links to and descriptions of other word2vec tutorials, papers, and implementations.</p>
+
+<h3 id="cite">Cite</h3>
+
+<p>McCormick, C. (2016, April 19). <em>Word2Vec Tutorial - The Skip-Gram Model</em>. Retrieved from http://www.mccormickml.com</p>
+
+<p>Related posts<a href="http://mccormickml.com/2019/03/12/the-inner-workings-of-word2vec/">The Inner Workings of word2vec 12 Mar 2019</a><a href="http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/">Applying word2vec to Recommenders and Advertising 15 Jun 2018</a><a href="http://mccormickml.com/2017/10/22/product-quantizer-tutorial-part-2/">Product Quantizers for k-NN Tutorial Part 2 22 Oct 2017</a></p>
+
+        </article>
+        <hr>
+
+        
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <h2 id="similar_posts">Similar Posts</h2>
+                        <ul>
+                        
+                        <li class="relatedPost">
+                            <a href="/2019/03/16/%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA/">chat-bot
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2019/03/13/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%9A%84%E6%98%AF%E4%B8%AA%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF/">自然语言处理的是个发展趋势
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2019/03/13/%E5%8D%8E%E4%B8%BA%E6%9D%8E%E8%88%AA-NLP%E6%9C%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A04%E4%B8%AA%E5%81%9A%E7%9A%84%E5%BE%88%E5%A5%BD/">华为李航-NLP有个基本问题，深度学习4个做的很好
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+                
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2019/03/13/Word2Vec_Tutorial_part2/">Word2Vec Tutorial part2
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+            
+            
+                
+                    
+                        
+                        <li class="relatedPost">
+                            <a href="/2019/03/13/Understanding_LSTM_Networks/">Understanding LSTM Networks
+                            
+                            </a>
+                        </li>
+                        
+                        
+                    
+                
+            
+        
+        
+            </ul>
+        
+
+        <div class="post-recent">
+    <div class="pre">
+        
+        <p><strong>上一篇</strong> <a href="/2019/03/13/Understanding_LSTM_Networks/">Understanding LSTM Networks</a></p>
+        
+    </div>
+    <div class="nex">
+
+        
+        <p><strong>下一篇</strong> <a href="/2019/03/13/Word2Vec_Tutorial_part2/">Word2Vec Tutorial part2</a></p>
+        
+    </div>
+</div>
+
+
+        <h2 id="comments">Comments</h2>
+        
+
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+
+    var disqus_config = function() {
+        this.page.url = 'http://localhost:4000/2019/03/13/Word2Vec-Tutorial/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://localhost:4000/2019/03/13/Word2Vec-Tutorial/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement('script');
+
+        s.src = '//henry.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<script src="/js/pageContent.js " charset="utf-8"></script>
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+             本站记录我NLP之旅的沿途风景！ 
+        </p>
+        <p class="contact">
+            Contact me at: 
+            <a href="https://github.com/henryzhou1113" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>         
+        </p>
+        <p>
+本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次 -->
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <script src=" /js/main.js " charset="utf-8"></script>
+    <script src=" /js/smooth-scroll.min.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>
