@@ -5,13 +5,13 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 04 Apr 2019 16:43:45 +0800</pubDate>
-    <lastBuildDate>Thu, 04 Apr 2019 16:43:45 +0800</lastBuildDate>
+    <pubDate>Thu, 04 Apr 2019 18:54:53 +0800</pubDate>
+    <lastBuildDate>Thu, 04 Apr 2019 18:54:53 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>Get To The Point: Summarization with Pointer-Generator Networks论文笔记</title>
-        <description>﻿### 论文：&lt;a href=&quot;http://arxiv.org/abs/1704.04368&quot;&gt;Get To The Point: Summarization with Pointer-Generator Networks&lt;/a&gt;解读
+        <description>&lt;h3 id=&quot;论文get-to-the-point-summarization-with-pointer-generator-networks解读&quot;&gt;论文：&lt;a href=&quot;http://arxiv.org/abs/1704.04368&quot;&gt;Get To The Point: Summarization with Pointer-Generator Networks&lt;/a&gt;解读&lt;/h3&gt;
 
 </description>
         <pubDate>Thu, 04 Apr 2019 00:00:00 +0800</pubDate>
@@ -38,7 +38,7 @@
         <link>http://localhost:4000/2019/03/28/The_Evolved_Transformer_%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</link>
         <guid isPermaLink="true">http://localhost:4000/2019/03/28/The_Evolved_Transformer_%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</guid>
         
-        <category>Feature Extractor</category>
+        <category>Feature_Extractor</category>
         
         
         <category>NLP</category>

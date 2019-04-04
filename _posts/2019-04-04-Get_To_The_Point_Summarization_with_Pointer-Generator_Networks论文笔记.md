@@ -6,9 +6,7 @@ categories: NLP
 tags: ["summarization"]
 ---
 
-
-
-﻿### 论文：[Get To The Point: Summarization with Pointer-Generator Networks](http://arxiv.org/abs/1704.04368)解读
+### 论文：[Get To The Point: Summarization with Pointer-Generator Networks](http://arxiv.org/abs/1704.04368)解读
 
 
 
