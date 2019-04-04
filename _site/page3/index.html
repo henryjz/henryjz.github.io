@@ -118,9 +118,20 @@
                 
                     
                 
+                    
+                
             </ul>
         </nav>
     </div>
+    <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({
+    	tex2jax: {
+      	skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      	inlineMath: [['$','$']]
+    	}
+  	});
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 </header>
 
 
@@ -130,6 +141,192 @@
         <small>这里记录着我的NLP学习之路</small>
         <hr>
         <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/03/13/Understanding_LSTM_Networks/">Understanding LSTM Networks</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-13
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#reproduction" title="Category: reproduction" rel="category">reproduction</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#nlp" title="Tag: nlp" rel="tag">nlp</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <blockquote>
+  <p>转载自：http://colah.github.io/posts/2015-08-Understanding-LSTMs/</p>
+</blockquote>
+
+<h1 id="understanding-lstm-networks">Understanding LSTM Networks</h1>
+
+<p>Posted on August 27, 2015</p>
+
+<h2 id="recurrent-neural-networks">Recurrent Neural Networks</h2>
+
+<p>Humans don’t start their thinking from scratch every second. As you read this essay, you understand each word based on your understanding of previous words. You don’t throw everything away and start thinking from scratch again. Your thoughts have persistence.</p>
+
+<p>Traditional neural networks can’t do this, and it seems like a major shortcoming. For example, imagine you want to classify what kind of event is happening at every point in a movie. It’s unclear how a traditional neural network could use its reasoning about previous events in the film to inform later ones.</p>
+
+<p>Recurrent neural networks address this issue. They are networks with loops in them, allowing information to persist.</p>
+
+<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/RNN-rolled.png" alt="img" /></p>
+
+<p><strong>Recurrent Neural Networks have loops.</strong></p>
+
+<p>In the above diagram, a chunk of neural network, AA, looks at some input xtxt and outputs a value htht. A loop allows information to be passed from one step of the network to the next.</p>
+
+<p>These loops make recurrent neural networks seem kind of mysterious. However, if you think a bit more, it turns out that they aren’t all that different than a normal neural network. A recurrent neural network can be thought of as multiple copies of the same network, each passing a message to a successor. Consider what happens if we unroll the loop:</p>
+
+<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/RNN-unrolled.png" alt="An unrolled recurrent neural network." /></p>
+
+<p><strong>An unrolled recurrent neural network.</strong></p>
+
+<p>This chain-like nature reveals that recurrent neural networks are intimately related to sequences and lists. They’re the natural architecture of neural network to use for such data.</p>
+
+<p>And they certainly are used! In the last few years, there have been incredible success applying RNNs to a variety of problems: speech recognition, language modeling, translation, image captioning… The list goes on. I’ll leave discussion of the amazing feats one can achieve with RNNs to Andrej Karpathy’s excellent blog post, <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">The Unreasonable Effectiveness of Recurrent Neural Networks</a>. But they really are pretty amazing.</p>
+
+<p>Essential to these successes is the use of “LSTMs,” a very special kind of recurrent neural network which works, for many tasks, much much better than the standard version. Almost all exciting results based on recurrent neural networks are achieved with them. It’s these LSTMs that this essay will explore.</p>
+
+<h2 id="the-problem-of-long-term-dependencies">The Problem of Long-Term Dependencies</h2>
+
+<p>One of the appeals of RNNs is the idea that they might be able to connect previous information to the present task, such as using previous video frames might inform the understanding of the present frame. If RNNs could do this, they’d be extremely useful. But can they? It depends.</p>
+
+<p>Sometimes, we only need to look at recent information to perform the present task. For example, consider a language model trying to predict the next word based on the previous ones. If we are trying to predict the last word in “the clouds are in the <em>sky</em>,” we don’t need any further context – it’s pretty obvious the next word is going to be sky. In such cases, where the gap between the relevant information and the place that it’s needed is small, RNNs can learn to use the past information.</p>
+
+<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/RNN-shorttermdepdencies.png" alt="img" /></p>
+
+<p>But there are also cases where we need more context. Consider trying to predict the last word in the text “I grew up in France… I speak fluent <em>French</em>.” Recent information suggests that the next word is probably the name of a language, but if we want to narrow down which language, we need the context of France, from further back. It’s entirely possible for the gap between the relevant information and the point where it is needed to become very large.</p>
+
+<p>Unfortunately, as that gap grows, RNNs become unable to learn to connect the information.</p>
+
+<p><img src="http://colah.github.io/posts/2015-08-Understanding-LSTMs/img/RNN-longtermdependencies.png" alt="Neural networks struggle with long term dependencies." /></p>
+
+<p>In theory, RNNs are absolutely capable of handling such “long-term dependencies.” A human could carefully pick parameters for them to solve toy problems of this form. Sadly, in practice, RNNs don’t seem to be able to learn them. The problem was explored in depth by [Hochreiter (1991) <a href="http://people.idsia.ch/~juergen/SeppHochreiter1991ThesisAdvisorSchmidhuber.pdf">German]</a> and <a href="http://www-dsi.ing.unifi.it/~paolo/ps/tnn-94-gradient.pdf">Bengio, et al. (1994)</a>, who found some pretty fundamental reasons why it might be difficult.</p>
+
+<p>Thankfully, LSTMs don’t have this problem!</p>
+
+<h2 id="lstm-networks">LSTM Networks</h2>
+
+<p>Long Short Term Memory networks – usually just called “LSTMs” – are a special kind of RNN, capable of learning long-term dependencies. They were introduced by <a href="http://www.bioinf.jku.at/publications/older/2604.pdf">Hochreiter &amp; Schmidhuber (1997)</a>, and were refined and popularized by many people in following work.<a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/#fn1">1</a> They work tremendously well on a large variety of problems, and are now widely used.</p>
+
+<p>LSTMs are explicitly designed to avoid the long-term dependency problem. Remembering information for long periods of time is practically their default behavior, not something they struggle to learn!</p>
+
+<p>All recurrent neural networks have the form of a chain of repeating modules of neural network. In standard RNNs, this repeating module will have a very simple structure, such as a single tanh layer.</p>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/13/Understanding_LSTM_Networks/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2019/03/13/Pytorch%E4%B8%AD%E7%9A%84rnn/">pytorch中rnn的使用</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2019-03-13
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#reproduction" title="Category: reproduction" rel="category">reproduction</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <blockquote>
+  <p>转载自：https://github.com/zergtant/pytorch-handbook/blob/master/chapter2/2.5-rnn.ipynb</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">__version__</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2019/03/13/Pytorch%E4%B8%AD%E7%9A%84rnn/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
             
               <li>
                 <h2>
@@ -1566,176 +1763,6 @@ cond(no)-&gt;op
                 <hr>
               </li>
             
-              <li>
-                <h2>
-                  <a class="post-link" href="/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">Pytorch环境搭建</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2019-03-11
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#pytorch" title="Tag: pytorch" rel="tag">pytorch</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <p><strong>Pytorch 环境搭建</strong></p>
-
-<p>PyTorch 的安装十分简单，根据 PyTorch 官网，对系统选择和安装方式等灵活选择即可。 这里以 anaconda 为例，简单的说一下步骤和要点。 国内安装 anaconda 建议使用清华或者中科大 [http://mirrors.ustc.edu.cn/help/anaconda.html] 镜像，快的不是一点半点。</p>
-
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2019/03/11/Pytorch-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
-              <li>
-                <h2>
-                  <a class="post-link" href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/">GPT2.0笔记以及对NLP领域趋势的思考</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2019-03-11
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#spider" title="Tag: spider" rel="tag">spider</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <h5 id="gpt10">GPT1.0</h5>
-
-<p>简述如下：GPT 1.0采取预训练+FineTuning两个阶段，它采取Transformer作为特征抽取器。预训练阶段采用“单向语言模型”作为训练任务，把语言知识编码到Transformer里。第二阶段，在第一阶段训练好的模型基础上，通过Finetuning来做具体的NLP任务。</p>
-
-<p>从大框架上来说，Bert基本就是GPT 1.0的结构，除了预训练阶段采取的是“双向语言模型”之外，它们并没什么本质差异，其它的技术差异都是细枝末节，不影响大局，基本可忽略。</p>
-
-<h5 id="gpt20">GPT2.0</h5>
-
-<p>GPT2.0大框架其实还是GPT 1.0的框架，但是把第二阶段的Finetuning做有监督地下游NLP任务，换成了无监督地做下游任务。本质上，GPT2.0选择了这么一条路来强化Bert或者是强化GPT 1.0的第一个预训练阶段：就是说首先把Transformer模型参数扩容，常规的Transformer Big包含24个叠加的Block，GPT2.0将Transformer层数增加到48层，参数规模15亿。真正的目的是：GPT 2.0准备用更多的训练数据来做预训练，更大的模型，更多的参数，意味着更高的模型容量，所以先扩容，免得Transformer楼层不够多的房间（模型容量）容纳不下过多的住户（就是NLP知识）。</p>
-
-<p>GPT2.0的语料：GPT2.0找了800万互联网网页作为语言模型的训练数据，它们被称为WebText，互联网网页的优点是覆盖的主题范围非常广，这样训练出来的语言模型，通用性好，覆盖几乎任何领域的内容，这意味着它可以用于任意领域的下游任务，有点像图像领域的Imagenet的意思。GPT 2.0论文其实更强调训练数据的通用性强这点。当然，除了量大通用性强外，数据质量也很重要，高质量的数据必然包含更好的语言及人类知识，所以GPT 2.0还做了数据质量筛选，过滤出高质量的网页内容来。</p>
-
-<p>GPT 2.0用这些网页做“单向语言模型”，GPT 2.0没有像Bert或者1.0版本一样，拿这个第一阶段的预训练模型有监督地去做第二阶段的Finetuning任务，而是选择了无监督地去做下游任务。另外论文中提到的对Transformer结构的微调，以及BPE输入方式，我相信都是不太关键的改动，应该不影响大局。</p>
-
-<p><strong>问题一：为什么GPT 2.0第二阶段不通过Finetuning去有监督地做下游任务呢？</strong>无监督地去做很多第二阶段的任务，只是GPT作者想说明在第一阶段Transformer学到了很多通用的包含各个领域的知识，第二部分各种实验是对这点的例证，如此而已。这是为何说第二阶段其实不重要，因为它不是论文的中心思想，而是说明中心思想的例子。</p>
-
-<p><strong>问题二：在预训练阶段，为什么GPT 2.0仍然固执地用单向语言模型，而不是双向语言模型呢？</strong>Bert在论文的实验部分已经证明了：Bert的效果比GPT好主要归因于这个双向语言模型。也许GPT 作者只想强调他们想做语言模型这个事情，毕竟生成内容后续单词这种模式，单向语言模型更方便，这估计是真正原因。</p>
-
-<p><strong>问题三：GPT 2.0 既然第二阶段是无监督的任务，而它不做Finetuning，那么你训练好一个语言模型，它当然会根据输入的一句话，给你蹦出后面可能紧跟那个单词，这是标准的语言模型过程，这个正常。但是如果这时候让它去做一个文本摘要任务，它怎么知道它现在在做什么事情呢，根据输入，应该输出什么东西呢？</strong>其实GPT 2.0在做下游无监督任务的时候，给定输入（对于不同类型的输入，加入一些引导字符，引导GPT正确地预测目标，比如如果做摘要，在输入时候加入“TL：DR”引导字符串），它的输出跟语言模型的输出是一样的，就是蹦出一个单词。那么问题来了：对于比如摘要任务，我们期待的输出结果是一句话或者几句话，你给我一个单词，有点太小气，那该怎么办？很简单，继续一个字一个字往出蹦，按照这些字从系统里蹦出来的时间顺序连起来，就是你想要的摘要结果，这种所有任务采取相同的往出蹦字的输出模式也是有点意思的。就是说，GPT2.0给出了一种新颖的生成式任务的做法，就是一个字一个字往出蹦，然后拼接出输出内容作为翻译结果或者摘要结果。传统的NLP网络的输出模式一般需要有个序列的产生结构的，而GPT 2.0完全是语言模型的产生结果方式：一个字一个字往出蹦，没有输出的序列结构。</p>
-
-<h5 id="归纳">归纳</h5>
-
-<p>我们可以从两个不同的角度来理解GPT 2.0。</p>
-
-<p><strong>一个角度是把它看作采取类似Elmo/GPT/Bert的两阶段模型解决NLP任务的一种后续改进策略</strong>，这种策略可以用来持续优化第一阶段的预训练过程。通过现在的Transformer架构，采用更高质量的数据，采用更宽泛的数据（Web数据量大了估计包含任何你能想到的领域），采用更大量的数据（WebText，800万网页），Transformer采用更复杂的模型（最大的GPT2.0模型是Transformer的两倍层深），那么在Transformer里能学会更多更好的NLP的通用知识。如果我们第二阶段仍然采取Finetuning，对下游任务的提升效果是可以很乐观地期待的。</p>
-
-<p><strong>另外一个角度也可以把GPT 2.0看成一个效果特别好的语言模型</strong>，可以用它来做语言生成类任务，比如摘要，QA这种，再比如给个故事的开头，让它给你写完后面的情节，目前看它的效果出奇的好。</p>
-
-<h5 id="bert的另外一种改进模式">Bert的另外一种改进模式</h5>
-
-<p>GPT2.0给出的思路是优化Bert的第一个预训练阶段，方向是扩充数据数量，提升数据质量，增强通用性，追求的是通过做大来做强。</p>
-
-<p>另一个思路：机器学习里面还有有监督学习，NLP任务里也有不少有监督任务是有训练数据的，这些数据能用来改善Bert第二阶段学习各种知识的Transformer。这种做法一个典型的模型是最近微软推出的MT-DNN，核心思想：结构上底层就是标准的Bert Transformer，第一阶段采用Bert的预训练模型不动，在Finetuning阶段，在上层针对不同任务构造不同优化目标，所有不同上层任务共享底层Transformer参数，这样就强迫Transformer通过预训练做很多NLP任务，来学会新的知识，并编码到Transformer的参数中。</p>
-
-<h5 id="nlp主流模型进化">NLP主流模型进化</h5>
-
-<ul>
-  <li>采取Bert的两阶段模式</li>
-  <li>特征抽取器采用Transformer</li>
-  <li>Bert两阶段模式中，第一个预训练阶段的两种改进方向：
-    <ul>
-      <li><strong>一种是强调通用性好以及规模大</strong>。加入越来越多高质量的各种类型的无监督数据，GPT 2.0指出了个明路，就是净化的高质量网页</li>
-      <li><strong>第二种是通过多任务训练</strong>，加入各种新型的NLP任务数据，它的好处是有监督，能够有针对性的把任务相关的知识编码到网络参数里，所以明显的好处是学习目标明确，学习效率高；而对应的缺点是NLP的具体有监督任务，往往训练数据量少，于是包含的知识点少；而且有点偏科，学到的知识通用性不强。</li>
-    </ul>
-  </li>
-  <li>GPT2.0<strong>采取超深层Transformer+更大量的网页数据去做更好的语言模型</strong>，并进而做各种生成式任务是很有研究应用前景。</li>
-</ul>
-
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2019/03/11/GPT2.0%E5%8F%8A%E5%AF%B9NLP%E9%A2%86%E5%9F%9F%E5%8F%91%E5%B1%95%E8%B6%8B%E5%8A%BF%E7%9A%84%E6%80%9D%E8%80%83/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
         </ul>
 
 
@@ -1746,10 +1773,10 @@ cond(no)-&gt;op
             <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
             <a href="/page2" class="previous"><i class="fa fa-angle-left"></i></a>
           
-          <span class="page_number ">3/5</span>
+          <span class="page_number ">3/6</span>
           
             <a href="/page4" class="next"><i class="fa fa-angle-right"></i></a>
-            <a href="/page5" class="next"><i class="fa fa-angle-double-right"></i></a>
+            <a href="/page6" class="next"><i class="fa fa-angle-double-right"></i></a>
           
         </div>
     </div>
@@ -1762,6 +1789,10 @@ cond(no)-&gt;op
                     Recent Posts
                 </div>
                 <ul class="content-ul" recent>
+                    
+                        <li><a href="/2019/04/04/Get_To_The_Point_Summarization_with_Pointer-Generator_Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">Get To The Point: Summarization with Pointer-Generator Networks论文笔记</a></li>
+                    
+                        <li><a href="/2019/03/28/The_Evolved_Transformer_%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">《The Evolved Transformer》论文总结</a></li>
                     
                         <li><a href="/2019/03/21/Pretraining-Based-Natural-Language-Generation-for-Text-Summarization/">《Pretraining-Based Natural Language Generation for Text Summarization》论文解读</a></li>
                     
@@ -1778,10 +1809,6 @@ cond(no)-&gt;op
                         <li><a href="/2019/03/13/%E4%BD%BF%E7%94%A8pytorch%E8%AF%86%E5%88%ABmnist/">使用pytorch识别mnist</a></li>
                     
                         <li><a href="/2019/03/13/pytorch%E4%B8%ADcnn%E7%9A%84%E4%BD%BF%E7%94%A8/">pytorch中cnn的使用</a></li>
-                    
-                        <li><a href="/2019/03/13/Word2Vec_Tutorial_part2/">Word2Vec Tutorial part2</a></li>
-                    
-                        <li><a href="/2019/03/13/Word2Vec-Tutorial/">Word2Vec Tutorial</a></li>
                     
                 </ul>
             </div>
@@ -1818,6 +1845,15 @@ cond(no)-&gt;op
                                 digest
                             </span>
                             <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#NLP" class="categories-list-item" cate="NLP">
+                            <span class="name">
+                                NLP
+                            </span>
+                            <span class="badge">2</span>
                         </a>
                     </li>
                     
@@ -1928,6 +1964,20 @@ cond(no)-&gt;op
                       
                       
                       <a href="/tag/#life" style="font-size: 9pt; color: #999;">life</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#Feature Extractor" style="font-size: 9pt; color: #999;">Feature Extractor</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#summarization" style="font-size: 9pt; color: #999;">summarization</a>
                     
                 </div>
             </div>

@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>通过bundle安装jekyll</title>
-    <meta name="description" content="  新建一个空目录，作为blog的根目录。mkdir blogcd ./blog  创建Gemfile，内容简单复制以下代码就行,命名为Gemfilesource  'https://rubygems.org'gem 'github-pages',group: :jekyll_plugins  安装ruby和ru...">
+    <title>Get To The Point: Summarization with Pointer-Generator Networks论文笔记</title>
+    <meta name="description" content="﻿### 论文：Get To The Point: Summarization with Pointer-Generator Networks解读">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_8v3czwksspqlg14i.css">
     <link rel="stylesheet" href="/css/main.css ">
-    <link rel="canonical" href="http://localhost:4000/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/">
+    <link rel="canonical" href="http://localhost:4000/2019/04/04/Get_To_The_Point_Summarization_with_Pointer-Generator_Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">
     <link rel="alternate" type="application/rss+xml" title="henryzhou" href="http://localhost:4000/feed.xml ">
 
 
@@ -137,15 +137,14 @@
 
         <div class="page clearfix" post>
     <div class="left">
-        <h1>通过bundle安装jekyll</h1>
+        <h1>Get To The Point: Summarization with Pointer-Generator Networks论文笔记</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i>2018-07-15
+                <i class="fa fa-calendar"></i>2019-04-04
             </div>
 
             <div class="label-card">
-                <i class="fa fa-user"></i>Henryzhou
                 
             </div>
 
@@ -162,7 +161,7 @@
   <i class="fa fa-th-list"></i>
   
     
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+        <a href="/category/#NLP" title="Category: NLP" rel="category">NLP</a>
     
   
 
@@ -179,8 +178,8 @@
   <i class="fa fa-tags"></i>
   
     
-        <!--a href="/tag/#jekyll" title="Tag: jekyll" rel="tag">jekyll</a-->
-        <a href="/tag/#jekyll" title="Tag: jekyll" rel="tag">jekyll</a>
+        <!--a href="/tag/#summarization" title="Tag: summarization" rel="tag">summarization</a-->
+        <a href="/tag/#summarization" title="Tag: summarization" rel="tag">summarization</a>
     
   
 
@@ -191,64 +190,97 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-        <ul>
-  <li><strong>新建一个空目录，作为blog的根目录。</strong></li>
-</ul>
+        <p>﻿### 论文：<a href="http://arxiv.org/abs/1704.04368">Get To The Point: Summarization with Pointer-Generator Networks</a>解读</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir blog
-cd ./blog
-</code></pre></div></div>
+<h4 id="abstract类型的文本摘要存在的问题"><strong>Abstract类型的文本摘要存在的问题</strong>：</h4>
 
 <ul>
-  <li><strong>创建Gemfile，内容简单复制以下代码就行,命名为Gemfile</strong></li>
+  <li>容易产生不准确的事实；</li>
+  <li>倾向于重复相同的内容。</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source  'https://rubygems.org'
-gem 'github-pages',group: :jekyll_plugins
-</code></pre></div></div>
+<p><img src="http://i2.bvimg.com/682738/a33fd5a77bb46996.png" alt="" /></p>
+
+<p><em>注：如上面所示，作为基线的seq2seq+Attention这样的纯粹的生成式模型存在1.无法生成OOV词汇；2.歪曲事实两个问题。Pointer Generator 存在重复内容的问题。在引入Coverage mechanism之后的Pointer-Gen+Coverage模型能够解决上面的三个问题。</em></p>
+
+<h4 id="论文的创新点"><strong>论文的创新点</strong>：</h4>
 
 <ul>
-  <li><strong>安装ruby和ruby-dev</strong></li>
+  <li>（1）使用一个混合的指针-生成器网络(hybrid pointer-generator network)，它可以通过指针从源文本复制单词，这有助于准确复制信息，同时保留通过生成器生成新单词的能力。</li>
+  <li>（2）使用覆盖率（coverage）来追踪摘要的内容，这有助于缓解重复的现象。</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install ruby ruby-dev
-</code></pre></div></div>
+<h4 id="introduction">Introduction</h4>
+
+<p>​	文本摘要使用抽取和生成两种方法：抽取式和生成式。抽取式是从文章中选择关键的词句拼接而成，这种方式能够保证生成句子语法和准确性的下限。然而高质量的摘要往往需要分段、泛化或者结合知识，这种类型的摘要只能使用生成式方法。seq2seq模型有三个问题：不准确的再现事实，无法处理词汇表外的（OOV）的单词，重复自己。论文提出的模型可以在多句子的文本摘要中解决这三个问题。混合指针-生成器网络便于通过指向从源文本复制单词，这提高了OOV单词的准确性和处理能力，同时保留了生成新单词的能力。可以看作是提取和抽象方法之间的平衡。在消除重复方面，论文提出了覆盖向量（coverage vector）来跟踪和控制对源文本的覆盖。</p>
+
+<h4 id="seq2seq-attention-model">seq2seq attention model</h4>
+
+<p>1.标准的seq2seq模型使用BiLSTM对源文本进行编码，然后使用Encoder hidden state和Decoder hidden state计算新的时间步的Attention分布，进而得到新的上下文向量context vector，使用softmax层对上下文变量解码得到新时间步的词汇分布。</p>
 
 <ul>
-  <li><strong>通过ruby的安装器gem安装bundler</strong></li>
+  <li>根据当前解码器的隐藏状态$s_t$和输入不同时间步的隐藏状态$h_i$分别计算得到attention分布$a^t​$</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install bundler
-</code></pre></div></div>
+<script type="math/tex; mode=display">e_i^t = v^T tanh(W_hh_i+W_ss_t+b_{att})</script>
+
+<script type="math/tex; mode=display">a^t = softmax(e^t)</script>
 
 <ul>
-  <li><strong>通过bundler批量安装jekyll组件</strong></li>
+  <li>计算attention分布对所有的$h_i$加权和</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
-</code></pre></div></div>
-
-<p>到nokogiri时终止了安装，搜索网上的问题解决办法后，发现是一些第三方依赖库没有安装，linux下在终端中输入以下命令，在手动安装nokogiri,成功！</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libz-dev libiconv-hook1 libiconv-hook-dev
-</code></pre></div></div>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install nokogiri -v '1.8.4'
-</code></pre></div></div>
+<script type="math/tex; mode=display">h_t^* = \sum _i a_i^t h_i</script>
 
 <ul>
-  <li><strong>回过头来根据Gemfile安装jekyll</strong></li>
+  <li>使用$[s_t,h_t^*]​$计算最终的预测值</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
-</code></pre></div></div>
+<script type="math/tex; mode=display">P_{vocab} = softmax(V^{'}(V[s_t, h_t^*]+b)+b^{'})</script>
+
+<p><img src="http://i2.bvimg.com/682738/310feb2eea3b74b4.png" alt="在这里插入图片描述" /></p>
+
+<h4 id="pointter-genearator-network">Pointter-genearator network</h4>
+
+<p>1.pointer-generator网络的关键之处在于使用一个$p_{gen}$来表征从词汇表中生成当前时间步词汇的概率,$（1-p_{gen})$表示从源文本中拷贝词汇的概率。
+2.$P_{vocab}(w)$表示使用标准seq2seq网络生成词汇的分布，$\sum_{i:w_i=w}a_i^t $表示上下文中所有当前词汇出现是其atttention的和。</p>
 
 <ul>
-  <li>试试能不能启动jekyll,成功！在浏览器中网址栏输入localhost:4000,验证jekyll的运行情况</li>
+  <li>计算$P_{gen}​$</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec jekyll serve
-</code></pre></div></div>
+<script type="math/tex; mode=display">P_{gen} = \sigma(w_{h^*}^Th_t^*+ w_s^Ts_t+ w_x^Tx_t+b_{ptr})</script>
+
+<ul>
+  <li>与seq2seq attention model相同，计算$P_{vocab}​$</li>
+  <li>计算$P_{gen}$和$(1-P_{gen})$加权的$P(w)$</li>
+</ul>
+
+<script type="math/tex; mode=display">P(w) = P_{gen}P_{vocab}(w)+(1-p_{gen}) \sum _{i:w_i =w}a_i^t</script>
+
+<p><img src="http://i2.bvimg.com/682738/379d25261c3c75ac.png" alt="在这里插入图片描述" /></p>
+
+<p><em>注：以上图为例，decoder已经输出了Germany beat两个词汇，这时候希望生成下一个时间步的词汇，如果目标词汇$w$未出现在原文中则$\sum _ {i:w_i=w} a_i^t=0$,</em> 如果目标词汇$w$不在词典中则$P_{vocab}(w)=0​$</p>
+
+<h4 id="coverage-mechanism">Coverage mechanism</h4>
+
+<p>1.重复的问题在多句摘要中经常出现，论文中引入覆盖(coverage)机制来监控摘要中生成的词对源文本的覆盖情况，以减少重复关注一部分源文本进而生成重复内容的情况出现。</p>
+
+<p>2.coverage vector $c_t= \sum_{t’=0}^{t-1} a^{t’}$等于历史time step的attention之和来表示decoder生成过的词汇的attention覆盖的情况。$c_t$作为下一个时间步计算attention的一个输入，所以pointer-gen网络计算attention那个步骤的公式变为:</p>
+
+<script type="math/tex; mode=display">e_i^t = v^T tanh(W_hh_i+W_ss_t+ w_cc_i^t + b_{att})</script>
+
+<p>3.论文引入coverage损失对重复关注同一个位置进行的惩罚,公式为：</p>
+
+<script type="math/tex; mode=display">covloss _t = \sum _i min(a_i^t, c_i^t)</script>
+
+<p>4.最终的loss是$P(w)$与covLoss之和:</p>
+
+<script type="math/tex; mode=display">loss_t = -logP(w_t^*)+\lambda \sum _i min(a_i^t, c_i^t</script>
+
+<h4 id="result">result</h4>
+<p><img src="http://i2.bvimg.com/682738/a33fd5a77bb46996.png" alt="在这里插入图片描述" /></p>
+
 
         </article>
         <hr>
@@ -317,16 +349,16 @@ gem 'github-pages',group: :jekyll_plugins
                     
                 
             
+                
+                    
+                
+            
+                
+                    
+                
+            
         
             
-            
-                
-                    
-                
-            
-                
-                    
-                
             
                 
                     
@@ -338,13 +370,11 @@ gem 'github-pages',group: :jekyll_plugins
         <div class="post-recent">
     <div class="pre">
         
-        <p><strong>上一篇</strong> <a href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a></p>
+        <p><strong>上一篇</strong> <a href="/2019/03/28/The_Evolved_Transformer_%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">《The Evolved Transformer》论文总结</a></p>
         
     </div>
     <div class="nex">
 
-        
-        <p><strong>下一篇</strong> <a href="/2018/07/16/bash%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Bash学习笔记</a></p>
         
     </div>
 </div>
@@ -362,8 +392,8 @@ gem 'github-pages',group: :jekyll_plugins
      */
 
     var disqus_config = function() {
-        this.page.url = 'http://localhost:4000/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/'; // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = 'http://localhost:4000/2018/07/15/%E9%80%9A%E8%BF%87bundler%E5%AE%89%E8%A3%85jekyll/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.url = 'http://localhost:4000/2019/04/04/Get_To_The_Point_Summarization_with_Pointer-Generator_Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/'; // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'http://localhost:4000/2019/04/04/Get_To_The_Point_Summarization_with_Pointer-Generator_Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
 
     (function() { // DON'T EDIT BELOW THIS LINE

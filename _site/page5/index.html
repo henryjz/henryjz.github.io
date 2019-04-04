@@ -118,9 +118,20 @@
                 
                     
                 
+                    
+                
             </ul>
         </nav>
     </div>
+    <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({
+    	tex2jax: {
+      	skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      	inlineMath: [['$','$']]
+    	}
+  	});
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 </header>
 
 
@@ -130,6 +141,169 @@
         <small>这里记录着我的NLP学习之路</small>
         <hr>
         <ul>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">流畅的python笔记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#python" title="Tag: python" rel="tag">python</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <p>[TOC]</p>
+
+<h3 id="1鸭子模型">1.鸭子模型</h3>
+
+<p>在程序设计中，鸭子类型（duck typing）是动态类型的一种风格。在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由”当前方法和属性的集合”决定。“鸭子测试”可以这样表述:</p>
+
+<blockquote>
+  <p>一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟可以被称为鸭子“</p>
+</blockquote>
+
+<p>在鸭子类型中，关注点在于对象的行为，能作什么；而不是关注对象所属的类型。例如，在不使用鸭子类型的语言中，我们可以编写一个函数，它接受一个类型为”鸭子”的对象，并调用它的”走”和”叫”方法。在使用鸭子类型的语言中，这样的一个函数可以接受一个任意类型的对象，并调用它的”走”和”叫”方法。如果这些需要被调用的方法不存在，那么将引发一个运行时错误。任何拥有这样的正确的”走”和”叫”方法的对象都可被函数接受的这种行为引出了以上表述，这种决定类型的方式因此得名。</p>
+
+<p>鸭子类型通常得益于”不”测试方法和函数中参数的类型，而是依赖文档、清晰的代码和测试来确保正确使用。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#使用鸭子类型处理单个字符串或由字符串组成的可迭代对象
+</span><span class="k">try</span><span class="p">:</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="n">field_names</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">','</span><span class="p">,</span><span class="s">' '</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="k">except</span> <span class="nb">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="n">field_names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">field_names</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E6%B5%81%E7%95%85%E7%9A%84python%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            
+              <li>
+                <h2>
+                  <a class="post-link" href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/">深度学习小记</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>2018-07-16
+                    </div>
+                    <div class="label-card">
+                        <i class="fa fa-user"></i>Henryzhou
+                        
+                    </div>
+                    <div class="label-card">
+                        
+                    </div>
+
+                    <div class="label-card">
+                    
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+                    </div>
+
+                    <div class="label-card">
+                    
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <a href="/tag/#deep_learning" title="Tag: deep_learning" rel="tag">deep_learning</a>
+    
+  
+
+</span>
+
+                    </div>
+                </div>
+                <div class="excerpt">
+                    <ul>
+  <li>人工智能早期，计算机能够迅速解决那些对人类智力来说非常困难的问题。而人工智能的真正挑战在于解决那些对人来说很容易执行，但很难形式化描述的任务，如识别人们所说的话或图像中的脸。</li>
+  <li>深度学习讨论的是一种让计算机从经验中学习，并根据层次化的概念来__理解世界__的解决方案，而每个概念则通过某些相对简单的概念之间的关系来定义</li>
+  <li>人类擅长对事物抽象因而能够认识世界，计算机则只能做一些形式化的数据处理，人工智能要做的就是通过形式化的数据处理__从另一条路径__达到认识世界的目的</li>
+  <li>深度学习
+    <ul>
+      <li>计算机难以理解原始感官输入数据的含义，如表示为像素值集合的图像。将一组像素映射到对象标识的函数非常复杂。</li>
+      <li>深度学习将所需的复杂映射分解为一系列嵌套的简单映射（每个模型的不同层描述）
+        <ul>
+          <li>可见层：包含我们能观察到的变量</li>
+          <li>隐藏层：它们的值不再数据中给出，所以称为隐藏层。模型必须确定那些概念有利于解释观察数据中关系</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>课程组织
+    <ul>
+      <li>介绍基本的数学工具和机器学习的概念</li>
+      <li>介绍最成熟的深度学习算法</li>
+      <li>讨论某些具有展望性的想法，他们被广泛的认为是深度学习未来的研究重点</li>
+    </ul>
+  </li>
+</ul>
+
+                </div>
+                <div class="read-all">
+                    <a  href="/2018/07/16/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%89%8D%E8%A8%80/"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
             
               <li>
                 <h2>
@@ -739,326 +913,6 @@ gem 'github-pages',group: :jekyll_plugins
                 <hr>
               </li>
             
-              <li>
-                <h2>
-                  <a class="post-link" href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux文件、目录与磁盘格式</a>
-                </h2>
-                <div class="label">
-                    <div class="label-card">
-                        <i class="fa fa-calendar"></i>2018-07-15
-                    </div>
-                    <div class="label-card">
-                        <i class="fa fa-user"></i>Henryzhou
-                        
-                    </div>
-                    <div class="label-card">
-                        
-                    </div>
-
-                    <div class="label-card">
-                    
-
-
-<!-- <span class="point">•</span> -->
-<span class="categories">
-  <i class="fa fa-th-list"></i>
-  
-    
-        <a href="/category/#notes" title="Category: notes" rel="category">notes</a>
-    
-  
-
-  <!-- <span class="point">•</span> -->
-</span>
-
-
-                    </div>
-
-                    <div class="label-card">
-                    
-<!-- <span class="point">•</span> -->
-<span class="pageTag">
-  <i class="fa fa-tags"></i>
-  
-    
-        <a href="/tag/#linux" title="Tag: linux" rel="tag">linux</a>
-    
-  
-
-</span>
-
-                    </div>
-                </div>
-                <div class="excerpt">
-                    <h1 id="鸟哥的linux私房菜">鸟哥的Linux私房菜</h1>
-
-<h2 id="一linux文件目录与磁盘格式">一、Linux文件、目录与磁盘格式</h2>
-
-<h3 id="11学习资源">1.1学习资源</h3>
-
-<ul>
-  <li>推荐的网站
-    <ul>
-      <li>Study-Area:http://www.study-area.org</li>
-      <li>鸟哥的私房菜馆：http://linux.vbird.org</li>
-      <li>卧龙大师的网络技术文件：http://linux.tnc.edu.cn.tw/techdoc/</li>
-      <li>中国linux团队：http://www.linux.org.cn/</li>
-      <li>狼主的网络实验室：http://netlab.kh.edu.cn/inde.htm</li>
-      <li>吴仁志的文件集：http://www.cses.tcc.edu.cn/~chihwu/</li>
-      <li>国人CLE计划：<a href="http://cle.linux.org.tw/">http://cle.linux.org.tw/</a></li>
-      <li>自由软件技术交流网： <a href="http://freesf.tnc.edu.tw/index.php">http://freesf.tnc.edu.tw/index.php</a></li>
-      <li>B2D: <a href="http://b2d.tnc.edu.tw/">http://b2d.tnc.edu.tw/</a></li>
-      <li>KNOPPIX：<a href="http://www.knoppix.net/">http://www.knoppix.net/</a></li>
-      <li>中文 KNOPPIX: <a href="http://knoppix.tnc.edu.tw/">http://knoppix.tnc.edu.tw/</a></li>
-      <li>FHS: <a href="http://www.pathname.com/fhs/">http://www.pathname.com/fhs/</a></li>
-      <li>LSB: <a href="http://www.linuxbase.org/">http://www.linuxbase.org/</a></li>
-      <li>计算机基础 (http://www.study-area.org/compu/compu.htm)</li>
-      <li>网络基础 (http://www.study-area.org/network/network.htm)</li>
-      <li><a href="http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php">http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_1.php</a>About Internet</li>
-      <li>大南国小（林克敏主任文件集） http://freebsd.lab.mlc.edu.tw/</li>
-      <li>张毓麟先生的小文章 http://www.se.ntou.edu.tw/~ylchang/MyDocuments/index.html</li>
-      <li>台湾 Linux 社群  http://www.linux.org.tw/</li>
-    </ul>
-  </li>
-  <li>常用的FAQ网站
-    <ul>
-      <li>Linux 自己的文件数据： /usr/share/doc (在你的 PC 中)</li>
-      <li>CLDP 中文文件计划 <a href="http://www.linux.org.tw/CLDP/">http://www.linux.org.tw/CLDP/</a></li>
-      <li>Unix 的一般常见问题  <a href="http://www.csie.nctu.edu.tw/document/unixfaq/">http://www.csie.nctu.edu.tw/document/unixfaq/</a></li>
-      <li>The LinuxDocumentation Project：<a href="http://www.tldp.org/">http://www.tldp.org/</a></li>
-      <li>『提问的智慧<a href="http://phorum.vbird.org/viewtopic.php?t=96%E3%80%8F">http://phorum.vbird.org/viewtopic.php?t=96』</a></li>
-      <li>李果正先生之 GNU/Linux 初学者之旅： http://info.sayya.org/~edt1023/linux_entry.html</li>
-      <li>鸟哥备份：http://linux.vbird.org/linux_basic/0120howtolinux/0120howtolinux_3.php</li>
-      <li>信息人的有效学习(洪朝贵教授网页)：http://www.cyut.edu.tw/~ckhung/published/018learn.shtml</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="12安装">1.2安装</h2>
-
-<ul>
-  <li>分区
-    <ul>
-      <li>按照顺序：/boot、/、/usr、/var、/tmp</li>
-      <li>/home</li>
-      <li>Swap</li>
-    </ul>
-  </li>
-  <li>引导程序
-    <ul>
-      <li>引导程序grup最好安装地点选择整块磁盘的文件名</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="13系统终端使用">1.3系统终端使用</h2>
-
-<ul>
-  <li>命令行模式：
-    <ul>
-      <li>x-window提供的终端：terminal</li>
-      <li>ctrl+alt+[F1]~[F6]：进入tty1~tty6的操作界面环境，推出crtl+alt+F7</li>
-      <li>linux下区分大小写</li>
-      <li>使用过的命令保存在.bash_history文件中</li>
-      <li>ctrl+c命令能使当前终端运行的程序停止</li>
-      <li>ctrl+d命代表键盘输入结束，可以用来代替exit，也就是退出的功能</li>
-    </ul>
-  </li>
-  <li>man命令
-    <ul>
-      <li>man [数字] 命令：可以查到相应命令的手册，数字代表不同用户环境下该命令的用法</li>
-      <li>man -f 命令：寻找命令相关的手册</li>
-      <li>man -k 关键字：寻找关键字相关命令的手册</li>
-      <li>具体某一个软件手册可以到/usr/share/doc下去寻找对应的文件夹</li>
-    </ul>
-  </li>
-  <li>正确的关机方法
-    <ul>
-      <li>who：查看当前在线的用户</li>
-      <li>netstat -a：查看网络的联机状态</li>
-      <li>ps -aux：查看后台</li>
-      <li>sync：将数据同步写入硬盘</li>
-      <li>正确的关机命令：shundown</li>
-      <li>重启：reboot</li>
-    </ul>
-  </li>
-  <li>重启x-window：ctrl+alt+backspace</li>
-  <li>修改文件的权限
-    <ul>
-      <li>用户类别：u:user	;g:group	;o:others</li>
-      <li>权限类别：r:read ;w:write ;x:execute</li>
-      <li>操作类别：+：增加；-：减少；=：设置</li>
-      <li>chgrp 用户组 文件：修改文件的用户组</li>
-      <li>chown 所有者:用户组 文件：修改文件的所有者和用户组</li>
-      <li>chmod xyz 文件：xyz为数字，r：4;w：2;x：1;x=7=4+2+1表示rwx三种权限都有，以此类推</li>
-      <li>chmod u=rwx,go=rx 文件;u：user;g：group;o：others</li>
-      <li>chmod  u+w 文件：user增加对文件写权限</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="14目录结构">1.4目录结构</h2>
-
-<ul>
-  <li>FHS定义的目录规范
-    <ul>
-      <li>/（root，根目录）：与开机系统有关</li>
-      <li>/usr（UNIX software resource）：与软件安装/执行有关</li>
-      <li>/var（variable）：与系统运行过程有关</li>
-    </ul>
-  </li>
-  <li>/目录内容
-    <ul>
-      <li>/bin：放置单用户维护模式下还能被操作的命令</li>
-      <li>/boot：放置开机会使用到的文件，包括Linux内核文件以及开机菜单的开机所需要的配置文件等</li>
-      <li>/dev：放置设备与接口设备文件</li>
-      <li>/etc：放置系统的配置文件</li>
-      <li>/home：系统默认的用户主文件夹</li>
-      <li>/lib：放置开机时会使用的函数库</li>
-      <li>/media：放置可删除的设备</li>
-      <li>/mnt：用于暂时挂载某些额外的设备</li>
-      <li>/opt：给第三方软件放置的目录。不过在以前的linux 系统中，我们还是习惯放置在usr/local目录下</li>
-      <li>/root：系统管理员（root）的主文件夹，在进入单用户维护模式而仅挂载根目录时，我们能够访问到</li>
-      <li>/sbin：放置系统开机过程中需要的系统执行文件</li>
-      <li>/srv：可视为service的缩写，是一些网络服务启动后所需要取用的数据目录</li>
-      <li>/tmp：让用户或者正在执行的程序暂时放置文件爱你的地方</li>
-      <li>/proc：该目录本身是一个虚拟文件系统，他放置的内容都是在内存中，因此目录本身不占用内存空间</li>
-      <li>/sys：同上，也是一个虚拟文件系统，包括目前已加载的内核模块和内核检验到的硬件设备信息，同样不占用内存</li>
-      <li>/etc、/bin、/dev、/lib、/sbin这五个目录不能/目录分开，因为开机是只用根目录会被挂载，而以上目录与系统启动有着重要关系，必须在开机时能够访问到</li>
-    </ul>
-  </li>
-  <li>/usr目录内容
-    <ul>
-      <li>/usr一放置的数据属于可分享的与不可变动的，是UNIX Software Resource的缩写</li>
-      <li>/usr/X11R6/：X Window系统重要数据所放置的目录</li>
-      <li>/usr/bin：绝大部分用户可使用命令都放在这里。注意它与/bin的不同之处（是否与开机过程有关）</li>
-      <li>/usr/include/：放置C/C++等语言的头文件和包含文件，当我们以tarball方式安装软件时会使用到这里的许多包含文件</li>
-      <li>/usr/lib：包含各应用软件的函数库、目标文件以及不被一般用户惯用的执行文件或脚本</li>
-      <li>/usr/local：放置系统管理员自行安装自己下载的软件（非distribution默认提供者）</li>
-      <li>/usr/sbin：非系统正常运行所需要的系统命令，最常见的就是某些网络服务器软件的服务命令（daemon）</li>
-      <li>/usr/src：一般源码建议放置在这里。至于内核源码建议放置在/usr/src/linux/目录下</li>
-    </ul>
-  </li>
-  <li>/var目录内容
-    <ul>
-      <li>/var系统运行后开始暂用硬盘容量，包括缓存（cache）、登录文件（logfile）以及某些软件运行所产生的文件（lock file，run file），或者例如MYSQL数据库的文件</li>
-      <li>/var/cache/：应用程序本身运行过程中会产生的暂存文件</li>
-      <li>/var/lib/：程序执行过程中，需要使用到的数据文件位置，软件有各自的目录</li>
-      <li>/var/lock/：存放某些设备或者文件资源的使用锁文件</li>
-      <li>/var/log：登录文件放置的目录</li>
-      <li>/var/mail/：放置个人电子邮件信箱的目录，不过这个目录也被放置到val/spool/mail/目录中，通常这两个目录互为链接文件</li>
-      <li>/var/run/：某些程序或者服务启动后，会将他们的PID放置这个目录下</li>
-      <li>/var/spool/：存放程序使用的数据的队列</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="141目录与路径">1.4.1目录与路径</h3>
-
-<ul>
-  <li>常见处理目录和文件的命令
-    <ul>
-      <li>cd：切换目录，重要：-表示前一个工作目录</li>
-      <li>pwd：现实当前目录</li>
-      <li>mkdir：新建一个新的目录</li>
-      <li>rmdir：删除一个空的目录</li>
-      <li>cp：复制文件或目录</li>
-      <li>dd：命令十分强大，可以用于备份，设置制作启动盘</li>
-      <li>rm：删除文件或目录</li>
-      <li>mv：移动文件或目录</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="15文件操作">1.5文件操作</h3>
-
-<ul>
-  <li>文件创建或者查看
-    <ul>
-      <li>cat：由第一行开始显示文件内容</li>
-      <li>tac：从最后一行开始显示，可以看出tac是cat的倒写</li>
-      <li>nl：显示的时候顺便输出行号</li>
-      <li>more：一页一页地显示文件内容</li>
-      <li>less：与more相似，但是比more更好的是，它可以往前翻页</li>
-      <li>head：只看头几行</li>
-      <li>tail：只看结尾几行</li>
-      <li>od：以二进制的方式读取文件内容</li>
-      <li>touch：创建文件</li>
-      <li>file：查看文件类型</li>
-    </ul>
-  </li>
-  <li>文件的查询
-    <ul>
-      <li>which ：寻找“执行文件”的位置</li>
-      <li>type：判断“执行文件”的类型</li>
-      <li>whereis：查找文件的绝对地址</li>
-      <li>locate：查找文件的绝对地址</li>
-      <li>find：可以查询时间、用户、类型、权限、大小相关的文件，功能强大，但是需要扫描磁盘，一次速度略慢</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="16磁盘管理">1.6磁盘管理</h3>
-
-<ul>
-  <li>磁盘管理常用命令
-    <ul>
-      <li>df：查看磁盘占用情况</li>
-      <li>fdisk：磁盘分区</li>
-      <li>mkfs：磁盘格式化</li>
-      <li>fsck、badblocks：磁盘检验，通常只有身为root且你的文件系统有问题的时候才使用这个命令</li>
-      <li>mount：磁盘挂载</li>
-      <li>unmount：磁盘卸载</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="17常见的压缩命令">1.7常见的压缩命令</h3>
-
-<ul>
-  <li>常见的压缩格式：
-    <ul>
-      <li>.Z：compress程序压缩的命令</li>
-      <li>.gz：gzip程序压缩的文件</li>
-      <li>.bz2：bzip2程序压缩的文件</li>
-      <li>.tar：tar程序打包的数据，并没有压缩过</li>
-      <li>.tar.gz：tar程序打包的文件，其中经过gzip的压缩</li>
-      <li>.tar.bz2：tar程序打包的文件，其中经过bzip2的压缩</li>
-    </ul>
-  </li>
-  <li>压缩与解压缩命令
-    <ul>
-      <li>gzip：压缩并且删除源文件</li>
-      <li>gzip -d：解压缩并且删除源文件</li>
-      <li>zcat：查看压缩文件内容</li>
-      <li>bzip2：为取代gzip而开发的压缩命令，效果比gzip更好，-k选项能够保留源文件</li>
-      <li>bzip2 -d：解压缩</li>
-      <li>bzcat：查看压缩文件的内容</li>
-      <li>tar -jcv -f filename.tar.bz2 要被压缩的文件：通过bzip2的支持进行压缩，排除特定文件可用–exclude=file</li>
-      <li>tar -zcv -f filename.tar.gz 要被压缩的文件：通过gzip的支持进行压缩</li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td>tar -jtv -f 文件路径：查阅tar文件中的数据内容（可查看文件名），后面加上</td>
-              <td>grep ’string‘可以查看tar包中符合搜索项的文件</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-      <li>tar -jxv -f 文件路径：解压缩bzip2压缩的tar文件，后面加上带解开文件名即可解压缩指定文件</li>
-      <li>tar -zxv -f 文件路径：解压缩gzip压缩的tar文件，后面同上</li>
-    </ul>
-  </li>
-</ul>
-
-                </div>
-                <div class="read-all">
-                    <a  href="/2018/07/15/Linux%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa fa-newspaper-o"></i>Read All</a>
-                </div>
-                <hr>
-              </li>
-            
         </ul>
 
 
@@ -1069,10 +923,10 @@ gem 'github-pages',group: :jekyll_plugins
             <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
             <a href="/page4" class="previous"><i class="fa fa-angle-left"></i></a>
           
-          <span class="page_number ">5/5</span>
+          <span class="page_number ">5/6</span>
           
-            <span class="next disable"><i class="fa fa-angle-right"></i></span>
-            <span class="next disable"><i class="fa fa-angle-double-right"></i></span>
+            <a href="/page6" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page6" class="next"><i class="fa fa-angle-double-right"></i></a>
           
         </div>
     </div>
@@ -1085,6 +939,10 @@ gem 'github-pages',group: :jekyll_plugins
                     Recent Posts
                 </div>
                 <ul class="content-ul" recent>
+                    
+                        <li><a href="/2019/04/04/Get_To_The_Point_Summarization_with_Pointer-Generator_Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">Get To The Point: Summarization with Pointer-Generator Networks论文笔记</a></li>
+                    
+                        <li><a href="/2019/03/28/The_Evolved_Transformer_%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">《The Evolved Transformer》论文总结</a></li>
                     
                         <li><a href="/2019/03/21/Pretraining-Based-Natural-Language-Generation-for-Text-Summarization/">《Pretraining-Based Natural Language Generation for Text Summarization》论文解读</a></li>
                     
@@ -1101,10 +959,6 @@ gem 'github-pages',group: :jekyll_plugins
                         <li><a href="/2019/03/13/%E4%BD%BF%E7%94%A8pytorch%E8%AF%86%E5%88%ABmnist/">使用pytorch识别mnist</a></li>
                     
                         <li><a href="/2019/03/13/pytorch%E4%B8%ADcnn%E7%9A%84%E4%BD%BF%E7%94%A8/">pytorch中cnn的使用</a></li>
-                    
-                        <li><a href="/2019/03/13/Word2Vec_Tutorial_part2/">Word2Vec Tutorial part2</a></li>
-                    
-                        <li><a href="/2019/03/13/Word2Vec-Tutorial/">Word2Vec Tutorial</a></li>
                     
                 </ul>
             </div>
@@ -1141,6 +995,15 @@ gem 'github-pages',group: :jekyll_plugins
                                 digest
                             </span>
                             <span class="badge">1</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#NLP" class="categories-list-item" cate="NLP">
+                            <span class="name">
+                                NLP
+                            </span>
+                            <span class="badge">2</span>
                         </a>
                     </li>
                     
@@ -1251,6 +1114,20 @@ gem 'github-pages',group: :jekyll_plugins
                       
                       
                       <a href="/tag/#life" style="font-size: 9pt; color: #999;">life</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#Feature Extractor" style="font-size: 9pt; color: #999;">Feature Extractor</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#summarization" style="font-size: 9pt; color: #999;">summarization</a>
                     
                 </div>
             </div>

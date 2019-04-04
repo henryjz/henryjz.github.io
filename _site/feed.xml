@@ -5,9 +5,45 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 21 Mar 2019 21:42:59 +0800</pubDate>
-    <lastBuildDate>Thu, 21 Mar 2019 21:42:59 +0800</lastBuildDate>
+    <pubDate>Thu, 04 Apr 2019 16:43:45 +0800</pubDate>
+    <lastBuildDate>Thu, 04 Apr 2019 16:43:45 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Get To The Point: Summarization with Pointer-Generator Networks论文笔记</title>
+        <description>﻿### 论文：&lt;a href=&quot;http://arxiv.org/abs/1704.04368&quot;&gt;Get To The Point: Summarization with Pointer-Generator Networks&lt;/a&gt;解读
+
+</description>
+        <pubDate>Thu, 04 Apr 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/04/04/Get_To_The_Point_Summarization_with_Pointer-Generator_Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/04/04/Get_To_The_Point_Summarization_with_Pointer-Generator_Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</guid>
+        
+        <category>summarization</category>
+        
+        
+        <category>NLP</category>
+        
+      </item>
+    
+      <item>
+        <title>《The Evolved Transformer》论文总结</title>
+        <description>&lt;h3 id=&quot;google-brain-the-evolved-transformer&quot;&gt;Google Brain-&lt;a href=&quot;http://arxiv.org/abs/1901.11117&quot;&gt;The Evolved Transformer&lt;/a&gt;&lt;/h3&gt;
+
+&lt;h4 id=&quot;论文创新点&quot;&gt;论文创新点：&lt;/h4&gt;
+
+​	使用神经架构搜索的方法，为 seq2seq 任务找到了一种比Transformer更好的前馈网络架构。架构搜索是基于Transformer进行演进，最终得到的Evolved Transformer 的新架构在四个成熟的语言任务（WMT 2014 英德、WMT 2014 英法、WMT 2014 英捷及十亿词语言模型基准（LM1B））上的表现均优于原版 Transformer。在用大型模型进行的实验中，Evolved Transformer 的效率（FLOPS）是 Transformer 的两倍，而且质量没有损失。在更适合移动设备的小型模型（参数量为 7M）中，Evolved Transformer 的 BLEU 值高出 Transformer 0.7。
+
+</description>
+        <pubDate>Thu, 28 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/03/28/The_Evolved_Transformer_%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/03/28/The_Evolved_Transformer_%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</guid>
+        
+        <category>Feature Extractor</category>
+        
+        
+        <category>NLP</category>
+        
+      </item>
     
       <item>
         <title>《Pretraining-Based Natural Language Generation for Text Summarization》论文解读</title>
@@ -975,316 +1011,6 @@ Tensor2Tensor 的使用是比较方便的，对于系统中可以支持的问题
         <category>cnn</category>
         
         <category>cv</category>
-        
-        
-        <category>reproduction</category>
-        
-      </item>
-    
-      <item>
-        <title>Word2Vec Tutorial part2</title>
-        <description>&lt;blockquote&gt;
-  转载自：http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;word2vec-tutorial-part-2---negative-sampling&quot;&gt;Word2Vec Tutorial Part 2 - Negative Sampling&lt;/h1&gt;
-
-11 Jan 2017
-
-In part 2 of the word2vec tutorial (here’s &lt;a href=&quot;http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/&quot;&gt;part 1&lt;/a&gt;), I’ll cover a few additional modifications to the basic skip-gram model which are important for actually making it feasible to train.
-
-When you read the tutorial on the skip-gram model for Word2Vec, you may have noticed something–it’s a huge neural network!
-
-In the example I gave, we had word vectors with 300 components, and a vocabulary of 10,000 words. Recall that the neural network had two weight matrices–a hidden layer and output layer. Both of these layers would have a weight matrix with 300 x 10,000 = 3 million weights each!
-
-Running gradient descent on a neural network that large is going to be slow. And to make matters worse, you need a huge amount of training data in order to tune that many weights and avoid over-fitting. millions of weights times billions of training samples means that training this model is going to be a beast.
-
-The authors of Word2Vec addressed these issues in their second &lt;a href=&quot;http://arxiv.org/pdf/1310.4546.pdf&quot;&gt;paper&lt;/a&gt;.
-
-There are three innovations in this second paper:
-
-&lt;ol&gt;
-  &lt;li&gt;Treating common word pairs or phrases as single “words” in their model.&lt;/li&gt;
-  &lt;li&gt;Subsampling frequent words to decrease the number of training examples.&lt;/li&gt;
-  &lt;li&gt;Modifying the optimization objective with a technique they called “Negative Sampling”, which causes each training sample to update only a small percentage of the model’s weights.&lt;/li&gt;
-&lt;/ol&gt;
-
-It’s worth noting that subsampling frequent words and applying Negative Sampling not only reduced the compute burden of the training process, but also improved the quality of their resulting word vectors as well.
-
-&lt;h1 id=&quot;word-pairs-and-phrases&quot;&gt;Word Pairs and “Phrases”&lt;/h1&gt;
-
-The authors pointed out that a word pair like “Boston Globe” (a newspaper) has a much different meaning than the individual words “Boston” and “Globe”. So it makes sense to treat “Boston Globe”, wherever it occurs in the text, as a single word with its own word vector representation.
-
-You can see the results in their published model, which was trained on 100 billion words from a Google News dataset. The addition of phrases to the model swelled the vocabulary size to 3 million words!
-
-If you’re interested in their resulting vocabulary, I poked around it a bit and published a post on it &lt;a href=&quot;http://mccormickml.com/2016/04/12/googles-pretrained-word2vec-model-in-python/&quot;&gt;here&lt;/a&gt;. You can also just browse their vocabulary &lt;a href=&quot;https://github.com/chrisjmccormick/inspect_word2vec/tree/master/vocabulary&quot;&gt;here&lt;/a&gt;.
-
-Phrase detection is covered in the “Learning Phrases” section of their &lt;a href=&quot;http://arxiv.org/pdf/1310.4546.pdf&quot;&gt;paper&lt;/a&gt;. They shared their implementation in word2phrase.c–I’ve shared a commented (but otherwise unaltered) copy of this code &lt;a href=&quot;https://github.com/chrisjmccormick/word2vec_commented/blob/master/word2phrase.c&quot;&gt;here&lt;/a&gt;.
-
-I don’t think their phrase detection approach is a key contribution of their paper, but I’ll share a little about it anyway since it’s pretty straightforward.
-
-Each pass of their tool only looks at combinations of 2 words, but you can run it multiple times to get longer phrases. So, the first pass will pick up the phrase “New_York”, and then running it again will pick up “New_York_City” as a combination of “New_York” and “City”.
-
-The tool counts the number of times each combination of two words appears in the training text, and then these counts are used in an equation to determine which word combinations to turn into phrases. The equation is designed to make phrases out of words which occur together often relative to the number of individual occurrences. It also favors phrases made of infrequent words in order to avoid making phrases out of common words like “and the” or “this is”.
-
-You can see more details about their equation in my code comments &lt;a href=&quot;https://github.com/chrisjmccormick/word2vec_commented/blob/master/word2phrase.c#L389&quot;&gt;here&lt;/a&gt;.
-
-One thought I had for an alternate phrase recognition strategy would be to use the titles of all Wikipedia articles as your vocabulary.
-
-&lt;h1 id=&quot;subsampling-frequent-words&quot;&gt;Subsampling Frequent Words&lt;/h1&gt;
-
-In part 1 of this tutorial, I showed how training samples were created from the source text, but I’ll repeat it here. The below example shows some of the training samples (word pairs) we would take from the sentence “The quick brown fox jumps over the lazy dog.” I’ve used a small window size of 2 just for the example. The word highlighted in blue is the input word.
-
-&lt;a href=&quot;http://mccormickml.com/assets/word2vec/training_data.png&quot;&gt;&lt;img src=&quot;http://mccormickml.com/assets/word2vec/training_data.png&quot; alt=&quot;Training Data&quot; /&gt;&lt;/a&gt;
-
-There are two “problems” with common words like “the”:
-
-&lt;ol&gt;
-  &lt;li&gt;When looking at word pairs, (“fox”, “the”) doesn’t tell us much about the meaning of “fox”. “the” appears in the context of pretty much every word.&lt;/li&gt;
-  &lt;li&gt;We will have many more samples of (“the”, …) than we need to learn a good vector for “the”.&lt;/li&gt;
-&lt;/ol&gt;
-
-Word2Vec implements a “subsampling” scheme to address this. For each word we encounter in our training text, there is a chance that we will effectively delete it from the text. The probability that we cut the word is related to the word’s frequency.
-
-If we have a window size of 10, and we remove a specific instance of “the” from our text:
-
-&lt;ol&gt;
-  &lt;li&gt;As we train on the remaining words, “the” will not appear in any of their context windows.&lt;/li&gt;
-  &lt;li&gt;We’ll have 10 fewer training samples where “the” is the input word.&lt;/li&gt;
-&lt;/ol&gt;
-
-Note how these two effects help address the two problems stated above.
-
-&lt;h3 id=&quot;sampling-rate&quot;&gt;Sampling rate&lt;/h3&gt;
-
-The word2vec C code implements an equation for calculating a probability with which to keep a given word in the vocabulary.
-
-wiwi is the word, z(wi)z(wi) is the fraction of the total words in the corpus that are that word. For example, if the word “peanut” occurs 1,000 times in a 1 billion word corpus, then z(‘peanut’) = 1E-6.
-
-There is also a parameter in the code named ‘sample’ which controls how much subsampling occurs, and the default value is 0.001. Smaller values of ‘sample’ mean words are less likely to be kept.
-
-P(wi)P(wi) is the probability of &lt;em&gt;keeping&lt;/em&gt; the word:
-
-P(wi)=(z(wi)0.001−−−−−√+1)⋅0.001z(wi)P(wi)=(z(wi)0.001+1)⋅0.001z(wi)
-
-You can plot this quickly in Google to see the shape.
-
-&lt;a href=&quot;http://mccormickml.com/assets/word2vec/subsample_func_plot.png&quot;&gt;&lt;img src=&quot;http://mccormickml.com/assets/word2vec/subsample_func_plot.png&quot; alt=&quot;Plot of subsampling function&quot; /&gt;&lt;/a&gt;
-
-No single word should be a very large percentage of the corpus, so we want to look at pretty small values on the x-axis.
-
-Here are some interesting points in this function (again this is using the default sample value of 0.001).
-
-&lt;ul&gt;
-  &lt;li&gt;
-    P(wi)=1.0P(wi)=1.0
-
-    (100% chance of being kept) when
-
-    z(wi)&amp;lt;=0.0026z(wi)&amp;lt;=0.0026
-
-    .
-
-    &lt;ul&gt;
-      &lt;li&gt;This means that only words which represent more than 0.26% of the total words will be subsampled.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    P(wi)=0.5P(wi)=0.5 (50% chance of being kept) when z(wi)=0.00746z(wi)=0.00746.
-  &lt;/li&gt;
-  &lt;li&gt;
-    P(wi)=0.033P(wi)=0.033
-
-    (3.3% chance of being kept) when
-
-    z(wi)=1.0z(wi)=1.0
-
-    .
-
-    &lt;ul&gt;
-      &lt;li&gt;That is, if the corpus consisted entirely of word wiwi, which of course is ridiculous.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-You may notice that the paper defines this function a little differently than what’s implemented in the C code, but I figure the C implementation is the more authoritative version.
-
-&lt;h1 id=&quot;negative-sampling&quot;&gt;Negative Sampling&lt;/h1&gt;
-
-Training a neural network means taking a training example and adjusting all of the neuron weights slightly so that it predicts that training sample more accurately. In other words, each training sample will tweak &lt;em&gt;all&lt;/em&gt; of the weights in the neural network.
-
-As we discussed above, the size of our word vocabulary means that our skip-gram neural network has a tremendous number of weights, all of which would be updated slightly by every one of our billions of training samples!
-
-Negative sampling addresses this by having each training sample only modify a small percentage of the weights, rather than all of them. Here’s how it works.
-
-When training the network on the word pair (“fox”, “quick”), recall that the “label” or “correct output” of the network is a one-hot vector. That is, for the output neuron corresponding to “quick” to output a 1, and for &lt;em&gt;all&lt;/em&gt; of the other thousands of output neurons to output a 0.
-
-With negative sampling, we are instead going to randomly select just a small number of “negative” words (let’s say 5) to update the weights for. (In this context, a “negative” word is one for which we want the network to output a 0 for). We will also still update the weights for our “positive” word (which is the word “quick” in our current example).
-
-The paper says that selecting 5-20 words works well for smaller datasets, and you can get away with only 2-5 words for large datasets.
-
-Recall that the output layer of our model has a weight matrix that’s 300 x 10,000. So we will just be updating the weights for our positive word (“quick”), plus the weights for 5 other words that we want to output 0. That’s a total of 6 output neurons, and 1,800 weight values total. That’s only 0.06% of the 3M weights in the output layer!
-
-In the hidden layer, only the weights for the input word are updated (this is true whether you’re using Negative Sampling or not).
-
-&lt;h3 id=&quot;selecting-negative-samples&quot;&gt;Selecting Negative Samples&lt;/h3&gt;
-
-The “negative samples” (that is, the 5 output words that we’ll train to output 0) are selected using a “unigram distribution”, where more frequent words are more likely to be selected as negative samples.
-
-For instance, suppose you had your entire training corpus as a list of words, and you chose your 5 negative samples by picking randomly from the list. In this case, the probability for picking the word “couch” would be equal to the number of times “couch” appears in the corpus, divided the total number of word occus in the corpus. This is expressed by the following equation:
-
-P(wi)=f(wi)∑nj=0(f(wj))P(wi)=f(wi)∑j=0n(f(wj))
-
-The authors state in their paper that they tried a number of variations on this equation, and the one which performed best was to raise the word counts to the 3/4 power:
-
-P(wi)=f(wi)3/4∑nj=0(f(wj)3/4)P(wi)=f(wi)3/4∑j=0n(f(wj)3/4)
-
-If you play with some sample values, you’ll find that, compared to the simpler equation, this one has the tendency to increase the probability for less frequent words and decrease the probability for more frequent words.
-
-The way this selection is implemented in the C code is interesting. They have a large array with 100M elements (which they refer to as the unigram table). They fill this table with the index of each word in the vocabulary multiple times, and the number of times a word’s index appears in the table is given by P(wi)P(wi) * table_size. Then, to actually select a negative sample, you just generate a random integer between 0 and 100M, and use the word at that index in the table. Since the higher probability words occur more times in the table, you’re more likely to pick those.
-
-&lt;h2 id=&quot;other-resources&quot;&gt;Other Resources&lt;/h2&gt;
-
-For the most detailed and accurate explanation of word2vec, you should check out the C code. I’ve published an extensively commented (but otherwise unaltered) version of the code &lt;a href=&quot;https://github.com/chrisjmccormick/word2vec_commented&quot;&gt;here&lt;/a&gt;.
-
-Also, did you know that the word2vec model can also be applied to non-text data for recommender systems and ad targeting? Instead of learning vectors from a sequence of words, you can learn vectors from a sequence of user actions. Read more about this in my new post &lt;a href=&quot;http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/&quot;&gt;here&lt;/a&gt;.
-
-Finally, I’ve also created a &lt;a href=&quot;http://mccormickml.com/2016/04/27/word2vec-resources/&quot;&gt;post&lt;/a&gt; with links to and descriptions of other word2vec tutorials, papers, and implementations.
-
-&lt;h3 id=&quot;cite&quot;&gt;Cite&lt;/h3&gt;
-
-McCormick, C. (2017, January 11). &lt;em&gt;Word2Vec Tutorial Part 2 - Negative Sampling&lt;/em&gt;. Retrieved from http://www.mccormickml.com
-
-</description>
-        <pubDate>Wed, 13 Mar 2019 21:35:10 +0800</pubDate>
-        <link>http://localhost:4000/2019/03/13/Word2Vec_Tutorial_part2/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/03/13/Word2Vec_Tutorial_part2/</guid>
-        
-        <category>nlp</category>
-        
-        
-        <category>reproduction</category>
-        
-      </item>
-    
-      <item>
-        <title>Word2Vec Tutorial</title>
-        <description>&lt;blockquote&gt;
-  转载自：http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;word2vec-tutorial---the-skip-gram-model&quot;&gt;Word2Vec Tutorial - The Skip-Gram Model&lt;/h1&gt;
-
-19 Apr 2016
-
-&lt;strong&gt;UPDATE:&lt;/strong&gt; I’m proud to announce that I’ve published my first eBook, &lt;em&gt;The Inner Workings of word2vec&lt;/em&gt;. It includes all of the material in this post series, but goes deeper with additional topics like CBOW and Hierarchical Softmax, as well as example code that demonstrates the algorithm details in action. I’m continuing to add more topics and code to the book–picking it up now entitles you to receive all future revisions. Thanks for your support!
-
-This tutorial covers the skip gram neural network architecture for Word2Vec. My intention with this tutorial was to skip over the usual introductory and abstract insights about Word2Vec, and get into more of the details. Specifically here I’m diving into the skip gram neural network model.
-
-&lt;h1 id=&quot;the-model&quot;&gt;The Model&lt;/h1&gt;
-
-The skip-gram neural network model is actually surprisingly simple in its most basic form; I think it’s all of the little tweaks and enhancements that start to clutter the explanation.
-
-Let’s start with a high-level insight about where we’re going. Word2Vec uses a trick you may have seen elsewhere in machine learning. We’re going to train a simple neural network with a single hidden layer to perform a certain task, but then we’re not actually going to use that neural network for the task we trained it on! Instead, the goal is actually just to learn the weights of the hidden layer–we’ll see that these weights are actually the “word vectors” that we’re trying to learn.
-
-Another place you may have seen this trick is in unsupervised feature learning, where you train an auto-encoder to compress an input vector in the hidden layer, and decompress it back to the original in the output layer. After training it, you strip off the output layer (the decompression step) and just use the hidden layer–it’s a trick for learning good image features without having labeled training data.
-
-&lt;h1 id=&quot;the-fake-task&quot;&gt;The Fake Task&lt;/h1&gt;
-
-So now we need to talk about this “fake” task that we’re going to build the neural network to perform, and then we’ll come back later to how this indirectly gives us those word vectors that we are really after.
-
-We’re going to train the neural network to do the following. Given a specific word in the middle of a sentence (the input word), look at the words nearby and pick one at random. The network is going to tell us the probability for every word in our vocabulary of being the “nearby word” that we chose.
-
-When I say “nearby”, there is actually a “window size” parameter to the algorithm. A typical window size might be 5, meaning 5 words behind and 5 words ahead (10 in total).
-
-The output probabilities are going to relate to how likely it is find each vocabulary word nearby our input word. For example, if you gave the trained network the input word “Soviet”, the output probabilities are going to be much higher for words like “Union” and “Russia” than for unrelated words like “watermelon” and “kangaroo”.
-
-We’ll train the neural network to do this by feeding it word pairs found in our training documents. The below example shows some of the training samples (word pairs) we would take from the sentence “The quick brown fox jumps over the lazy dog.” I’ve used a small window size of 2 just for the example. The word highlighted in blue is the input word.
-
-&lt;a href=&quot;http://mccormickml.com/assets/word2vec/training_data.png&quot;&gt;&lt;img src=&quot;http://mccormickml.com/assets/word2vec/training_data.png&quot; alt=&quot;Training Data&quot; /&gt;&lt;/a&gt;
-
-The network is going to learn the statistics from the number of times each pairing shows up. So, for example, the network is probably going to get many more training samples of (“Soviet”, “Union”) than it is of (“Soviet”, “Sasquatch”). When the training is finished, if you give it the word “Soviet” as input, then it will output a much higher probability for “Union” or “Russia” than it will for “Sasquatch”.
-
-&lt;h1 id=&quot;model-details&quot;&gt;Model Details&lt;/h1&gt;
-
-So how is this all represented?
-
-First of all, you know you can’t feed a word just as a text string to a neural network, so we need a way to represent the words to the network. To do this, we first build a vocabulary of words from our training documents–let’s say we have a vocabulary of 10,000 unique words.
-
-We’re going to represent an input word like “ants” as a one-hot vector. This vector will have 10,000 components (one for every word in our vocabulary) and we’ll place a “1” in the position corresponding to the word “ants”, and 0s in all of the other positions.
-
-The output of the network is a single vector (also with 10,000 components) containing, for every word in our vocabulary, the probability that a randomly selected nearby word is that vocabulary word.
-
-Here’s the architecture of our neural network.
-
-&lt;a href=&quot;http://mccormickml.com/assets/word2vec/skip_gram_net_arch.png&quot;&gt;&lt;img src=&quot;http://mccormickml.com/assets/word2vec/skip_gram_net_arch.png&quot; alt=&quot;Skip-gram Neural Network Architecture&quot; /&gt;&lt;/a&gt;
-
-There is no activation function on the hidden layer neurons, but the output neurons use softmax. We’ll come back to this later.
-
-When &lt;em&gt;training&lt;/em&gt; this network on word pairs, the input is a one-hot vector representing the input word and the training output &lt;em&gt;is also a one-hot vector&lt;/em&gt;representing the output word. But when you evaluate the trained network on an input word, the output vector will actually be a probability distribution (i.e., a bunch of floating point values, &lt;em&gt;not&lt;/em&gt; a one-hot vector).
-
-&lt;h1 id=&quot;the-hidden-layer&quot;&gt;The Hidden Layer&lt;/h1&gt;
-
-For our example, we’re going to say that we’re learning word vectors with 300 features. So the hidden layer is going to be represented by a weight matrix with 10,000 rows (one for every word in our vocabulary) and 300 columns (one for every hidden neuron).
-
-300 features is what Google used in their published model trained on the Google news dataset (you can download it from &lt;a href=&quot;https://code.google.com/archive/p/word2vec/&quot;&gt;here&lt;/a&gt;). The number of features is a “hyper parameter” that you would just have to tune to your application (that is, try different values and see what yields the best results).
-
-If you look at the &lt;em&gt;rows&lt;/em&gt; of this weight matrix, these are actually what will be our word vectors!
-
-&lt;a href=&quot;http://mccormickml.com/assets/word2vec/word2vec_weight_matrix_lookup_table.png&quot;&gt;&lt;img src=&quot;http://mccormickml.com/assets/word2vec/word2vec_weight_matrix_lookup_table.png&quot; alt=&quot;Hidden Layer Weight Matrix&quot; /&gt;&lt;/a&gt;
-
-So the end goal of all of this is really just to learn this hidden layer weight matrix – the output layer we’ll just toss when we’re done!
-
-Let’s get back, though, to working through the definition of this model that we’re going to train.
-
-Now, you might be asking yourself–“That one-hot vector is almost all zeros… what’s the effect of that?” If you multiply a 1 x 10,000 one-hot vector by a 10,000 x 300 matrix, it will effectively just &lt;em&gt;select&lt;/em&gt; the matrix row corresponding to the “1”. Here’s a small example to give you a visual.
-
-&lt;a href=&quot;http://mccormickml.com/assets/word2vec/matrix_mult_w_one_hot.png&quot;&gt;&lt;img src=&quot;http://mccormickml.com/assets/word2vec/matrix_mult_w_one_hot.png&quot; alt=&quot;Effect of matrix multiplication with a one-hot vector&quot; /&gt;&lt;/a&gt;
-
-This means that the hidden layer of this model is really just operating as a lookup table. The output of the hidden layer is just the “word vector” for the input word.
-
-&lt;h1 id=&quot;the-output-layer&quot;&gt;The Output Layer&lt;/h1&gt;
-
-The &lt;code class=&quot;highlighter-rouge&quot;&gt;1 x 300&lt;/code&gt; word vector for “ants” then gets fed to the output layer. The output layer is a softmax regression classifier. There’s an in-depth tutorial on Softmax Regression &lt;a href=&quot;http://ufldl.stanford.edu/tutorial/supervised/SoftmaxRegression/&quot;&gt;here&lt;/a&gt;, but the gist of it is that each output neuron (one per word in our vocabulary!) will produce an output between 0 and 1, and the sum of all these output values will add up to 1.
-
-Specifically, each output neuron has a weight vector which it multiplies against the word vector from the hidden layer, then it applies the function &lt;code class=&quot;highlighter-rouge&quot;&gt;exp(x)&lt;/code&gt; to the result. Finally, in order to get the outputs to sum up to 1, we divide this result by the sum of the results from &lt;em&gt;all&lt;/em&gt; 10,000 output nodes.
-
-Here’s an illustration of calculating the output of the output neuron for the word “car”.
-
-&lt;a href=&quot;http://mccormickml.com/assets/word2vec/output_weights_function.png&quot;&gt;&lt;img src=&quot;http://mccormickml.com/assets/word2vec/output_weights_function.png&quot; alt=&quot;Behavior of the output neuron&quot; /&gt;&lt;/a&gt;
-
-Note that neural network does not know anything about the offset of the output word relative to the input word. It &lt;em&gt;does not&lt;/em&gt; learn a different set of probabilities for the word before the input versus the word after. To understand the implication, let’s say that in our training corpus, &lt;em&gt;every single occurrence&lt;/em&gt; of the word ‘York’ is preceded by the word ‘New’. That is, at least according to the training data, there is a 100% probability that ‘New’ will be in the vicinity of ‘York’. However, if we take the 10 words in the vicinity of ‘York’ and randomly pick one of them, the probability of it being ‘New’ &lt;em&gt;is not&lt;/em&gt; 100%; you may have picked one of the other words in the vicinity.
-
-&lt;h1 id=&quot;intuition&quot;&gt;Intuition&lt;/h1&gt;
-
-Ok, are you ready for an exciting bit of insight into this network?
-
-If two different words have very similar “contexts” (that is, what words are likely to appear around them), then our model needs to output very similar results for these two words. And one way for the network to output similar context predictions for these two words is if &lt;em&gt;the word vectors are similar&lt;/em&gt;. So, if two words have similar contexts, then our network is motivated to learn similar word vectors for these two words! Ta da!
-
-And what does it mean for two words to have similar contexts? I think you could expect that synonyms like “intelligent” and “smart” would have very similar contexts. Or that words that are related, like “engine” and “transmission”, would probably have similar contexts as well.
-
-This can also handle stemming for you – the network will likely learn similar word vectors for the words “ant” and “ants” because these should have similar contexts.
-
-&lt;h1 id=&quot;next-up&quot;&gt;Next Up&lt;/h1&gt;
-
-You may have noticed that the skip-gram neural network contains a huge number of weights… For our example with 300 features and a vocab of 10,000 words, that’s 3M weights in the hidden layer and output layer each! Training this on a large dataset would be prohibitive, so the word2vec authors introduced a number of tweaks to make training feasible. These are covered in &lt;a href=&quot;http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/&quot;&gt;part 2 of this tutorial&lt;/a&gt;.
-
-Did you know that the word2vec model can also be applied to non-text data for recommender systems and ad targeting? Instead of learning vectors from a sequence of words, you can learn vectors from a sequence of user actions. Read more about this in my new post &lt;a href=&quot;http://mccormickml.com/2018/06/15/applying-word2vec-to-recommenders-and-advertising/&quot;&gt;here&lt;/a&gt;.
-
-&lt;h1 id=&quot;other-resources&quot;&gt;Other Resources&lt;/h1&gt;
-
-I’ve also created a &lt;a href=&quot;http://mccormickml.com/2016/04/27/word2vec-resources/&quot;&gt;post&lt;/a&gt; with links to and descriptions of other word2vec tutorials, papers, and implementations.
-
-&lt;h3 id=&quot;cite&quot;&gt;Cite&lt;/h3&gt;
-
-McCormick, C. (2016, April 19). &lt;em&gt;Word2Vec Tutorial - The Skip-Gram Model&lt;/em&gt;. Retrieved from http://www.mccormickml.com
-
-</description>
-        <pubDate>Wed, 13 Mar 2019 21:35:10 +0800</pubDate>
-        <link>http://localhost:4000/2019/03/13/Word2Vec-Tutorial/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/03/13/Word2Vec-Tutorial/</guid>
-        
-        <category>nlp</category>
         
         
         <category>reproduction</category>

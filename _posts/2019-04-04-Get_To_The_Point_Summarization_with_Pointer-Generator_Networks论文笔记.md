@@ -89,15 +89,26 @@ $$
 #### Coverage mechanism
 
 1.重复的问题在多句摘要中经常出现，论文中引入覆盖(coverage)机制来监控摘要中生成的词对源文本的覆盖情况，以减少重复关注一部分源文本进而生成重复内容的情况出现。
+
 2.coverage vector $c_t= \sum_{t'=0}^{t-1} a^{t'}$等于历史time step的attention之和来表示decoder生成过的词汇的attention覆盖的情况。$c_t$作为下一个时间步计算attention的一个输入，所以pointer-gen网络计算attention那个步骤的公式变为:
+
+
 $$
 e_i^t = v^T tanh(W_hh_i+W_ss_t+ w_cc_i^t + b_{att})
 $$
+
+
 3.论文引入coverage损失对重复关注同一个位置进行的惩罚,公式为：
+
+
 $$
 covloss _t = \sum _i min(a_i^t, c_i^t)
 $$
+
+
 4.最终的loss是$P(w)$与covLoss之和:
+
+
 $$
 loss_t = -logP(w_t^*)+\lambda \sum _i min(a_i^t, c_i^t
 $$
