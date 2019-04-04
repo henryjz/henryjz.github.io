@@ -17,7 +17,7 @@ tags: ["summarization"]
 + 容易产生不准确的事实；
 + 倾向于重复相同的内容。
 
-![](http://i2.bvimg.com/682738/a33fd5a77bb46996.png)
+![](http://i2.bvimg.com/682738/36db882aa8eb3096.png)
 
 *注：如上面所示，作为基线的seq2seq+Attention这样的纯粹的生成式模型存在1.无法生成OOV词汇；2.歪曲事实两个问题。Pointer Generator 存在重复内容的问题。在引入Coverage mechanism之后的Pointer-Gen+Coverage模型能够解决上面的三个问题。*
 
