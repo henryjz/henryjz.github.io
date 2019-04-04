@@ -3,7 +3,7 @@ layout: post
 title: "《The Evolved Transformer》论文总结"
 date: 2019-03-28
 categories: NLP
-tags: ["Feature Extractor"]
+tags: ["Feature_Extractor"]
 ---
 
 
