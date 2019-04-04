@@ -20,7 +20,7 @@ tags: ["Feature Extractor"]
 
 ​	一个模型包含encoder和decoder，各包含若干个单元，编码器的单元包含6个模块，解码器的单元包含8个模块。每个模块分左右两个分支，各自接受一个隐藏状态作为输入。按照层次从低到高分支搜索项分为：input、normalization、layer、output dimension和activation。左右分支通过combiner function合并为新的隐藏状态作为输出。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190328184355799.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](http://i2.bvimg.com/682738/433f27b8a361812e.png)
 + **Input**：分支可以从输入池中选择一个隐藏状态作为当前block的输入。单元中的第i个block可以从[0, i]个隐藏状态中进行选择，其中第j个隐藏状态表示该cell中第j个block的输出，第0个候选项为单元的输入。
 + **Normalization**：归一化项提供了两个选项， [LAYER NORMALIZATION (Ba et al., 2016), NONE]
 + **Layer**：构造一个神经网络层，提供的选项包括：
@@ -56,7 +56,7 @@ tags: ["Feature Extractor"]
 
   
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190328184414386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](http://i2.bvimg.com/682738/9ac3d366ada01c1a.png)
 
 
 
