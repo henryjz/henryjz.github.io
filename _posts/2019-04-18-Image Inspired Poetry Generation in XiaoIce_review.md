@@ -28,26 +28,11 @@ author: Henryzhou
 
 #### 问题定义
 
-​	把图片记为$query Q$，目标是生成现代诗$P=(l_1, l_2, ... ,l_N)$,l_i表示第i行诗，N是最诗歌的行数。对图片进行目标和情感检测，得到若干个关键字，然后进行关键字扩展得到一个关键字的集合$K=(k_1, k_2, ..., k_N)$，一共由N关键字。对N个关键字分别进行诗句生成，检测未通过词、句流畅性的诗句，重新生成。
+​	把图片记为$query Q$，目标是生成现代诗$P=(l_1, l_2, ... ,l_N)$,$l_i$表示第i行诗，N是最诗歌的行数。对图片进行目标和情感检测，得到若干个关键字，然后进行关键字扩展得到一个关键字的集合$K=(k_1, k_2, ..., k_N)$，一共由N关键字。对N个关键字分别进行诗句生成，检测未通过词、句流畅性的诗句，重新生成。
 
 #### 关键词生成
 
 ​	分别使用两个CNN检测图像中的目标和情感，这两个CNN结构相同但是参数不同。检测目标的CNN输出名词关键字，检测情感倾向的CNN输出形容词关键字。两个CNN网络在ImageNet上进行预训练并且在相应的下游任务上做fine-tune。论文中使用的CNN网络是Google-Net。
-
-#### 诗句生成
-
-​	诗句生成过程使用语言模型来预测下一个单词$w_i$，为了让关键字出现在句子中的任意位置，论文使用递归生成的方法.具体的方法是训练一个反向的语言模型，用<sos>和<eos>分别表示句子的起始符号和结束符号，句子使用关键字k_j做初始化，在<sos>和<eos>均出现了之后停止句子的生成。交替使用正向和逆向的语言模型生成句子下一个左边和有右边的词汇，直至到达<sos>或者<eos>。
-
-
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418173423721.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
-
-#### 整合成诗
-
-​	使用双向语言模型递归生成诗句能够保证词间的流畅性，为了保证句子之间的连贯性，在生成第$l$句诗的过程中，论文模型对前$l-1$句诗句做句子编码作为当前句生成过程的参数。论文还实现了另一种思路：只使用前一句的编码信息来约束当前诗句的生成。诗句生成使用的sentence level LSTM网络和诗句间添加约束的poem level LSTM网络的均包括3层LSTM layer，每一层包含1024个LSTM单元。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418173445719.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
-
-
 
 #### 关键字的扩展
 
@@ -56,6 +41,19 @@ author: Henryzhou
 - 不进行关键字扩展，如果有效关键字少于N，没有的关键字的诗句使用前l句的句子编码信息生成新句子。
 - 使用训练集中高频的词汇进行扩充，论文中使用的是“life”、“time”和“place”。
 - 高共现词汇：比如与“city”和“palce”、“child”、“heart”和“land”，这些词汇。使用高共现词能够在保证前后主题一致性的前提下获得的更好的话题扩展。
+
+#### 诗句生成
+
+​	诗句生成过程使用语言模型来预测下一个单词$w_i$，为了让关键字出现在句子中的任意位置，论文使用递归生成的方法.具体的方法是训练一个反向的语言模型，用\<sos>和\<eos>分别表示句子的起始符号和结束符号，句子使用关键字k_j做初始化，在\<sos>和\<eos>均出现了之后停止句子的生成。交替使用正向和逆向的语言模型生成句子下一个左边和有右边的词汇，直至到达\<sos>或者\<eos>。
+
+
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418173423721.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
+
+#### 增加诗句间的约束
+
+​	使用双向语言模型递归生成诗句能够保证词间的流畅性，为了保证句子之间的连贯性，在生成第$l$句诗的过程中，论文模型对前$l-1$句诗句做句子编码作为当前句生成过程的参数。论文还实现了另一种思路：只使用前一句的编码信息来约束当前诗句的生成。诗句生成使用的sentence level LSTM网络和诗句间添加约束的poem level LSTM网络的均包括3层LSTM layer，每一层包含1024个LSTM单元。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418173445719.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
 
 
 
@@ -77,5 +75,5 @@ author: Henryzhou
 ### 实验结果
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418173542855.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
 
-​	baseline选择的是Image2caption和CTRIP，Image2captain的任务是进行图片标题生成，CTRIP是一个古诗创作的模型，同样可以通过观察图像生成诗歌。评价方法：同时展示三种模型生成的内容，由人工评委进行打分，区间1-5；指标为：相关性、流畅性、想象力、动人性和给人的印象程度。结果：Image2Caption在相关性上占优，CTRIP和论文模型在其他方面大幅领先Image2Caption，论文模型在imaginative、touching和impressive上效果最好，CTRIP在流畅性上得分最高。
+​	Baseline选择的是Image2caption和CTRIP，Image2Captain的任务是进行图片标题生成，CTRIP是一个古诗创作的模型，同样可以通过观察图像生成诗歌。评价方法：同时展示三种模型生成的内容，由人工评委进行打分，区间1-5；指标为：相关性、流畅性、想象力、动人性和给人的印象程度。结果：Image2Caption在相关性上占优，CTRIP和论文模型在其他方面大幅领先Image2Caption，论文模型在imaginative、touching和impressive上效果最好，CTRIP在流畅性上得分最高。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418173522193.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
