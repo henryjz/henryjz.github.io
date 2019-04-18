@@ -37,6 +37,9 @@ author: Henryzhou
 #### 诗句生成
 
 ​	诗句生成过程使用语言模型来预测下一个单词$w_i$，为了让关键字出现在句子中的任意位置，论文使用递归生成的方法.具体的方法是训练一个反向的语言模型，用<sos>和<eos>分别表示句子的起始符号和结束符号，句子使用关键字k_j做初始化，在<sos>和<eos>均出现了之后停止句子的生成。交替使用正向和逆向的语言模型生成句子下一个左边和有右边的词汇，直至到达<sos>或者<eos>。
+
+
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190418173423721.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29uemhvdWp4,size_16,color_FFFFFF,t_70)
 
 #### 整合成诗
